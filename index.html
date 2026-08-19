@@ -32,7 +32,10 @@ td.bad{color:var(--mark);font-weight:700}
 /* 比較列：forbid.md の均一グリッド禁止に対する明示的な例外。
    列そのものが情報（3条件の対比）であり、装飾ではないため。
    浮いたカードにせず、罫線の欄組みとして構成している。 */
-.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;
+border-top:1px solid var(--rule)}
+/* minmax(0,1fr) が必須。1fr のままだと .shot 内の iframe(1280px) が
+   min-content を押し上げ、各列が1323pxに膨張して2列目以降が画面外に出る。 */
 .col{border-right:1px solid var(--rule);padding:24px 20px}
 .col:last-child{border-right:0}
 .col.win{background:color-mix(in srgb,var(--mark) 8%,transparent)}
@@ -48,7 +51,7 @@ text-decoration:none;padding:0 2px}
 .col a:hover{color:var(--mark)}
 footer{padding:56px 0;border-top:1px solid var(--rule);color:var(--dim);font-size:14px}
 footer a{color:var(--ink)}
-@media(max-width:860px){.cols{grid-template-columns:1fr}
+@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}
 .col{border-right:0;border-bottom:1px solid var(--rule)}.col p{min-height:0}}
 </style></head><body>
 <div class="wrap">

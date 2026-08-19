@@ -27,6 +27,9 @@ WebAIMの頻出6カテゴリに対応する。
 9. **ランドマークを置く** — `<main>` は必須。`<header>` `<nav>` `<footer>` を適切に。
 10. **タップ領域 44×44px 以上**（WCAG 2.2 の Target Size）。
 11. **`<meta name="viewport">`** と、実機幅で破綻しないレイアウト。
+    └ `contrast.py` が 1280px / 380px の2幅で横溢れを検査する。
+      grid の `1fr` は `minmax(0, 1fr)` にしないと、中の固定幅要素（iframe・表など）が
+      min-content を押し上げて列が画面外に出る。**実際にこれで比較ページが壊れた。**
 
 ## C. 推奨
 

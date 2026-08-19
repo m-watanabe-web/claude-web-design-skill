@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""コントラスト実測（Chrome headless）。静的解析では入れ子の背景を追えないため、実レンダリングで測る。
+"""実レンダリング検査（Chrome headless）：コントラスト＋横溢れ。
+静的解析では入れ子の背景もレイアウト計算も追えないため、実際に描画して測る。
   python3 contrast.py <file.html> [...]
 前提: /Applications/Google Chrome.app が存在すること。3〜4ファイルずつが安定。
 """
@@ -40,6 +41,13 @@ function audit(doc,win){const out=[];let n=0,skip=0,worst=99;
     '.'+el.className.trim().split(/\s+/).join('.'):''),
     txt:t.slice(0,18),ratio:Math.round(ratio*100)/100,need,px:Math.round(px)})});
  return{out,checked:n,skip,worst}}
+function overflow(doc,win,vw){  // 横溢れ検出（grid の 1fr が min-content に押し上げられる等）
+ const d=doc.documentElement, sw=d.scrollWidth, cw=d.clientWidth, bad=[];
+ if(sw>cw+1){doc.querySelectorAll('*').forEach(e=>{const r=e.getBoundingClientRect();
+  if(r.width>cw+1&&e.tagName!=='HTML'&&e.tagName!=='BODY'&&getComputedStyle(e).overflowX==='visible')
+   bad.push(e.tagName.toLowerCase()+(typeof e.className==='string'&&e.className?'.'+e.className.trim().split(/\s+/)[0]:'')
+    +'('+Math.round(r.width)+'px)')})}
+ return{vw:cw,scrollWidth:sw,overflow:sw>cw+1,culprits:bad.slice(0,5)}}
 """
 
 def run(paths):
@@ -52,7 +60,11 @@ def run(paths):
            'fr.style.cssText="width:1280px;height:900px;border:0;position:absolute;left:-9999px";'
            'fr.srcdoc=DATA[f];document.body.appendChild(fr);'
            'await new Promise(r=>{fr.onload=r});await new Promise(r=>setTimeout(r,150));'
-           'res[f]=audit(fr.contentDocument,fr.contentWindow);fr.remove()}'
+           'const a=audit(fr.contentDocument,fr.contentWindow);'
+           'a.layout=[overflow(fr.contentDocument,fr.contentWindow,1280)];'
+           'fr.style.width="380px";await new Promise(r=>setTimeout(r,120));'
+           'a.layout.push(overflow(fr.contentDocument,fr.contentWindow,380));'
+           'res[f]=a;fr.remove()}'
            'document.getElementById("out").textContent=JSON.stringify(res)})();</script>')
     with tempfile.NamedTemporaryFile('w', suffix='.html', delete=False, encoding='utf-8') as fh:
         fh.write(doc); tmp = fh.name
@@ -75,3 +87,9 @@ if __name__ == '__main__':
         for x in sorted(r['out'], key=lambda x: x['ratio'])[:8]:
             print(f"   {x['ratio']}:1 (要{x['need']}) {x['px']}px  {x['sel']}  \"{x['txt']}\"")
         if len(r['out']) > 8: print(f"   … 他 {len(r['out'])-8} 件")
+        for lay in r.get('layout', []):
+            if lay['overflow']:
+                print(f"   ! 横溢れ 幅{lay['vw']}px: scrollWidth={lay['scrollWidth']}px "
+                      f"{' '.join(lay['culprits'])}")
+        if r.get('layout') and not any(l['overflow'] for l in r['layout']):
+            print("   横溢れ: なし（1280px / 380px）")

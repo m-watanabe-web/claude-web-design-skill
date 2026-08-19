@@ -5,6 +5,8 @@ Webサイト・LP・UIを「AI感なく、かつ使える形で」作るため�
 この種のガイドは通常「こうすると良くなる」の列挙で終わる。本スキルは**各項目を対照実験にかけ、
 効果が確認できなかったものを削除している**。残っているのは測って差が出た項目だけ。
 
+**→ 出力サンプルを並べて比較できます：https://m-watanabe-web.github.io/claude-web-design-skill/**
+
 ## 検証で否定された通説
 
 「AIっぽさ」の代表例としてよく挙げられる項目を、禁止した条件／しない条件で比較した。
@@ -56,9 +58,12 @@ references/
 Claude Code のユーザースキルとして `~/.claude/skills/web-design/` に置く。成果物の判定：
 
 ```bash
-python3 references/measure.py  <file.html>   # UX項目に X が残っていたら未完成
-python3 references/contrast.py <file.html>   # 違反 0 件にする
+python3 references/measure.py  <file.html>   # 構造・セマンティクス・見た目（静的）
+python3 references/contrast.py <file.html>   # コントラストと横溢れ（実レンダリング）
 ```
+
+`measure.py` のUX項目に `X` が残っていたら未完成。`contrast.py` は違反0件・横溢れなしにする。
+**静的解析だけでは足りない**（コントラストもレイアウト崩れも検出できない）。
 
 ## 方法論
 
