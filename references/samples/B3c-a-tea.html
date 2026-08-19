@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>常葉園 — 畑を三つに割って、混ぜずに出す</title>
+<style>
+:root{
+--paper:#f4f1e8;
+--ink:#1e201c;
+--moss:#3c5230;
+--dim:color-mix(in srgb, var(--ink) 74%, transparent);
+--rule:color-mix(in srgb, var(--ink) 26%, transparent);
+--hair:color-mix(in srgb, var(--ink) 13%, transparent);
+--wash:color-mix(in srgb, var(--moss) 10%, transparent);
+--wash-2:color-mix(in srgb, var(--moss) 22%, transparent);
+--wash-3:color-mix(in srgb, var(--moss) 42%, transparent);
+}
+@media (prefers-color-scheme: dark){
+:root{
+--paper:#171a15;
+--ink:#ece7d8;
+--moss:#96be82;
+--dim:color-mix(in srgb, var(--ink) 78%, transparent);
+--rule:color-mix(in srgb, var(--ink) 30%, transparent);
+--hair:color-mix(in srgb, var(--ink) 16%, transparent);
+--wash:color-mix(in srgb, var(--moss) 12%, transparent);
+--wash-2:color-mix(in srgb, var(--moss) 24%, transparent);
+--wash-3:color-mix(in srgb, var(--moss) 44%, transparent);
+}
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+background:var(--paper);
+color:var(--ink);
+font-family:"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+font-size:16px;
+line-height:1.95;
+letter-spacing:.02em;
+-webkit-font-smoothing:antialiased;
+}
+body::before{
+content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='grain'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/></filter><rect width='180' height='180' filter='url(%23grain)' opacity='.04'/></svg>");
+}
+.sheet{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+h1,h2,h3,.mincho,blockquote,.fig-num{
+font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-weight:400;
+}
+a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
+outline:3px solid var(--moss);outline-offset:3px;
+}
+@media (prefers-reduced-motion: reduce){
+*{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+svg{display:block;width:100%;height:auto}
+figure{margin:0}
+figcaption{
+font-size:13.5px;line-height:1.8;color:var(--dim);margin-top:.9em;
+padding-top:.7em;border-top:1px solid var(--hair);
+}
+.fig-num{display:block;font-size:12px;letter-spacing:.3em;color:var(--moss);margin-bottom:.4em}
+
+/* ---- 上部の索引 ---- */
+.skip{
+position:absolute;left:-9999px;top:0;z-index:9;
+display:inline-flex;align-items:center;min-height:48px;padding:0 24px;
+background:var(--ink);color:var(--paper);text-decoration:none;letter-spacing:.12em;
+}
+.skip:focus{left:0;top:0}
+.masthead{
+display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+gap:8px 28px;padding:14px 0;border-bottom:1px solid var(--rule);
+}
+.wordmark{font-size:19px;letter-spacing:.34em;padding-right:.34em}
+.wordmark span{font-size:11.5px;letter-spacing:.22em;color:var(--dim);margin-left:1em}
+.masthead nav ul{display:flex;flex-wrap:wrap;list-style:none;padding:0;margin:0}
+.masthead nav a{
+display:inline-flex;align-items:center;min-height:44px;padding:0 14px;
+font-size:13.5px;letter-spacing:.16em;color:var(--dim);text-decoration:none;
+}
+.masthead nav a:hover{color:var(--moss)}
+
+/* ---- ヒーロー ---- */
+.hero{padding:clamp(46px,7vw,84px) 0 clamp(38px,5vw,60px)}
+.hero .kicker{
+font-size:12.5px;letter-spacing:.36em;color:var(--moss);margin-bottom:2.4em;
+}
+.hero h1{
+font-size:clamp(34px,6.2vw,74px);line-height:1.3;letter-spacing:.045em;
+}
+.hero h1 em{font-style:normal;color:var(--moss)}
+.hero-grid{
+display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+gap:clamp(28px,4vw,56px);align-items:end;margin-top:clamp(30px,4vw,52px);
+}
+.hero-grid p{color:var(--dim)}
+.hero-grid p + p{margin-top:1.25em}
+.hero-grid p strong{font-weight:600;color:var(--ink)}
+
+/* ---- セクション共通 ---- */
+main section{padding:clamp(48px,6.5vw,88px) 0;border-top:1px solid var(--rule)}
+.sec-label{
+font-size:12.5px;letter-spacing:.34em;color:var(--moss);font-weight:600;
+margin-bottom:1.8em;
+}
+h2.title{font-size:clamp(26px,3.6vw,40px);line-height:1.5;letter-spacing:.06em;max-width:22ch}
+.lede{max-width:62ch;color:var(--dim);margin-top:1.5em}
+.lede + .lede{margin-top:1.1em}
+
+/* ---- 三つの茶：帳簿組み ---- */
+.ledger{margin-top:clamp(32px,4vw,56px);border-top:1px solid var(--rule)}
+.entry{
+display:grid;grid-template-columns:4.6rem minmax(0,1.55fr) minmax(0,1fr);
+gap:clamp(18px,3vw,40px);padding:clamp(26px,3.4vw,42px) 0;
+border-bottom:1px solid var(--rule);align-items:start;
+}
+.entry-no{font-family:"Hiragino Mincho ProN",serif;font-size:30px;color:var(--moss);line-height:1.1}
+.entry-no small{display:block;font-size:11px;letter-spacing:.2em;color:var(--dim);margin-top:.6em}
+.entry h3{font-size:clamp(21px,2.6vw,28px);letter-spacing:.08em}
+.entry h3 .yomi{
+display:block;font-family:"Hiragino Sans",sans-serif;font-size:11.5px;
+letter-spacing:.28em;color:var(--dim);margin-top:.7em;
+}
+.entry p{margin-top:1.1em;color:var(--dim);font-size:15.5px}
+.entry .spec{
+margin-top:1.5em;border-top:1px solid var(--hair);
+display:grid;grid-template-columns:5.6rem minmax(0,1fr);font-size:14px;
+}
+.entry .spec dt{
+color:var(--dim);padding:.5em 0;border-bottom:1px solid var(--hair);letter-spacing:.1em;
+}
+.entry .spec dd{margin:0;padding:.5em 0;border-bottom:1px solid var(--hair);font-variant-numeric:tabular-nums}
+
+/* ---- 表（列そのものが情報） ---- */
+.table-scroll{overflow-x:auto;margin-top:clamp(28px,3.5vw,44px)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px;font-variant-numeric:tabular-nums}
+caption{
+text-align:left;font-size:13px;color:var(--dim);padding-bottom:.9em;line-height:1.8;
+}
+th,td{text-align:left;padding:.85em 1.1em .85em 0;border-bottom:1px solid var(--hair);vertical-align:top}
+thead th{
+border-bottom:1px solid var(--rule);font-weight:600;font-size:12.5px;
+letter-spacing:.16em;color:var(--moss);
+}
+tbody th{font-weight:600;letter-spacing:.06em;white-space:nowrap}
+td{color:var(--dim)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+
+/* ---- 生産者 ---- */
+.maker{
+display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+gap:clamp(28px,4vw,56px);align-items:start;margin-top:clamp(30px,4vw,50px);
+}
+blockquote{
+font-size:clamp(19px,2.4vw,26px);line-height:1.95;letter-spacing:.05em;
+border-left:2px solid var(--moss);padding-left:clamp(16px,2vw,26px);
+}
+.maker-body p{color:var(--dim)}
+.maker-body p + p{margin-top:1.25em}
+.chrono{margin-top:2em;border-top:1px solid var(--rule)}
+.chrono div{
+display:grid;grid-template-columns:6.2rem minmax(0,1fr);gap:0 clamp(12px,2vw,24px);
+padding:.75em 0;border-bottom:1px solid var(--hair);font-size:14.5px;
+}
+.chrono dt{color:var(--moss);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.chrono dd{margin:0;color:var(--dim)}
+
+/* ---- 淹れ方 ---- */
+.brew{
+display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+gap:clamp(28px,4vw,56px);align-items:start;margin-top:clamp(30px,4vw,50px);
+}
+.steps{border-top:1px solid var(--rule)}
+.steps > div{
+display:grid;grid-template-columns:4.4rem minmax(0,1fr);gap:clamp(14px,2vw,24px);
+padding:1.2em 0;border-bottom:1px solid var(--hair);
+}
+.steps dt{
+font-family:"Hiragino Mincho ProN",serif;font-size:15px;letter-spacing:.16em;color:var(--moss);
+font-variant-numeric:tabular-nums;
+}
+.steps dd{margin:0;font-size:15px;color:var(--dim)}
+.steps dd b{font-weight:600;color:var(--ink)}
+.aside{
+margin-top:clamp(26px,3.5vw,42px);background:var(--wash);
+padding:clamp(20px,3vw,32px);border-left:2px solid var(--moss);
+}
+.aside h3{font-size:18px;letter-spacing:.08em;margin-bottom:.9em}
+.aside p{font-size:15px;color:var(--dim)}
+.aside p + p{margin-top:1em}
+
+/* ---- 購入 ---- */
+.buy-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,56px);align-items:end}
+.price-note{font-size:14.5px;color:var(--dim);margin-top:1.4em}
+.actions{
+display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;
+margin-top:clamp(26px,3.5vw,40px);
+}
+.cta{
+display:inline-flex;align-items:center;justify-content:center;min-height:56px;
+padding:0 clamp(26px,4vw,52px);background:var(--ink);color:var(--paper);
+text-decoration:none;letter-spacing:.22em;font-size:14.5px;
+}
+.cta:hover{background:var(--moss)}
+.cta-quiet{
+display:inline-flex;align-items:center;justify-content:center;min-height:56px;
+padding:0 clamp(20px,3vw,34px);border:1px solid var(--rule);color:var(--ink);
+text-decoration:none;letter-spacing:.18em;font-size:14.5px;background:none;
+}
+.cta-quiet:hover{border-color:var(--moss);color:var(--moss)}
+.signup{
+margin-top:clamp(32px,4vw,52px);border-top:1px solid var(--rule);padding-top:clamp(24px,3vw,36px);
+max-width:56ch;
+}
+.signup h3{font-size:18px;letter-spacing:.08em;margin-bottom:.8em}
+.signup p{font-size:14.5px;color:var(--dim)}
+.signup form{display:flex;flex-wrap:wrap;gap:12px;margin-top:1.4em;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:.5em;flex:1 1 260px;min-width:0}
+.field label{font-size:13px;letter-spacing:.14em;color:var(--dim)}
+.field input{
+min-height:52px;padding:0 14px;font-size:16px;color:var(--ink);
+background:var(--paper);border:1px solid var(--rule);font-family:inherit;
+}
+.field input::placeholder{color:var(--dim)}
+.signup button{
+min-height:52px;padding:0 30px;background:var(--ink);color:var(--paper);
+border:1px solid var(--ink);font-family:inherit;font-size:14.5px;letter-spacing:.18em;cursor:pointer;
+}
+.signup button:hover{background:var(--moss);border-color:var(--moss)}
+.hint{font-size:13px;color:var(--dim);margin-top:1em;line-height:1.8}
+
+/* ---- FAQ ---- */
+.faq{margin-top:clamp(32px,4vw,52px);border-top:1px solid var(--rule);max-width:74ch}
+.faq details{border-bottom:1px solid var(--hair)}
+.faq summary{
+display:flex;align-items:center;min-height:56px;cursor:pointer;
+font-size:16px;letter-spacing:.05em;padding-right:1em;
+}
+.faq summary::marker{color:var(--moss)}
+.faq p{font-size:15px;color:var(--dim);padding:0 0 1.4em}
+
+/* ---- フッター ---- */
+footer{border-top:1px solid var(--rule);padding:clamp(34px,4vw,54px) 0 clamp(28px,4vw,44px)}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(24px,4vw,48px)}
+.foot-grid p{font-size:14px;color:var(--dim)}
+.foot-grid p + p{margin-top:.9em}
+footer ul{list-style:none;padding:0;margin:0}
+footer ul a{
+display:inline-flex;align-items:center;min-height:44px;padding:0 12px 0 0;
+font-size:14px;color:var(--dim);text-decoration:none;letter-spacing:.1em;
+}
+footer ul a:hover{color:var(--moss)}
+.fineprint{margin-top:clamp(24px,3vw,38px);padding-top:1.2em;border-top:1px solid var(--hair);font-size:12.5px;color:var(--dim);line-height:1.9}
+
+@media (max-width:880px){
+.hero-grid,.maker,.brew,.buy-head,.foot-grid{grid-template-columns:minmax(0,1fr)}
+.entry{grid-template-columns:3.4rem minmax(0,1fr)}
+.entry figure{grid-column:1 / -1}
+}
+@media (max-width:520px){
+.masthead{padding:8px 0}
+.masthead nav a{padding:0 10px}
+.entry .spec{grid-template-columns:5rem minmax(0,1fr)}
+.chrono div{grid-template-columns:5.2rem minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">本文へスキップ</a>
+<div class="sheet">
+
+<div class="masthead">
+  <div class="wordmark mincho">常葉園<span>TOKOHAEN / 静岡・本山</span></div>
+  <nav aria-label="ページ内の索引">
+    <ul>
+      <li><a href="#teas">三つの茶</a></li>
+      <li><a href="#maker">畑と作り手</a></li>
+      <li><a href="#brew">淹れ方</a></li>
+      <li><a href="#buy">買う</a></li>
+    </ul>
+  </nav>
+</div>
+
+<header class="hero">
+  <p class="kicker">SINGLE ORIGIN SENCHA — 2026 一番茶</p>
+  <h1>畑を三つに割って、<br><em>混ぜずに</em>出しています。</h1>
+  <div class="hero-grid">
+    <div>
+      <p>日本茶は本来、いくつもの畑の茶葉を合わせて（合組・ごうぐみ）、毎年おなじ味に整えて出荷します。品質を安定させるための、まっとうな技術です。常葉園はそれをやめました。<strong>三つの畑を、三つのまま出します。</strong></p>
+      <p>斜面の向きが違えば日照が違い、標高が違えば朝晩の冷え込みが違う。摘む週が一週ずれれば、葉の厚みが変わる。合わせれば消える差を、そのまま瓶に詰めています。年によって出来が揺れることも、隠していません。</p>
+      <p>コーヒーで「同じ農園の、同じロットだけ」を選んできた方には、たぶん説明がいらない話だと思います。</p>
+    </div>
+    <figure>
+      <span class="fig-num">FIG. 1</span>
+      <svg viewBox="0 0 560 300" role="img" aria-label="2026年の摘採カレンダー。4月第2週から5月第2週にかけて、橋詰・奥沢・日向の三つの畑を順に摘み取った期間を帯で示した図。橋詰が最も早く4月第3週、奥沢が4月末、日向が5月第1週に摘採している">
+        <g stroke="var(--hair)" stroke-width="1">
+          <path d="M96 46 V262"/><path d="M188 46 V262"/><path d="M280 46 V262"/><path d="M372 46 V262"/><path d="M464 46 V262"/>
+        </g>
+        <g fill="var(--dim)" font-size="11.5" font-family="sans-serif" letter-spacing="1">
+          <text x="96" y="34">4月2週</text><text x="188" y="34">4月3週</text><text x="280" y="34">4月4週</text><text x="372" y="34">5月1週</text><text x="464" y="34">5月2週</text>
+        </g>
+        <g>
+          <rect x="120" y="70" width="118" height="30" fill="var(--wash-3)"/>
+          <rect x="238" y="70" width="42" height="30" fill="var(--wash-2)"/>
+          <rect x="258" y="140" width="120" height="30" fill="var(--wash-3)"/>
+          <rect x="378" y="140" width="40" height="30" fill="var(--wash-2)"/>
+          <rect x="350" y="210" width="126" height="30" fill="var(--wash-3)"/>
+          <rect x="476" y="210" width="44" height="30" fill="var(--wash-2)"/>
+        </g>
+        <g fill="var(--ink)" font-size="13.5" font-family="serif">
+          <text x="0" y="90">橋詰</text><text x="0" y="160">奥沢</text><text x="0" y="230">日向</text>
+        </g>
+        <g fill="var(--dim)" font-size="11" font-family="sans-serif">
+          <text x="0" y="106">南 230m</text><text x="0" y="176">東 310m</text><text x="0" y="246">南西 180m</text>
+        </g>
+        <g stroke="var(--moss)" stroke-width="1" fill="none">
+          <path d="M120 108 V116 H238 V108"/><path d="M258 178 V186 H378 V178"/><path d="M350 248 V256 H476 V248"/>
+        </g>
+        <g fill="var(--moss)" font-size="10.5" font-family="sans-serif">
+          <text x="126" y="128">摘採 6日</text><text x="264" y="198">摘採 5日</text><text x="356" y="268">摘採 7日</text>
+        </g>
+      </svg>
+      <figcaption>2026年の摘採記録。濃い帯が本摘み、薄い帯が追い摘み。標高が100m上がるごとに、摘採はおよそ5日遅れます。</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main id="main">
+
+<section id="teas" aria-labelledby="teas-h">
+  <p class="sec-label">01 — THREE TEAS</p>
+  <h2 class="title" id="teas-h">同じ品種、同じ作り手。それでも別の茶になる。</h2>
+  <p class="lede">三種はいずれも一番茶の煎茶で、火入れの温度も揃えてあります。変えているのは畑と、摘む週と、蒸しの秒数だけ。この三つで、香りの立ち方と余韻の長さがはっきり分かれます。</p>
+  <p class="lede">最初の一杯は、できれば三種を続けて飲んでみてください。単体では「おいしい」で終わってしまう差が、並べると「違う」に変わります。</p>
+
+  <div class="ledger">
+
+    <article class="entry">
+      <p class="entry-no">01<small>HARU</small></p>
+      <div>
+        <h3>春摘み<span class="yomi">HARUTSUMI — 橋詰の畑</span></h3>
+        <p>四月第三週、いちばん早く動きだす南向きの斜面から。芽が出たばかりの若い葉だけを摘むので、渋みの元になる成分がまだ乗りきっていません。一口目に来るのは、青さではなく蜜に近い甘さです。</p>
+        <p>湯を七十度まで冷ますと甘さが前に出て、八十度を超えると輪郭が立ちます。冷ましすぎると今度は全体がぼやけるので、六十五度が下限だと思ってください。三煎目までは味が保ちます。</p>
+        <dl class="spec">
+          <dt>畑</dt><dd>橋詰 / 南向き 標高230m</dd>
+          <dt>摘採</dt><dd>4月18日〜23日</dd>
+          <dt>蒸し</dt><dd>25秒（浅蒸し寄り）</dd>
+          <dt>味の軸</dt><dd>甘さ・透明感</dd>
+          <dt>近い印象</dt><dd>浅煎りのエチオピア</dd>
+        </dl>
+      </div>
+      <figure>
+        <span class="fig-num">FIG. 2</span>
+        <svg viewBox="0 0 300 210" role="img" aria-label="春摘みの茶葉の形。細長く反りが浅い若葉を、葉脈とともに描いた図">
+          <rect width="300" height="210" fill="var(--wash)"/>
+          <path d="M150 24 C196 68, 200 150, 150 192 C100 150, 104 68, 150 24Z" fill="var(--wash-3)"/>
+          <path d="M150 32 V184" stroke="var(--paper)" stroke-width="2" fill="none"/>
+          <g stroke="var(--paper)" stroke-width="1.2" fill="none">
+            <path d="M150 66 L182 88"/><path d="M150 66 L118 88"/>
+            <path d="M150 108 L188 132"/><path d="M150 108 L112 132"/>
+            <path d="M150 148 L176 166"/><path d="M150 148 L124 166"/>
+          </g>
+          <g stroke="var(--moss)" stroke-width="1" fill="none"><path d="M212 24 V192"/><path d="M206 24 H218"/><path d="M206 192 H218"/></g>
+          <text x="226" y="112" fill="var(--dim)" font-size="12" font-family="sans-serif">葉長 32mm</text>
+        </svg>
+        <figcaption>反りが浅く、指で潰すと簡単に折れる薄い葉。</figcaption>
+      </figure>
+    </article>
+
+    <article class="entry">
+      <p class="entry-no">02<small>ZAIRAI</small></p>
+      <div>
+        <h3>在来種<span class="yomi">ZAIRAI — 奥沢の畑</span></h3>
+        <p>祖父の代より前に実生（みしょう）で植わった木が、そのまま残っている畑です。一本ずつ性質が違うので、葉の大きさも芽吹く日もばらつきます。効率は最悪ですが、この畑だけは植え替えていません。</p>
+        <p>飲むと、まず土や木のにおいに近い低い香りが来て、そのあとで甘さが遅れて上がってきます。均されていない味なので、人によって好みがはっきり分かれます。迷ったら三種セットで試してください。</p>
+        <dl class="spec">
+          <dt>畑</dt><dd>奥沢 / 東向き 標高310m</dd>
+          <dt>摘採</dt><dd>4月26日〜30日</dd>
+          <dt>蒸し</dt><dd>40秒（中蒸し）</dd>
+          <dt>味の軸</dt><dd>厚み・後から来る甘さ</dd>
+          <dt>近い印象</dt><dd>ナチュラル精製のもの</dd>
+        </dl>
+      </div>
+      <figure>
+        <span class="fig-num">FIG. 3</span>
+        <svg viewBox="0 0 300 210" role="img" aria-label="在来種の茶葉の形。大きさも縁の形も揃わない三枚の葉を重ねて描いた図">
+          <rect width="300" height="210" fill="var(--wash)"/>
+          <path d="M92 30 C132 74, 128 148, 88 190 C48 146, 52 72, 92 30Z" fill="var(--wash-2)"/>
+          <path d="M156 44 C204 84, 208 154, 158 194 C110 152, 110 84, 156 44Z" fill="var(--wash-3)"/>
+          <path d="M226 60 C254 92, 252 148, 224 182 C196 148, 198 92, 226 60Z" fill="var(--wash-2)"/>
+          <g stroke="var(--paper)" stroke-width="1.6" fill="none">
+            <path d="M92 40 V182"/><path d="M157 54 V186"/><path d="M226 70 V174"/>
+          </g>
+          <text x="62" y="206" fill="var(--dim)" font-size="11" font-family="sans-serif">同じ畝から摘んだ3枚</text>
+        </svg>
+        <figcaption>同じ日に、同じ畝から。これだけ形が揃いません。</figcaption>
+      </figure>
+    </article>
+
+    <article class="entry">
+      <p class="entry-no">03<small>ASA</small></p>
+      <div>
+        <h3>浅蒸し<span class="yomi">ASAMUSHI — 日向の畑</span></h3>
+        <p>五月に入ってから摘む、いちばん遅い畑。葉が厚くなるぶん蒸し時間を短く止めて、葉の形を崩さないまま仕上げます。粉が出ないので、湯を注いだときの水色（すいしょく）は驚くほど淡い黄金色です。</p>
+        <p>色が薄いので味も薄いと思われがちですが、逆です。浸出が遅いだけで、九十秒待てば香りは三種でいちばん高く上がります。急須の中で葉が開ききるまで、待つ時間が要る茶です。</p>
+        <dl class="spec">
+          <dt>畑</dt><dd>日向 / 南西向き 標高180m</dd>
+          <dt>摘採</dt><dd>5月2日〜8日</dd>
+          <dt>蒸し</dt><dd>18秒（浅蒸し）</dd>
+          <dt>味の軸</dt><dd>香りの高さ・長い余韻</dd>
+          <dt>近い印象</dt><dd>ハンドドリップの一投目</dd>
+        </dl>
+      </div>
+      <figure>
+        <span class="fig-num">FIG. 4</span>
+        <svg viewBox="0 0 300 210" role="img" aria-label="三種の水色の比較図。左から春摘み・在来種・浅蒸しの順に、湯呑みに注いだ茶の色の濃さを示した三つの円">
+          <rect width="300" height="210" fill="var(--wash)"/>
+          <g stroke="var(--rule)" stroke-width="1" fill="none">
+            <circle cx="66" cy="96" r="40"/><circle cx="150" cy="96" r="40"/><circle cx="234" cy="96" r="40"/>
+          </g>
+          <circle cx="66" cy="96" r="39" fill="var(--wash-2)"/>
+          <circle cx="150" cy="96" r="39" fill="var(--wash-3)"/>
+          <circle cx="234" cy="96" r="39" fill="var(--wash)"/>
+          <g fill="var(--dim)" font-size="11.5" font-family="sans-serif" text-anchor="middle">
+            <text x="66" y="158">春摘み</text><text x="150" y="158">在来種</text><text x="234" y="158">浅蒸し</text>
+            <text x="66" y="176">淡い緑</text><text x="150" y="176">濃い緑褐</text><text x="234" y="176">淡い金</text>
+          </g>
+          <text x="150" y="200" fill="var(--dim)" font-size="10.5" font-family="sans-serif" text-anchor="middle">いずれも80度・90秒・一煎目</text>
+        </svg>
+        <figcaption>条件を揃えて淹れた一煎目の水色。蒸しの秒数がそのまま色に出ます。</figcaption>
+      </figure>
+    </article>
+
+  </div>
+
+  <div class="table-scroll">
+    <table>
+      <caption>三種の比較。左端の項目で横に読むと、畑の差がどこに効いているかが分かります。</caption>
+      <thead>
+        <tr><th scope="col">項目</th><th scope="col">春摘み</th><th scope="col">在来種</th><th scope="col">浅蒸し</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">畑</th><td>橋詰 230m</td><td>奥沢 310m</td><td>日向 180m</td></tr>
+        <tr><th scope="row">斜面の向き</th><td>南</td><td>東</td><td>南西</td></tr>
+        <tr><th scope="row">摘採日</th><td>4月18日</td><td>4月26日</td><td>5月2日</td></tr>
+        <tr><th scope="row">蒸し</th><td>25秒</td><td>40秒</td><td>18秒</td></tr>
+        <tr><th scope="row">推奨湯温</th><td>70度</td><td>80度</td><td>85度</td></tr>
+        <tr><th scope="row">一煎目の時間</th><td>60秒</td><td>50秒</td><td>90秒</td></tr>
+        <tr><th scope="row">香りの高さ</th><td>中</td><td>低く長い</td><td>高い</td></tr>
+        <tr><th scope="row">渋みの出方</th><td>ほぼ出ない</td><td>三煎目から</td><td>二煎目から穏やかに</td></tr>
+        <tr><th scope="row">おすすめの飲み方</th><td>そのまま / 氷出し</td><td>そのまま / 食後</td><td>そのまま / 二煎で温度を上げる</td></tr>
+        <tr><th scope="row">収量（2026年）</th><td>38kg</td><td>21kg</td><td>44kg</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure style="margin-top:clamp(32px,4vw,52px);max-width:760px">
+    <span class="fig-num">FIG. 5</span>
+    <svg viewBox="0 0 560 340" role="img" aria-label="三種の味の位置を示した座標図。横軸は香りの立ち方、縦軸は余韻の長さ。春摘みは香りが穏やかで余韻が短く、在来種は香りが低く余韻が長く、浅蒸しは香りが高く余韻も長い位置にある">
+      <rect x="60" y="24" width="470" height="250" fill="var(--wash)"/>
+      <g stroke="var(--hair)" stroke-width="1">
+        <path d="M60 90 H530"/><path d="M60 149 H530"/><path d="M60 208 H530"/>
+        <path d="M178 24 V274"/><path d="M295 24 V274"/><path d="M412 24 V274"/>
+      </g>
+      <g stroke="var(--rule)" stroke-width="1.2" fill="none"><path d="M60 274 H530"/><path d="M60 24 V274"/></g>
+      <g fill="var(--dim)" font-size="12" font-family="sans-serif">
+        <text x="60" y="298">香りは低く、こもる</text>
+        <text x="404" y="298">香りは高く、立つ</text>
+        <text x="0" y="40">余韻</text><text x="0" y="58">長い</text>
+        <text x="0" y="262">短い</text>
+      </g>
+      <g>
+        <circle cx="196" cy="212" r="9" fill="var(--wash-3)" stroke="var(--moss)" stroke-width="1.5"/>
+        <circle cx="150" cy="86" r="9" fill="var(--wash-3)" stroke="var(--moss)" stroke-width="1.5"/>
+        <circle cx="446" cy="70" r="9" fill="var(--wash-3)" stroke="var(--moss)" stroke-width="1.5"/>
+      </g>
+      <g fill="var(--ink)" font-size="13.5" font-family="serif">
+        <text x="212" y="208">春摘み</text><text x="166" y="82">在来種</text><text x="368" y="66">浅蒸し</text>
+      </g>
+      <g fill="var(--dim)" font-size="11" font-family="sans-serif">
+        <text x="212" y="226">甘く、すぐ引く</text><text x="166" y="100">低い香りが残る</text><text x="330" y="84">高い香りが残る</text>
+      </g>
+      <text x="60" y="322" fill="var(--dim)" font-size="11" font-family="sans-serif">※ 社内で6名が同じ条件（80度・90秒）で試飲し、平均を取った位置です。</text>
+    </svg>
+    <figcaption>味の座標。おすすめの順番はありませんが、初めてなら右上（浅蒸し）から下（春摘み）へ降りると差が分かりやすいはずです。</figcaption>
+  </figure>
+</section>
+
+<section id="maker" aria-labelledby="maker-h">
+  <p class="sec-label">02 — THE GROWER</p>
+  <h2 class="title" id="maker-h">効率のいい畑から、順に手放してきました。</h2>
+  <div class="maker">
+    <figure>
+      <span class="fig-num">FIG. 6</span>
+      <svg viewBox="0 0 420 400" role="img" aria-label="常葉園の三つの畑を示した等高線の地図。谷筋の川に沿って、標高180メートルの日向、230メートルの橋詰、310メートルの奥沢が並び、加工場は麓にある">
+        <rect width="420" height="400" fill="var(--wash)"/>
+        <g stroke="var(--hair)" stroke-width="1" fill="none">
+          <path d="M-10 330 C80 316, 150 336, 230 320 C300 306, 360 316, 430 300"/>
+          <path d="M-10 286 C70 270, 148 292, 232 272 C304 256, 362 270, 430 252"/>
+          <path d="M-10 240 C66 222, 146 246, 236 224 C308 206, 366 220, 430 202"/>
+          <path d="M-10 194 C62 176, 144 200, 240 176 C312 158, 368 172, 430 154"/>
+          <path d="M-10 148 C58 130, 142 154, 244 128 C316 110, 370 124, 430 106"/>
+          <path d="M-10 102 C54 86, 140 108, 248 82 C320 64, 372 78, 430 60"/>
+        </g>
+        <path d="M96 400 C112 330, 96 268, 132 208 C160 160, 150 108, 176 56" stroke="var(--wash-3)" stroke-width="5" fill="none"/>
+        <g stroke="var(--moss)" stroke-width="1.4" fill="var(--wash-3)">
+          <path d="M228 286 h74 v42 h-74 Z"/>
+          <path d="M252 214 h84 v40 h-84 Z"/>
+          <path d="M186 118 h78 v40 h-78 Z"/>
+        </g>
+        <g fill="var(--ink)" font-size="13" font-family="serif">
+          <text x="236" y="312">日向</text><text x="260" y="240">橋詰</text><text x="194" y="144">奥沢</text>
+        </g>
+        <g fill="var(--dim)" font-size="10.5" font-family="sans-serif">
+          <text x="276" y="312">180m</text><text x="300" y="240">230m</text><text x="234" y="144">310m</text>
+          <text x="40" y="376">安倍川の支流</text>
+        </g>
+        <g stroke="var(--ink)" stroke-width="1.2" fill="none"><path d="M120 356 h44 v26 h-44 Z"/></g>
+        <text x="170" y="374" fill="var(--dim)" font-size="10.5" font-family="sans-serif">加工場</text>
+        <g stroke="var(--rule)" stroke-width="1" fill="none"><path d="M348 366 h44"/><path d="M348 362 v8"/><path d="M392 362 v8"/></g>
+        <text x="348" y="386" fill="var(--dim)" font-size="10.5" font-family="sans-serif">およそ500m</text>
+      </svg>
+      <figcaption>三つの畑と加工場。摘んだ葉は当日中に麓まで下ろし、その日のうちに蒸します。合計 1.4ヘクタール。</figcaption>
+    </figure>
+    <div class="maker-body">
+      <blockquote>「揃った味を作る技術は、祖父のほうがずっと上でした。同じことをしても勝てないので、揃えないほうへ行きました。」</blockquote>
+      <p>三代目・三谷智之（みたに・ともゆき）。大学を出たあと十年ほど焙煎所に勤め、豆の仕入れと焙煎を担当していました。戻ってきたのは三十四歳のときです。</p>
+      <p>戻った年、常葉園は五つの畑を持っていました。いまは三つです。減らしたのは、条件のいい平坦な畑から順でした。機械が入る畑ほど他所と味が似てしまい、うちで作る理由が薄かったからです。残したのは、どれも軽トラが上がれない斜面にあります。</p>
+      <p>摘採は三つの畑を順に回るので、四月半ばから五月半ばまでのひと月、加工場は毎晩動きっぱなしになります。蒸し機は一台しかありません。畑を切り替えるたびに、蒸しの秒数を設定し直します。この段取りの悪さが、そのまま三種の違いになっています。</p>
+      <p>火入れは最後にまとめて、三種とも同じ温度で。ここまで変えると、何が味の差を生んだのか分からなくなるからです。変数は畑と、摘む週と、蒸しの秒数の三つに絞っています。</p>
+      <dl class="chrono">
+        <div><dt>1952</dt><dd>初代が奥沢の斜面に実生の茶を植える。この木がいまの在来種の畑になっている。</dd></div>
+        <div><dt>1978</dt><dd>二代目が品種を導入し、橋詰・日向を開墾。合組による出荷を始める。</dd></div>
+        <div><dt>2016</dt><dd>三代目が就農。翌年から畑ごとに分けて仕上げる試験を開始。</dd></div>
+        <div><dt>2021</dt><dd>平坦な二つの畑を手放し、三つに絞る。合組をやめる。</dd></div>
+        <div><dt>2026</dt><dd>直販のみに切り替え。年間の生産量は103kg。</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="brew" aria-labelledby="brew-h">
+  <p class="sec-label">03 — HOW TO BREW</p>
+  <h2 class="title" id="brew-h">湯温を10度動かすと、別の茶になります。</h2>
+  <p class="lede">日本茶の抽出は、コーヒーよりも温度に敏感です。旨味の成分は低い温度でも溶け出しますが、渋みの成分は70度を超えたあたりから急に出てきます。つまり湯温は「濃さ」ではなく「甘いか、締まっているか」を決めるつまみです。</p>
+  <p class="lede">下の図の縦軸を上げれば甘く、下げれば輪郭が立ちます。まず推奨値どおりに一度淹れて、それから片方だけ動かしてください。二つ同時に動かすと、どちらが効いたのか分からなくなります。</p>
+
+  <figure style="margin-top:clamp(28px,3.5vw,44px);max-width:760px">
+    <span class="fig-num">FIG. 7</span>
+    <svg viewBox="0 0 560 320" role="img" aria-label="湯温と成分の溶け出し方の関係を示した折れ線グラフ。旨味成分は60度から緩やかに増え、渋み成分は70度を超えると急激に増える。三種の推奨湯温は70度、80度、85度の位置にある">
+      <rect x="58" y="20" width="472" height="220" fill="var(--wash)"/>
+      <g stroke="var(--hair)" stroke-width="1">
+        <path d="M58 75 H530"/><path d="M58 130 H530"/><path d="M58 185 H530"/>
+        <path d="M176 20 V240"/><path d="M294 20 V240"/><path d="M412 20 V240"/>
+      </g>
+      <g stroke="var(--rule)" stroke-width="1.2" fill="none"><path d="M58 240 H530"/><path d="M58 20 V240"/></g>
+      <path d="M58 206 C150 186, 250 150, 360 120 C430 102, 480 92, 530 84" stroke="var(--moss)" stroke-width="2.5" fill="none"/>
+      <path d="M58 236 C160 232, 230 222, 294 196 C360 168, 440 96, 530 40" stroke="var(--ink)" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+      <g fill="var(--dim)" font-size="11.5" font-family="sans-serif">
+        <text x="46" y="258">60度</text><text x="164" y="258">70度</text><text x="282" y="258">80度</text><text x="400" y="258">90度</text><text x="500" y="258">95度</text>
+        <text x="0" y="34">溶出量</text><text x="0" y="236">少</text>
+      </g>
+      <g stroke="var(--moss)" stroke-width="1" fill="none" stroke-dasharray="3 4">
+        <path d="M176 20 V240"/><path d="M294 20 V240"/><path d="M353 20 V240"/>
+      </g>
+      <g fill="var(--moss)" font-size="10.5" font-family="sans-serif">
+        <text x="130" y="16">春摘み 70</text><text x="256" y="16">在来種 80</text><text x="330" y="16">浅蒸し 85</text>
+      </g>
+      <g font-family="sans-serif" font-size="12">
+        <text x="360" y="140" fill="var(--dim)">旨味（実線）</text>
+        <text x="386" y="70" fill="var(--dim)">渋み（破線）</text>
+      </g>
+      <text x="58" y="296" fill="var(--dim)" font-size="11" font-family="sans-serif">※ 常葉園の加工場で、浸出90秒・葉4gで測った相対値です。銘柄や器具によって変わります。</text>
+      <text x="58" y="314" fill="var(--dim)" font-size="11" font-family="sans-serif">   縦軸は成分の相対量で、単位はありません。</text>
+    </svg>
+    <figcaption>70度を境に、渋みの側だけが急に立ち上がります。甘くしたいなら温度を下げる。締めたいなら上げる。時間ではなく温度で調整してください。</figcaption>
+  </figure>
+
+  <div class="brew">
+    <dl class="steps">
+      <div><dt>一</dt><dd>茶葉は<b>2人分で4g</b>。目分量なら大さじ山盛り1杯です。コーヒーのように挽く工程がないぶん、量のブレがそのまま味に出ます。最初の何回かは量ってください。</dd></div>
+      <div><dt>二</dt><dd>湯を<b>一度沸騰させてから</b>、湯呑みに注いで冷まします。器を一つ経由するごとに、およそ<b>10度下がります</b>。90度の湯なら、湯呑み→急須で70度台です。</dd></div>
+      <div><dt>三</dt><dd>急須に注いだら<b>揺すらない</b>。葉が自分で開くのを待ちます。動かすと細かい葉が崩れて、渋みだけが先に出ます。</dd></div>
+      <div><dt>四</dt><dd>時間は表のとおり。<b>最後の一滴まで</b>注ぎ切ります。急須に湯が残ると、その湯が二煎目まで抽出を続けてしまいます。</dd></div>
+      <div><dt>五</dt><dd>二煎目は<b>湯温を5度上げて、時間を半分に</b>。一煎目とは別の茶だと思って飲むと、この茶葉の幅が分かります。三煎目まではおいしく飲めます。</dd></div>
+    </dl>
+    <div>
+      <div class="table-scroll" style="margin-top:0">
+        <table>
+          <caption>煎ごとの目安。器具は急須（120ml前後）を想定しています。</caption>
+          <thead>
+            <tr><th scope="col">煎</th><th scope="col">湯温</th><th scope="col">時間</th><th scope="col">湯量</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">一煎目</th><td>70〜85度</td><td>50〜90秒</td><td>120ml</td></tr>
+            <tr><th scope="row">二煎目</th><td>+5度</td><td>20〜30秒</td><td>120ml</td></tr>
+            <tr><th scope="row">三煎目</th><td>90度</td><td>40秒</td><td>140ml</td></tr>
+            <tr><th scope="row">氷出し</th><td>0度</td><td>3時間</td><td>200ml</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="aside">
+        <h3>コーヒーの道具しかない場合</h3>
+        <p>急須がなくても飲めます。ペーパードリップなら、粉の代わりに茶葉4gを入れて、湯を注いだあと<b>ドリッパーに湯を溜めたまま60秒待ってから</b>落としてください。透過式のまま落とすと、湯が葉に触れる時間が足りません。</p>
+        <p>フレンチプレスは相性が良いです。金属メッシュなので葉が動く余地があり、浸漬時間もそのまま管理できます。ただしプランジャーを最後まで押し込まず、注ぎ切るのが前提です。押し切ると細かい葉が潰れます。</p>
+        <p>温度計があるなら使ってください。「湯呑みを経由して10度」は目安で、室温と器の厚みでかなりずれます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="buy" aria-labelledby="buy-h">
+  <p class="sec-label">04 — ORDER</p>
+  <div class="buy-head">
+    <div>
+      <h2 class="title" id="buy-h">三種セット、または単品で。</h2>
+      <p class="price-note">2026年の一番茶は、三種あわせて103kgしかありません。なくなり次第、次は来年の四月です。摘採の進み具合と残量は、月に一度メールでお知らせしています。</p>
+    </div>
+    <div class="table-scroll" style="margin-top:0">
+      <table>
+        <caption>価格は税込・送料別。5,000円以上のご注文は送料無料です。</caption>
+        <thead>
+          <tr><th scope="col">品目</th><th scope="col">内容量</th><th scope="col">価格</th><th scope="col">残量</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">飲み比べ三種セット</th><td>20g × 3袋</td><td>3,600円</td><td>在庫あり</td></tr>
+          <tr><th scope="row">春摘み</th><td>50g</td><td>2,200円</td><td>在庫あり</td></tr>
+          <tr><th scope="row">在来種</th><td>50g</td><td>2,800円</td><td>残りわずか</td></tr>
+          <tr><th scope="row">浅蒸し</th><td>50g</td><td>2,400円</td><td>在庫あり</td></tr>
+          <tr><th scope="row">三種 各50g</th><td>150g</td><td>6,900円</td><td>在庫あり</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a class="cta" href="#buy">三種セットを買う</a>
+    <a class="cta-quiet" href="#teas">単品をもう一度見る</a>
+  </div>
+
+  <div class="signup">
+    <h3>摘採の便りを受け取る</h3>
+    <p>畑の様子と残量を、月に一度だけお送りします。売り込みは書きません。いつでも解除できます。</p>
+    <form action="#buy" method="post">
+      <div class="field">
+        <label for="mail">メールアドレス</label>
+        <input id="mail" name="mail" type="email" autocomplete="email" placeholder="you@example.com" required>
+      </div>
+      <button type="submit">登録する</button>
+    </form>
+    <p class="hint">登録すると、常葉園からのお知らせメールが届きます。住所や電話番号は伺いません。配信は月1回、解除はメール末尾のリンクから1クリックで完了します。</p>
+  </div>
+
+  <div class="faq">
+    <h3 class="sec-label" style="margin-bottom:1.2em">よくある質問</h3>
+    <details>
+      <summary>保存はどうすればいいですか</summary>
+      <p>開封後は密閉して、常温の暗いところに置いてください。冷蔵庫は結露するので勧めません。どうしても長く置くなら未開封のまま冷凍し、常温に戻してから開けてください。目安は開封後ひと月です。</p>
+    </details>
+    <details>
+      <summary>三種のうち、どれから飲むべきですか</summary>
+      <p>差が分かりやすいのは浅蒸しからです。香りがいちばん高く、そのあとに春摘みを飲むと甘さの質の違いが際立ちます。在来種は最後がいいと思います。癖が強いので、先に飲むと他の二つが平坦に感じられます。</p>
+    </details>
+    <details>
+      <summary>去年と味が違うのですが</summary>
+      <p>違います。合組をやめているので、その年の天候がそのまま出ます。2026年は四月前半が冷え込んだぶん、春摘みの甘さが例年より強く出ました。同じ味を毎年お届けすることは、この作り方では約束できません。</p>
+    </details>
+    <details>
+      <summary>ギフト包装はできますか</summary>
+      <p>三種セットのみ、無地の紙箱と掛け紙をお付けできます（無料）。注文時の備考欄にご記入ください。熨斗（のし）の表書きは五種類から選べます。</p>
+    </details>
+    <details>
+      <summary>カフェイン量はどのくらいですか</summary>
+      <p>浸出液100mlあたり、おおよそ20mgです。同量のドリップコーヒーの3分の1程度にあたります。ただし湯温を上げるほど増えるので、夜に飲むなら70度以下をおすすめします。</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot-grid">
+    <div>
+      <p class="mincho" style="font-size:17px;letter-spacing:.3em;color:var(--ink)">常葉園</p>
+      <p>静岡県静岡市葵区（本山地区）／ 茶園面積 1.4ha ／ 2026年産 103kg</p>
+      <p>加工場での直売は、四月から五月の摘採期を除いて平日の10時から16時まで。事前にご連絡ください。</p>
+    </div>
+    <nav aria-label="フッターの案内">
+      <ul>
+        <li><a href="#teas">三つの茶について</a></li>
+        <li><a href="#maker">畑と作り手</a></li>
+        <li><a href="#brew">淹れ方の目安</a></li>
+        <li><a href="#buy">価格と在庫</a></li>
+      </ul>
+    </nav>
+  </div>
+  <p class="fineprint">本ページはデザイン検証用の架空のサンプルです。記載の生産者・地名・商品・価格・数量は実在するものではなく、実在の企業・団体・人物とは一切関係ありません。</p>
+</footer>
+
+</div>
+</body>
+</html>

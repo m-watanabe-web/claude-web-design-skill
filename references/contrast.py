@@ -41,6 +41,11 @@ function effBg(el,win){let st=[],n=el;
 
 // prefers-color-scheme はヘッドレスから切り替えられないため、
 // 該当する @media ブロックの中身を素のルールとして流し込んで再現する。
+function freeze(doc){ // transition/animation を止める。
+ // これが無いと、テーマ切替時に色が遷移し切る前に測ってしまい偽陽性が出る（実測で確認済み）。
+ const s=doc.createElement('style');
+ s.textContent='*,*::before,*::after{transition:none!important;animation:none!important}';
+ doc.head.appendChild(s)}
 function applyScheme(doc,scheme){
  let css='';
  for(const sh of Array.from(doc.styleSheets)){
@@ -117,7 +122,7 @@ def run(paths):
            '  fr.srcdoc=DATA[f];document.body.appendChild(fr);'
            '  await new Promise(x=>{fr.onload=x});await new Promise(x=>setTimeout(x,120));'
            '  const d=fr.contentDocument,w=fr.contentWindow;'
-           '  const had=applyScheme(d,scheme);'
+           '  freeze(d); const had=applyScheme(d,scheme);'
            '  await new Promise(x=>setTimeout(x,80));'
            '  const a=audit(d,w); a.themed=had;'
            '  if(scheme==="light"){a.layout=[overflow(d,w)];a.targets=targets(d,w);'

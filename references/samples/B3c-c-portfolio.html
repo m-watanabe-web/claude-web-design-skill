@@ -1,0 +1,542 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>職務ポートフォリオ｜AI・データパイプライン</title>
+<style>
+:root{
+  --paper:#f5f5f3;
+  --ink:#15171a;
+  --accent:#1c4f8a;
+  --rule:color-mix(in srgb,var(--ink) 24%,transparent);
+  --rule-soft:color-mix(in srgb,var(--ink) 12%,transparent);
+  --dim:color-mix(in srgb,var(--ink) 84%,transparent);
+  --faint:color-mix(in srgb,var(--ink) 68%,transparent);
+  --panel:color-mix(in srgb,var(--ink) 4%,transparent);
+}
+@media(prefers-color-scheme:dark){:root{
+  --paper:#101213;
+  --ink:#e9e9e6;
+  --accent:#8fb6e0;
+  --rule:color-mix(in srgb,var(--ink) 26%,transparent);
+  --rule-soft:color-mix(in srgb,var(--ink) 13%,transparent);
+  --dim:color-mix(in srgb,var(--ink) 86%,transparent);
+  --faint:color-mix(in srgb,var(--ink) 72%,transparent);
+  --panel:color-mix(in srgb,var(--ink) 6%,transparent);
+}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  font-size:16px;line-height:1.95;letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"palt" 1;
+}
+/* 方眼の地：単色→透明の罫線描画。装飾グラデーションではない */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background-image:
+    linear-gradient(var(--rule-soft) 1px,transparent 1px),
+    linear-gradient(90deg,var(--rule-soft) 1px,transparent 1px);
+  background-size:96px 96px;
+}
+.sheet{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+.num{font-variant-numeric:tabular-nums;letter-spacing:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+
+/* ── 見出しと section ───────────────────── */
+.label{font-size:12px;letter-spacing:.32em;font-weight:700;color:var(--accent)}
+section{padding:clamp(56px,8vw,96px) 0;border-top:1px solid var(--rule)}
+section>h2{font-size:clamp(24px,3.4vw,34px);font-weight:700;line-height:1.5;
+  margin:.5em 0 .2em;letter-spacing:.02em}
+.lede{color:var(--dim);max-width:60ch;margin-top:1.2em}
+h3{font-size:19px;font-weight:700;line-height:1.6;letter-spacing:.02em}
+h4{font-size:15px;font-weight:700;letter-spacing:.06em;color:var(--faint)}
+p+p{margin-top:1em}
+.body{color:var(--dim);max-width:64ch}
+
+/* ── ヒーロー ───────────────────────────── */
+header.hero{padding:clamp(64px,11vw,132px) 0 clamp(40px,6vw,72px)}
+.hero h1{font-size:clamp(30px,5.6vw,60px);line-height:1.42;font-weight:700;
+  letter-spacing:.015em;margin-top:1.1em;max-width:19ch}
+.hero h1 em{font-style:normal;color:var(--accent);
+  box-shadow:inset 0 -.16em 0 0 color-mix(in srgb,var(--accent) 26%,transparent)}
+.hero .body{margin-top:1.8em;font-size:17px}
+.hero-figure{margin-top:clamp(32px,5vw,56px);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);padding:28px 0}
+.stats{display:flex;flex-wrap:wrap;gap:0;margin-top:36px;
+  border-top:1px solid var(--rule)}
+.stats div{flex:1 1 210px;min-width:0;padding:22px 26px 22px 0;
+  border-bottom:1px solid var(--rule-soft)}
+.stats div+div{padding-left:26px;border-left:1px solid var(--rule-soft)}
+.stats b{display:block;font-size:clamp(30px,4.4vw,42px);font-weight:700;line-height:1.2;color:var(--accent)}
+.stats span{display:block;font-size:13.5px;color:var(--faint);letter-spacing:.08em;margin-top:.4em}
+
+/* ── 図版 ──────────────────────────────── */
+figure{margin:0}
+.fig{margin:30px 0 0;padding:22px 0 0;border-top:1px solid var(--rule-soft)}
+.fig svg{display:block;width:100%;height:auto;max-width:100%;color:var(--ink)}
+figcaption{font-size:13.5px;color:var(--faint);margin-top:14px;letter-spacing:.04em;max-width:62ch}
+.svg-ink{fill:currentColor}
+.svg-dim{fill:var(--dim)}
+.svg-accent{fill:var(--accent)}
+.stroke{fill:none;stroke:currentColor;stroke-width:1.4}
+.stroke-soft{fill:none;stroke:var(--rule);stroke-width:1.4}
+.stroke-accent{fill:none;stroke:var(--accent);stroke-width:2}
+.dash{stroke-dasharray:5 5}
+text{font-family:inherit}
+.t-s{font-size:13px}
+.t-xs{font-size:11.5px;letter-spacing:.1em}
+.t-m{font-size:16px;font-weight:700}
+.t-l{font-size:26px;font-weight:700}
+
+/* ── 帳簿組み（実績・強み） ───────────────── */
+.ledger{border-top:1px solid var(--rule);margin-top:2.4em}
+.row{display:grid;grid-template-columns:15ch minmax(0,1fr);gap:clamp(16px,3vw,40px);
+  padding:34px 0;border-bottom:1px solid var(--rule)}
+.row>.k{font-size:12.5px;letter-spacing:.2em;color:var(--faint);padding-top:.55em;font-weight:700}
+.row>.v{min-width:0}
+.row .body{margin-top:.7em}
+.meta{margin-top:1.4em;border-top:1px solid var(--rule-soft);padding-top:1em;
+  font-size:13.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 22px}
+.meta b{color:var(--dim);font-weight:700}
+
+/* 強み：段組の帳簿。カードにしない */
+.stack{margin-top:2.2em;border-top:1px solid var(--rule)}
+.stack>div{padding:30px 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:4ch minmax(0,1fr);gap:clamp(14px,2.5vw,32px)}
+.stack .no{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:700;padding-top:.7em}
+
+/* 進め方：縦の工程線 */
+.flow{list-style:none;padding:0;margin:2.2em 0 0;border-left:1px solid var(--rule);
+  margin-left:6px;padding-left:clamp(22px,4vw,40px)}
+.flow>li{padding:22px 0;position:relative;border-bottom:1px solid var(--rule-soft)}
+.flow>li:last-child{border-bottom:0}
+.flow>li::before{content:attr(data-step);position:absolute;
+  left:calc(-1*clamp(22px,4vw,40px) - 1px);top:29px;width:12px;height:1px;background:var(--accent)}
+.flow .st{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:700}
+.flow h3{margin-top:.35em}
+.flow p{color:var(--dim);font-size:15.5px;margin-top:.4em;max-width:62ch}
+.flow .out{margin-top:.9em;font-size:13.5px;color:var(--faint)}
+.flow .out b{color:var(--dim);font-weight:700}
+
+/* 表（欄組み） */
+.tbl{width:100%;border-collapse:collapse;margin-top:2em;font-size:14.5px}
+.tbl caption{text-align:left;font-size:13.5px;color:var(--faint);padding-bottom:.9em;letter-spacing:.04em}
+.tbl th,.tbl td{border-bottom:1px solid var(--rule-soft);padding:14px 16px 14px 0;
+  text-align:left;vertical-align:top;color:var(--dim)}
+.tbl thead th{border-bottom:1px solid var(--rule);font-size:12.5px;letter-spacing:.14em;
+  color:var(--faint);white-space:nowrap}
+.tbl tbody th{font-weight:700;color:var(--ink);white-space:nowrap}
+.scroll-x{overflow-x:auto}
+
+/* 連絡先 */
+.contact{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(24px,5vw,64px);align-items:start}
+.contact dl{margin:0;border-top:1px solid var(--rule)}
+.contact dt{font-size:12.5px;letter-spacing:.18em;color:var(--faint);
+  padding-top:18px;font-weight:700}
+.contact dd{margin:0;padding:2px 0 18px;border-bottom:1px solid var(--rule-soft);color:var(--dim)}
+a{color:var(--ink)}
+.link{display:inline-flex;align-items:center;min-height:44px;padding:0 2px;
+  text-decoration:none;border-bottom:2px solid var(--accent);font-weight:700}
+.link:hover{color:var(--accent)}
+footer{border-top:1px solid var(--rule);padding:40px 0 64px;
+  font-size:13px;color:var(--faint);letter-spacing:.04em}
+nav.toc{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:6px 0;display:flex;flex-wrap:wrap;gap:0 clamp(16px,3vw,32px)}
+nav.toc a{display:inline-flex;align-items:center;justify-content:center;
+  min-height:44px;min-width:52px;padding:0 6px;font-size:13px;
+  letter-spacing:.14em;color:var(--dim);text-decoration:none;border-bottom:2px solid transparent}
+nav.toc a:hover{color:var(--accent)}
+
+@media(max-width:780px){
+  .row,.stack>div{grid-template-columns:minmax(0,1fr);gap:8px}
+  .row>.k,.stack .no{padding-top:0}
+  .contact{grid-template-columns:minmax(0,1fr)}
+  .stats div+div{padding-left:0;border-left:0}
+}
+</style></head>
+<body>
+<div class="sheet">
+
+<header class="hero">
+  <p class="label">AI ／ DATA PIPELINE ENGINEER</p>
+  <h1>散らばった情報を、<em>関係者が同じ絵で見られる形</em>にする。</h1>
+  <p class="body">研究データの構造化とLLM活用、製造業の業務委託における要件定義・設計を担当してきました。得意なのは、技術そのものより「決めきれずに止まっている状態」を動かすことです。手元の数値と工程を一枚の図に落とし、何が起きていて次に何を決めればよいのかを、非エンジニアの関係者にも同じ解像度で共有できる状態を作ります。</p>
+
+  <div class="hero-figure">
+  <figure>
+    <svg viewBox="0 0 1000 200" role="img" aria-label="散らばった非定型データが、正規化と抽出を経て、関係者が共通で参照できる一枚の判断材料になるまでの流れ図">
+      <g class="t-xs svg-dim">
+        <text x="0" y="16">現状</text>
+        <text x="352" y="16">介在</text>
+        <text x="700" y="16">結果</text>
+      </g>
+      <!-- 左：散らばった状態 -->
+      <g class="stroke" opacity=".85">
+        <rect x="2" y="42" width="46" height="30"/><rect x="62" y="86" width="62" height="24"/>
+        <rect x="14" y="122" width="38" height="38"/><rect x="86" y="36" width="34" height="34"/>
+        <rect x="130" y="124" width="56" height="26"/><rect x="152" y="60" width="30" height="30"/>
+        <rect x="196" y="92" width="44" height="30"/><rect x="44" y="166" width="52" height="20"/>
+        <rect x="204" y="40" width="26" height="26"/><rect x="116" y="164" width="40" height="22"/>
+      </g>
+      <text x="0" y="196" class="t-xs svg-dim">形式も粒度もばらばらな記述</text>
+      <!-- 矢印1 -->
+      <path class="stroke-accent" d="M258 112 H322"/>
+      <path class="svg-accent" d="M332 112 L318 105 V119 Z"/>
+      <!-- 中央：処理の柱 -->
+      <g class="stroke-soft"><rect x="352" y="34" width="270" height="152"/></g>
+      <g class="stroke-accent"><path d="M352 76 H622"/><path d="M352 118 H622"/><path d="M352 160 H622"/></g>
+      <g class="t-s svg-dim">
+        <text x="366" y="64">正規化：ゆらぎを吸収する</text>
+        <text x="366" y="106">抽出：LLMで意味を取り出す</text>
+        <text x="366" y="148">採点：出力の妥当性を測る</text>
+        <text x="366" y="180">合意：読める形にして確認する</text>
+      </g>
+      <!-- 矢印2 -->
+      <path class="stroke-accent" d="M636 112 H700"/>
+      <path class="svg-accent" d="M710 112 L696 105 V119 Z"/>
+      <!-- 右：一枚に揃った状態 -->
+      <g class="stroke"><rect x="730" y="34" width="240" height="152"/></g>
+      <g class="stroke-accent"><path d="M754 150 V110"/><path d="M790 150 V78"/><path d="M826 150 V126"/><path d="M862 150 V62"/><path d="M898 150 V98"/></g>
+      <path class="stroke" d="M742 160 H952"/>
+      <text x="742" y="182" class="t-xs svg-dim">同じ数字を、同じ図で見ている状態</text>
+    </svg>
+    <figcaption>担当領域の全体像。左端の「ばらばらな記述」を右端の「共通の判断材料」に変えるまでを、一貫して設計・実装します。</figcaption>
+  </figure>
+  </div>
+
+  <div class="stats">
+    <div><b class="num">120→80</b><span>人日／業務プロセス改善</span></div>
+    <div><b class="num">240</b><span>名／対象規模</span></div>
+    <div><b class="num">約3.5万</b><span>件／扱ったデータ</span></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="ページ内の目次">
+  <a href="#strength">強み</a>
+  <a href="#works">実績</a>
+  <a href="#process">進め方</a>
+  <a href="#contact">連絡先</a>
+</nav>
+
+<main>
+
+<section id="strength" aria-labelledby="h-strength">
+  <p class="label">01 ／ STRENGTH</p>
+  <h2 id="h-strength">可視化で認識を揃え、意思決定を前に進める</h2>
+  <p class="lede">プロジェクトが止まる原因は、多くの場合は技術的な難所ではなく「関係者が別々の絵を見ていること」でした。同じ会議に出ていても、現場は作業手順を、管理側は工数を、決裁者は費用対効果を思い浮かべている。この三つを一枚に重ねて見せた瞬間に、議論が「どうする？」から「これで進めよう」に変わります。以下は、その進め方を支えている三つの型です。</p>
+
+  <div class="stack">
+    <div>
+      <p class="no">A</p>
+      <div>
+        <h3>前提のずれを、議論の前に潰す</h3>
+        <p class="body">最初にやるのはヒアリングの整理ではなく、現状の工程を figure に落とすことです。工程・担当・件数・所要時間を一枚に並べると、たいてい二つか三つ、参加者の理解が食い違っている箇所が浮かびます。そこを先に確定させると、その後の要件定義で手戻りがほぼ起きません。図は合意の道具であって、成果物の飾りではないという立場で作っています。</p>
+        <p class="body">非エンジニアが読む前提で描くため、専門用語は図の中で言い換え、判断に不要な実装詳細は意図的に描きません。「正確だが読まれない資料」より「粗いが全員が同じ場所を指せる資料」を優先します。</p>
+      </div>
+    </div>
+    <div>
+      <p class="no">B</p>
+      <div>
+        <h3>非定型データを、集計できる構造に落とす</h3>
+        <p class="body">自由記述・帳票・手書きの転記など、そのままでは数えられない情報を扱ってきました。表記ゆれ、単位の不統一、同じ意味の別名、欠損。これらを吸収する正規化層を先に設計し、その上でLLMによる抽出を載せます。順序が逆だと、抽出精度の議論が入力の汚さの議論と混ざって、どちらも収束しません。</p>
+        <p class="body">扱った規模は約3.5万件。全件を人が確認できない量なので、確認する対象を選ぶ仕組み——信頼度の低い出力を優先的に人へ回す導線——を合わせて設計しています。</p>
+      </div>
+    </div>
+    <div>
+      <p class="no">C</p>
+      <div>
+        <h3>「良し」の基準を、作る前に合意する</h3>
+        <p class="body">LLMを使う工程で最も揉めるのは、出来上がったものが十分かどうかの判断です。そこで、着手前に評価軸とサンプル、目標値を決め、機械採点できる形にします。以降は主観の応酬ではなく数値の推移で会話でき、改善に投じる工数の判断も速くなります。</p>
+        <p class="body">評価を後付けにすると、改善のたびに「前より良くなったか」を毎回人が確かめることになり、そのコスト自体がプロジェクトを鈍らせます。</p>
+      </div>
+    </div>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 1000 250" role="img" aria-label="可視化の前は関係者三者が別々の対象を見ているが、可視化の後は同じ一枚を見て合意に至ることを示す比較図">
+      <text x="0" y="18" class="t-xs svg-dim">可視化のまえ</text>
+      <text x="540" y="18" class="t-xs svg-dim">可視化のあと</text>
+      <g class="stroke-soft"><path d="M500 6 V244"/></g>
+
+      <!-- before -->
+      <g class="t-s svg-dim">
+        <text x="0" y="62">現場</text><text x="0" y="132">管理</text><text x="0" y="202">決裁</text>
+      </g>
+      <g class="stroke dash">
+        <path d="M56 56 H190"/><path d="M56 126 H250"/><path d="M56 196 H150"/>
+      </g>
+      <g class="stroke">
+        <rect x="196" y="38" width="120" height="34"/>
+        <rect x="256" y="108" width="120" height="34"/>
+        <rect x="156" y="178" width="120" height="34"/>
+      </g>
+      <g class="t-xs svg-dim">
+        <text x="206" y="60">作業手順</text><text x="266" y="130">工数と人員</text><text x="166" y="200">費用と効果</text>
+      </g>
+      <text x="0" y="238" class="t-xs svg-dim">同じ会議で、別々の対象を指している</text>
+
+      <!-- after -->
+      <g class="t-s svg-dim">
+        <text x="540" y="62">現場</text><text x="540" y="132">管理</text><text x="540" y="202">決裁</text>
+      </g>
+      <g class="stroke-accent">
+        <path d="M596 56 H760"/><path d="M596 126 H760"/><path d="M596 196 H760"/>
+      </g>
+      <g class="stroke"><rect x="768" y="38" width="212" height="174"/></g>
+      <g class="stroke-accent">
+        <path d="M792 190 V150"/><path d="M828 190 V112"/><path d="M864 190 V132"/><path d="M900 190 V74"/><path d="M936 190 V158"/>
+      </g>
+      <path class="stroke" d="M780 198 H968"/>
+      <text x="782" y="70" class="t-s svg-dim">工程・件数・工数を一枚に</text>
+      <text x="540" y="238" class="t-xs svg-dim">同じ一枚を指して、次の一手を決める</text>
+    </svg>
+    <figcaption>役割ごとに関心の対象が違うことを前提に、三者の関心を同じ図の上に重ねます。合意が早いのは説得がうまいからではなく、指せる対象が一つになるからです。</figcaption>
+  </figure>
+</section>
+
+<section id="works" aria-labelledby="h-works">
+  <p class="label">02 ／ SELECTED WORK</p>
+  <h2 id="h-works">実績</h2>
+  <p class="lede">守秘のため、組織名・製品名は伏せています。数値は実測にもとづくもののみを記載しました。</p>
+
+  <div class="ledger">
+
+    <article class="row">
+      <p class="k">01 ／ 業務プロセス改善</p>
+      <div class="v">
+        <h3>工数の再設計：120人日を80人日へ</h3>
+        <p class="body">対象は240名分・約3.5万件のデータを扱う定常業務です。まず全工程の所要時間を計測し、「人が判断している工程」と「人が転記・照合しているだけの工程」を分離しました。後者を自動化し、前者には判断材料を先に揃える設計に変えた結果、通期の投入工数が120人日から80人日になりました。</p>
+        <p class="body">削減幅そのものより、削減の内訳を関係者と共有できたことが効きました。どの工程が何人日で、そこに何件が流れているかが見えると、次にどこへ手を入れるかを現場自身が判断できるようになります。改善は一度きりのプロジェクトではなく、続けられる状態にして引き渡すのが目的でした。</p>
+
+        <figure class="fig">
+          <svg viewBox="0 0 1000 236" role="img" aria-label="投入工数の内訳を示す横棒の比較図。改善前は合計120人日、改善後は合計80人日で、差は40人日">
+            <g class="t-s svg-dim"><text x="0" y="46">改善前</text><text x="0" y="136">改善後</text></g>
+            <!-- before bar -->
+            <g class="stroke"><rect x="92" y="24" width="780" height="34"/></g>
+            <g class="stroke-soft"><path d="M352 24 V58"/><path d="M612 24 V58"/></g>
+            <g class="t-xs svg-dim">
+              <text x="104" y="46">転記・照合</text><text x="364" y="46">確認・差し戻し</text><text x="624" y="46">判断</text>
+            </g>
+            <text x="888" y="46" class="t-m svg-ink num">120</text>
+            <text x="948" y="46" class="t-xs svg-dim">人日</text>
+
+            <!-- after bar -->
+            <g class="stroke"><rect x="92" y="114" width="520" height="34"/></g>
+            <g class="stroke-soft"><path d="M222 114 V148"/><path d="M352 114 V148"/></g>
+            <g class="t-xs svg-dim">
+              <text x="104" y="136">自動化</text><text x="234" y="136">確認</text><text x="364" y="136">判断</text>
+            </g>
+            <text x="888" y="136" class="t-m svg-accent num">80</text>
+            <text x="948" y="136" class="t-xs svg-dim">人日</text>
+
+            <!-- delta -->
+            <g class="stroke-accent"><path d="M612 158 V186 H872 V162"/></g>
+            <text x="620" y="212" class="t-s svg-accent num">−40 人日</text>
+            <text x="716" y="212" class="t-s svg-dim">（人が転記していた工程を機械へ）</text>
+            <path class="stroke-soft dash" d="M872 58 V158"/>
+          </svg>
+          <figcaption>削減の大半は、判断ではなく転記・照合の工程から出ています。人の判断が必要な工程は残し、そこへ材料を先に届ける設計に切り替えました。</figcaption>
+        </figure>
+
+        <div class="meta">
+          <span><b>対象規模</b>　240名／約3.5万件</span>
+          <span><b>担当</b>　現状計測・設計・実装・引き継ぎ</span>
+          <span><b>成果</b>　120人日 → 80人日</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="row">
+      <p class="k">02 ／ 研究データ基盤</p>
+      <div class="v">
+        <h3>非定型記述の構造化と、LLMを使った抽出</h3>
+        <p class="body">研究の現場で蓄積された記述は、書き手ごとに語彙も粒度も違い、そのままでは横断して数えられません。まず語彙の対応表と正規化のルールを設計し、機械的に揃う部分と、意味を読まないと揃わない部分を切り分けました。後者にLLMを充て、抽出結果には必ず根拠箇所と信頼度を添えています。</p>
+        <p class="body">運用で重要なのは、間違いが出ないことではなく、間違いに気づける状態を保つことでした。抽出結果を正解サンプルに対して定期的に採点し、精度が落ちたときに原因（入力の変化か、プロンプトか、正規化ルールか）を切り分けられる構成にしています。人が確認する件数は、信頼度の低い順に上限を決めて回しました。</p>
+
+        <figure class="fig">
+          <svg viewBox="0 0 1000 262" role="img" aria-label="収集・正規化・抽出・採点・公開の五工程からなるデータパイプラインと、採点結果が抽出工程へ戻る改善ループを示す図">
+            <g class="stroke"><rect x="0" y="52" width="168" height="66"/><rect x="208" y="52" width="168" height="66"/><rect x="416" y="52" width="168" height="66"/><rect x="624" y="52" width="168" height="66"/><rect x="832" y="52" width="168" height="66"/></g>
+            <g class="t-m svg-ink">
+              <text x="16" y="84">収集</text><text x="224" y="84">正規化</text><text x="432" y="84">抽出</text><text x="640" y="84">採点</text><text x="848" y="84">公開</text>
+            </g>
+            <g class="t-xs svg-dim">
+              <text x="16" y="106">記述・帳票</text><text x="224" y="106">ゆらぎ吸収</text><text x="432" y="106">LLM＋根拠</text><text x="640" y="106">正解と照合</text><text x="848" y="106">集計・検索</text>
+            </g>
+            <g class="stroke-accent">
+              <path d="M168 85 H198"/><path d="M376 85 H406"/><path d="M584 85 H614"/><path d="M792 85 H822"/>
+            </g>
+            <g class="svg-accent">
+              <path d="M206 85 L192 78 V92 Z"/><path d="M414 85 L400 78 V92 Z"/><path d="M622 85 L608 78 V92 Z"/><path d="M830 85 L816 78 V92 Z"/>
+            </g>
+            <!-- feedback loop -->
+            <path class="stroke-accent dash" d="M708 118 V172 H500 V126"/>
+            <path class="svg-accent" d="M500 118 L493 132 H507 Z"/>
+            <text x="516" y="166" class="t-s svg-dim">採点結果を抽出設計に戻す（週次）</text>
+            <!-- human in the loop -->
+            <path class="stroke-soft" d="M708 118 V212 H900 V126"/>
+            <text x="716" y="236" class="t-s svg-dim">信頼度の低い出力だけを人の確認に回す</text>
+            <text x="0" y="30" class="t-xs svg-dim">扱った件数：約3.5万件／対象240名</text>
+          </svg>
+          <figcaption>抽出の前に正規化を置き、後ろに採点を置く。この順序を崩さないことが、精度の議論を入力の議論から切り離す唯一の方法でした。</figcaption>
+        </figure>
+
+        <div class="meta">
+          <span><b>領域</b>　研究データ基盤</span>
+          <span><b>担当</b>　データ構造化・LLM活用・評価設計</span>
+          <span><b>規模</b>　約3.5万件</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="row">
+      <p class="k">03 ／ 製造業・業務委託</p>
+      <div class="v">
+        <h3>要件定義と設計：現場の言葉を、決められる資料にする</h3>
+        <p class="body">製造業の業務委託として、要件定義から設計までを担当しました。現場でのヒアリングは、そのまま書き起こすと要望の羅列になります。そこで、聞いた内容を「今そうしている理由」まで戻して整理し、変えられる制約と変えられない制約に分けました。決裁者が判断するのは後者の扱いだけで済むようにするためです。</p>
+        <p class="body">設計資料は、エンジニアが実装できる粒度と、非エンジニアが是非を判断できる粒度の二層で作りました。同じ内容を二回書くのではなく、判断に必要な要素だけを上層に抜き出し、詳細は下層へ落とす構成です。これにより、レビューの場で議題が実装詳細に流れて時間が溶ける、という状況を避けられました。</p>
+
+          <figure class="fig">
+            <svg viewBox="0 0 1000 218" role="img" aria-label="現場ヒアリングから要望を制約に分解し、変えられる制約と変えられない制約に振り分けて、決裁者が判断する範囲を絞り込む流れ図">
+              <g class="stroke"><rect x="0" y="72" width="176" height="62"/></g>
+              <text x="16" y="100" class="t-m svg-ink">ヒアリング</text>
+              <text x="16" y="122" class="t-xs svg-dim">要望と手順の羅列</text>
+              <path class="stroke-accent" d="M176 103 H228"/><path class="svg-accent" d="M238 103 L224 96 V110 Z"/>
+              <g class="stroke"><rect x="248" y="72" width="192" height="62"/></g>
+              <text x="264" y="100" class="t-m svg-ink">理由に戻す</text>
+              <text x="264" y="122" class="t-xs svg-dim">なぜ今そうしているか</text>
+              <g class="stroke-accent"><path d="M440 103 H492 V38 H542"/><path d="M440 103 H492 V168 H542"/></g>
+              <path class="svg-accent" d="M552 38 L538 31 V45 Z"/><path class="svg-accent" d="M552 168 L538 161 V175 Z"/>
+              <g class="stroke"><rect x="562" y="10" width="230" height="56"/><rect x="562" y="140" width="230" height="56"/></g>
+              <text x="578" y="34" class="t-s svg-ink">変えられる制約</text>
+              <text x="578" y="54" class="t-xs svg-dim">設計で吸収する</text>
+              <text x="578" y="164" class="t-s svg-ink">変えられない制約</text>
+              <text x="578" y="184" class="t-xs svg-dim">決裁の対象にする</text>
+              <path class="stroke-accent" d="M792 168 H852"/><path class="svg-accent" d="M862 168 L848 161 V175 Z"/>
+              <path class="stroke-soft dash" d="M792 38 H852"/>
+              <g class="stroke"><rect x="872" y="140" width="128" height="56"/></g>
+              <text x="888" y="174" class="t-m svg-accent">合意</text>
+              <text x="872" y="118" class="t-xs svg-dim">判断すべき件数を絞る</text>
+            </svg>
+            <figcaption>要望をそのまま持ち込まず、理由まで戻してから振り分けます。決裁の場に上げる論点が減るほど、意思決定は速くなります。</figcaption>
+          </figure>
+
+        <div class="meta">
+          <span><b>領域</b>　製造業／業務委託</span>
+          <span><b>担当</b>　要件定義・設計・資料作成</span>
+          <span><b>読み手</b>　現場担当・管理者・決裁者</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="scroll-x">
+  <table class="tbl">
+    <caption>三件の共通点と、それぞれで変えたこと</caption>
+    <thead><tr><th scope="col">案件</th><th scope="col">最初に作ったもの</th><th scope="col">合意の取り方</th><th scope="col">残した形</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">業務プロセス改善</th><td>全工程の所要時間の実測表</td><td>工程別の内訳を一枚で共有</td><td>現場が自分で次を選べる指標</td></tr>
+      <tr><th scope="row">研究データ基盤</th><td>語彙の対応表と正規化ルール</td><td>採点結果の推移で判断</td><td>精度低下の原因を切り分ける手順</td></tr>
+      <tr><th scope="row">製造業・業務委託</th><td>制約の分解図</td><td>決裁対象を絞って提示</td><td>二層構成の設計資料</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="process" aria-labelledby="h-process">
+  <p class="label">03 ／ HOW I WORK</p>
+  <h2 id="h-process">進め方</h2>
+  <p class="lede">どの案件でも順序は変えていません。作るものを決める前に、現状を一枚にして、良しの基準を先に置きます。以下は着手からの標準的な流れで、規模により期間は前後しますが、工程を飛ばすことはしません。</p>
+
+  <ol class="flow">
+    <li data-step="01">
+      <p class="st">STEP 01</p>
+      <h3>現状を一枚にする</h3>
+      <p>工程・担当・件数・所要時間を実測し、図に落とします。ここで前提のずれが必ず出るので、要件を書く前に潰します。</p>
+      <p class="out"><b>出すもの</b>　現状工程図／実測値の一覧</p>
+    </li>
+    <li data-step="02">
+      <p class="st">STEP 02</p>
+      <h3>良しの基準を決める</h3>
+      <p>何をもって完了とするかを、機械で測れる形にして合意します。サンプルと目標値をこの時点で確定させます。</p>
+      <p class="out"><b>出すもの</b>　評価軸／正解サンプル／目標値</p>
+    </li>
+    <li data-step="03">
+      <p class="st">STEP 03</p>
+      <h3>小さく作って見せる</h3>
+      <p>議論を長く続けるより、動くものを早く出します。実物があると、要望は具体的な指摘に変わります。</p>
+      <p class="out"><b>出すもの</b>　最小構成の試作／既知の限界の一覧</p>
+    </li>
+    <li data-step="04">
+      <p class="st">STEP 04</p>
+      <h3>測りながら広げる</h3>
+      <p>採点結果を見ながら対象を広げます。精度が落ちたときに原因を切り分けられる状態を保ったまま進めます。</p>
+      <p class="out"><b>出すもの</b>　精度の推移／確認に回す件数の運用ルール</p>
+    </li>
+    <li data-step="05">
+      <p class="st">STEP 05</p>
+      <h3>運用に渡す</h3>
+      <p>引き継げる形まで含めて設計します。担当が替わっても、次に手を入れる場所が資料から分かる状態にします。</p>
+      <p class="out"><b>出すもの</b>　運用手順／次の改善候補と見積り</p>
+    </li>
+  </ol>
+
+  <figure class="fig">
+    <svg viewBox="0 0 1000 210" role="img" aria-label="五つの工程の時間配分を示す帯図。前半の現状把握と基準決めに全体の四割を割き、後半で作って広げることを示す">
+      <text x="0" y="20" class="t-xs svg-dim">着手</text>
+      <text x="470" y="20" class="t-xs svg-dim">中盤</text>
+      <text x="944" y="20" class="t-xs svg-dim">引き渡し</text>
+      <g class="stroke"><rect x="0" y="34" width="1000" height="42"/></g>
+      <g class="stroke-soft"><path d="M220 34 V76"/><path d="M400 34 V76"/><path d="M640 34 V76"/><path d="M840 34 V76"/></g>
+      <g class="t-xs svg-dim">
+        <text x="12" y="60">01 現状</text><text x="232" y="60">02 基準</text><text x="412" y="60">03 試作</text><text x="652" y="60">04 拡大</text><text x="852" y="60">05 運用</text>
+      </g>
+      <path class="stroke-accent" d="M0 92 H400"/>
+      <text x="0" y="118" class="t-s svg-accent">全体の約4割を、作る前の合意に充てる</text>
+      <path class="stroke-soft" d="M400 92 H1000"/>
+      <text x="404" y="118" class="t-s svg-dim">残りで作り、測り、渡す</text>
+
+      <g class="stroke-soft"><path d="M0 148 H1000"/></g>
+      <text x="0" y="176" class="t-s svg-dim">手戻りが起きるのは、ほぼ 01 と 02 を飛ばしたときです。急ぐ案件ほど、ここを削らない判断が効きます。</text>
+      <text x="0" y="200" class="t-xs svg-dim">※ 期間は案件規模により変動。工程の順序は変えない。</text>
+    </svg>
+    <figcaption>工数配分の考え方。前半で合意に時間を使うほど、後半の作り直しが減ります。</figcaption>
+  </figure>
+</section>
+
+<section id="contact" aria-labelledby="h-contact">
+  <p class="label">04 ／ CONTACT</p>
+  <h2 id="h-contact">連絡先</h2>
+  <div class="contact">
+    <div>
+      <p class="body">案件のご相談、業務委託でのご依頼、採用のお問い合わせを受け付けています。現状の課題が固まっていない段階でも構いません。最初の面談では、いま分かっている数値と工程をその場で一枚に整理するところから始めます。それだけで、次に決めるべきことが見えることがあります。</p>
+      <p class="body">下記のいずれかへご連絡ください。二営業日以内に返信します。</p>
+      <p style="margin-top:1.6em"><a class="link" href="mailto:contact@example.com">contact@example.com</a></p>
+    </div>
+    <dl>
+      <dt>対応領域</dt>
+      <dd>データ構造化／LLM活用／要件定義・設計</dd>
+      <dt>関わり方</dt>
+      <dd>要件定義のみ、設計のみ、実装まで一貫のいずれも可</dd>
+      <dt>進め方</dt>
+      <dd>初回に現状整理の一枚を作成（無償）</dd>
+      <dt>返信</dt>
+      <dd>二営業日以内</dd>
+    </dl>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>本ページは架空のサンプルです。組織名・製品名・個人名は記載していません。掲載した数値は実測にもとづく範囲のみを記載しています。</p>
+</footer>
+
+</div>
+</body></html>
