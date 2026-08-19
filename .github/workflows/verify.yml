@@ -32,7 +32,8 @@ jobs:
           python3 references/measure.py \
             index.html \
             references/samples/B2-a-tea.html \
-            references/samples/B2-c-portfolio.html
+            references/samples/B2-c-portfolio.html \
+            references/samples/B3-a-tea.html
 
       - name: 成果物の実レンダリング検査（コントラスト明/暗・横溢れ・タップ領域）
         env:
@@ -42,6 +43,7 @@ jobs:
             index.html \
             references/samples/B2-a-tea.html \
             references/samples/B2-c-portfolio.html
+          python3 references/contrast.py references/samples/B3-a-tea.html
 
       - name: 対照サンプルの現状を記録（違反があるのが正常。失敗させない）
         if: always()

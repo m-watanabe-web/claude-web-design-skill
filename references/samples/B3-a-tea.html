@@ -1,0 +1,213 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>常葉園 — 畑ごとに、違う茶になる</title>
+<style>
+:root{--paper:#f7f5ef;--ink:#23241f;--moss:#41522f;
+--rule:color-mix(in srgb,var(--ink) 22%,transparent);
+--dim:color-mix(in srgb,var(--ink) 76%,transparent);
+--wash:color-mix(in srgb,var(--moss) 12%,transparent)}
+@media(prefers-color-scheme:dark){:root{--paper:#191a17;--ink:#eceade;--moss:#a9bd8a;
+--rule:color-mix(in srgb,var(--ink) 22%,transparent);
+--dim:color-mix(in srgb,var(--ink) 80%,transparent);
+--wash:color-mix(in srgb,var(--moss) 14%,transparent)}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:16px;line-height:1.95;
+-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;z-index:0;
+background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.045'/></svg>")}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 28px}
+h1,h2,h3,.num,blockquote{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:400}
+:focus-visible{outline:3px solid var(--moss);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+svg{display:block;max-width:100%;height:auto}
+/* hero */
+.hero{padding:80px 0 56px}
+.hero h1{font-size:clamp(40px,6.6vw,80px);line-height:1.26;letter-spacing:.05em}
+.hero h1 small{display:block;font-size:.22em;letter-spacing:.4em;color:var(--dim);
+margin-bottom:1.5em;font-family:"Hiragino Sans",sans-serif}
+.hero-body{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:end;margin-top:44px}
+.hero-body p{color:var(--dim)}
+.hero-body p+p{margin-top:1.3em}
+figure{margin:0}
+figcaption{font-size:13px;color:var(--dim);margin-top:.8em;letter-spacing:.04em}
+section{padding:80px 0;border-top:1px solid var(--rule)}
+h2.lead{font-size:14px;letter-spacing:.34em;color:var(--moss);margin-bottom:2.2em;
+font-family:"Hiragino Sans",sans-serif;font-weight:600}
+.intro{max-width:64ch;color:var(--dim);margin-bottom:2.6em}
+/* 三つの茶：帳簿組み＋図版 */
+.teas{border-top:1px solid var(--rule)}
+.tea{display:grid;grid-template-columns:6rem 1fr 8rem;gap:34px;padding:34px 0;
+border-bottom:1px solid var(--rule);align-items:start}
+.tea .num{font-size:32px;color:var(--moss);line-height:1.2}
+.tea h3{font-size:24px;letter-spacing:.08em;margin-bottom:.5em}
+.tea .note{color:var(--dim);font-size:15px}
+.tea .note+.note{margin-top:.9em}
+.tea dl{display:grid;grid-template-columns:5.5rem 1fr;gap:2px 16px;margin-top:1.1em;font-size:14px}
+.tea dt{color:var(--dim)}
+.tea dd{margin:0}
+.tea .leaf{width:100%}
+/* 生産者 */
+.maker{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:start}
+blockquote{font-size:23px;line-height:2.05;border-left:2px solid var(--moss);
+padding-left:26px;margin-bottom:1.6em}
+.maker p+p{margin-top:1.3em}
+.maker .body{color:var(--dim)}
+/* 淹れ方 */
+.brew{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.steps{border-top:1px solid var(--rule)}
+.step{display:grid;grid-template-columns:3.4rem 1fr;gap:20px;padding:20px 0;
+border-bottom:1px solid var(--rule)}
+.step b{font-family:"Hiragino Mincho ProN",serif;font-size:17px;font-weight:400;
+letter-spacing:.16em;color:var(--moss)}
+.step p{font-size:15px;color:var(--dim)}
+/* 購入 */
+.buy{display:flex;justify-content:space-between;align-items:flex-end;gap:44px;flex-wrap:wrap}
+.buy h3{font-size:34px;letter-spacing:.06em}
+a.cta{display:inline-flex;align-items:center;min-height:52px;color:var(--paper);
+background:var(--ink);padding:0 46px;text-decoration:none;letter-spacing:.24em;font-size:15px}
+a.cta:hover{background:var(--moss)}
+@media(prefers-color-scheme:dark){a.cta{color:var(--paper)}}
+footer{padding:52px 0;border-top:1px solid var(--rule);font-size:14px;color:var(--dim);
+display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:840px){.hero-body,.maker,.brew{grid-template-columns:1fr;gap:34px}
+.tea{grid-template-columns:3rem 1fr;gap:18px}.tea .leaf{display:none}}
+</style></head><body><div class="wrap">
+
+<header class="hero">
+<h1><small>静岡 本山 — 常葉園</small>畑ごとに、<br>違う茶になる。</h1>
+<div class="hero-body">
+<figure>
+<svg viewBox="0 0 720 300" role="img" aria-label="三つの畑がある斜面の断面図。標高と向きの違いを重なる稜線で表している">
+<rect width="720" height="300" fill="var(--wash)"/>
+<path d="M0 232 L128 196 L246 220 L372 178 L498 210 L618 172 L720 198 L720 300 L0 300Z" fill="var(--moss)" opacity=".22"/>
+<path d="M0 260 L140 228 L268 252 L396 214 L520 244 L640 208 L720 232 L720 300 L0 300Z" fill="var(--moss)" opacity=".38"/>
+<path d="M0 286 L150 262 L286 282 L420 250 L548 276 L664 246 L720 264 L720 300 L0 300Z" fill="var(--moss)" opacity=".62"/>
+<g fill="none" stroke="var(--ink)" stroke-width="1" opacity=".5">
+<path d="M104 196 L104 128"/><path d="M362 178 L362 108"/><path d="M610 172 L610 122"/></g>
+<g fill="var(--ink)" font-size="13" font-family="sans-serif" opacity=".78">
+<text x="94" y="118">橋詰</text><text x="352" y="98">奥沢</text><text x="600" y="112">日向</text></g>
+<g fill="var(--ink)" font-size="11" font-family="sans-serif" opacity=".6">
+<text x="94" y="136">南向き・230m</text><text x="352" y="116">東向き・310m</text><text x="590" y="130">南西・180m</text></g>
+</svg>
+<figcaption>三つの畑。標高と斜面の向きが、そのまま味の差になります。</figcaption>
+</figure>
+<div>
+<p>同じ品種、同じ作り手でも、斜面の向きと摘む週で味は変わります。常葉園では、その差を均さずにそのまま出しています。</p>
+<p>合組（ごうぐみ）で味を揃えるのが日本茶の一般的な作り方ですが、私たちは畑ごとに分けて仕上げます。年による出来の差も、隠しません。</p>
+</div>
+</div>
+</header>
+
+<main>
+<section aria-labelledby="s1">
+<h2 class="lead" id="s1">三つの茶</h2>
+<p class="intro">それぞれ別の畑、別の摘採時期のシングルオリジンです。同じ淹れ方をしても、香りの出方と余韻の長さがはっきり違います。まずは飲み比べからをおすすめしています。</p>
+<div class="teas">
+
+<article class="tea"><span class="num">01</span>
+<div><h3>春摘み</h3>
+<p class="note">四月第三週、南向きの橋詰の畑から。若い樹の一番茶だけを摘みます。渋みが立つ前の、澄んだ甘さが持ち味です。</p>
+<p class="note">湯を低めにすると、青草ではなく蜜のような香りが出ます。冷ましすぎると今度は輪郭がぼやけるので、七十度前後が境目です。</p>
+<dl><dt>畑</dt><dd>橋詰・南向き 230m</dd>
+<dt>品種</dt><dd>やぶきた</dd><dt>摘採</dt><dd>四月第三週</dd>
+<dt>味の軸</dt><dd>甘 — 澄</dd></dl></div>
+<svg class="leaf" viewBox="0 0 120 200" role="img" aria-label="春摘みの茶葉の形。細く反りの浅い若葉">
+<path d="M60 16 C86 56, 92 128, 60 186 C28 128, 34 56, 60 16Z" fill="var(--moss)" opacity=".5"/>
+<path d="M60 24 L60 178" stroke="var(--paper)" stroke-width="2" fill="none" opacity=".8"/>
+<g stroke="var(--paper)" stroke-width="1.2" fill="none" opacity=".6">
+<path d="M60 60 L82 78"/><path d="M60 60 L38 78"/><path d="M60 100 L86 120"/><path d="M60 100 L34 120"/></g>
+</svg></article>
+
+<article class="tea"><span class="num">02</span>
+<div><h3>在来種</h3>
+<p class="note">実生のまま六十年経った奥沢の畑。株ごとに葉の形も味も違うのを、あえて混ぜて仕上げています。</p>
+<p class="note">一煎目は野性的で、二煎目に丸くなります。山栗や、焚き火のあとの空気を思い出す方が多い茶です。均一さを求める方には向きません。</p>
+<dl><dt>畑</dt><dd>奥沢・東向き 310m</dd>
+<dt>品種</dt><dd>在来（実生）</dd><dt>摘採</dt><dd>五月第一週</dd>
+<dt>味の軸</dt><dd>複雑 — 野</dd></dl></div>
+<svg class="leaf" viewBox="0 0 120 200" role="img" aria-label="在来種の茶葉の形。幅広く縁の起伏が大きい">
+<path d="M60 14 C96 54, 96 132, 60 188 C24 132, 24 54, 60 14Z" fill="var(--moss)" opacity=".62"/>
+<path d="M60 22 L60 180" stroke="var(--paper)" stroke-width="2" fill="none" opacity=".8"/>
+<g stroke="var(--paper)" stroke-width="1.2" fill="none" opacity=".6">
+<path d="M60 54 L90 70"/><path d="M60 54 L30 70"/><path d="M60 96 L92 116"/><path d="M60 96 L28 116"/>
+<path d="M60 134 L84 150"/><path d="M60 134 L36 150"/></g>
+</svg></article>
+
+<article class="tea"><span class="num">03</span>
+<div><h3>浅蒸し</h3>
+<p class="note">日向の段の茶葉を、通常の半分の時間で蒸します。葉の形が崩れずに残り、水色は淡く仕上がります。</p>
+<p class="note">香りが前に出るぶん、旨みは控えめです。料理との相性で選ぶなら、この茶がいちばん幅があります。白身魚にも、焼き菓子にも合います。</p>
+<dl><dt>畑</dt><dd>日向・南西 180m</dd>
+<dt>品種</dt><dd>やぶきた</dd><dt>摘採</dt><dd>四月最終週</dd>
+<dt>味の軸</dt><dd>香 — 軽</dd></dl></div>
+<svg class="leaf" viewBox="0 0 120 200" role="img" aria-label="浅蒸しの茶葉の形。細長く先の尖った葉">
+<path d="M60 12 C80 58, 84 134, 60 190 C36 134, 40 58, 60 12Z" fill="var(--moss)" opacity=".4"/>
+<path d="M60 20 L60 182" stroke="var(--paper)" stroke-width="2" fill="none" opacity=".8"/>
+<g stroke="var(--paper)" stroke-width="1.2" fill="none" opacity=".6">
+<path d="M60 66 L78 82"/><path d="M60 66 L42 82"/><path d="M60 110 L80 128"/><path d="M60 110 L40 128"/></g>
+</svg></article>
+</div>
+</section>
+
+<section class="maker" aria-labelledby="s2">
+<div><h2 class="lead" id="s2">作り手</h2>
+<figure>
+<svg viewBox="0 0 320 340" role="img" aria-label="茶園に立つ作り手の後ろ姿を、輪郭だけで描いた図">
+<rect width="320" height="340" fill="var(--wash)"/>
+<path d="M0 246 L74 226 L152 242 L232 218 L320 236 L320 340 L0 340Z" fill="var(--moss)" opacity=".3"/>
+<path d="M0 282 L88 264 L170 280 L248 258 L320 272 L320 340 L0 340Z" fill="var(--moss)" opacity=".5"/>
+<circle cx="160" cy="128" r="30" fill="var(--ink)" opacity=".72"/>
+<path d="M112 300 C112 216, 208 216, 208 300Z" fill="var(--ink)" opacity=".72"/>
+<path d="M126 104 C138 84, 182 84, 194 104 L196 112 L124 112Z" fill="var(--ink)" opacity=".72"/>
+</svg>
+<figcaption>三代目。家族三人で三つの畑を分けて仕上げています。</figcaption>
+</figure>
+</div>
+<div>
+<blockquote>畑を三つに分けたのは、<br>味を揃えないためです。</blockquote>
+<p class="body">祖父の代までは、三つの畑を混ぜて一つの「常葉園の煎茶」として出していました。その方が毎年同じ味になり、卸先にも喜ばれたからです。</p>
+<p class="body">分けはじめたのは十年前です。奥沢の在来種だけを試しに単独で仕上げてみたところ、良くも悪くも均一ではない茶になりました。飲んだ人の反応が、はっきり割れたのを覚えています。</p>
+<p class="body">コーヒーで産地や精製方法を選ぶように、茶も選べるはずだと考えています。年によって出来が変わることも、欠点ではなく情報として渡したい。そう思って、いまの形にしています。</p>
+</div>
+</section>
+
+<section class="brew" aria-labelledby="s3">
+<div><h2 class="lead" id="s3">淹れ方</h2>
+<p class="intro">同じ茶葉でも、湯の温度で別物になります。低いほど甘みが出て、高いほど香りと渋みが立ちます。目安として下の範囲を使ってください。</p>
+<figure>
+<svg viewBox="0 0 460 240" role="img" aria-label="湯温と味の関係を示す図。六十度から八十五度の範囲で、低温側は甘み、高温側は香りと渋みが強くなる">
+<line x1="40" y1="196" x2="440" y2="196" stroke="var(--ink)" stroke-width="1" opacity=".5"/>
+<g fill="var(--ink)" font-size="12" font-family="sans-serif" opacity=".72">
+<text x="32" y="218">60℃</text><text x="196" y="218">70℃</text><text x="396" y="218">85℃</text></g>
+<path d="M40 176 C150 128, 250 96, 440 60" fill="none" stroke="var(--moss)" stroke-width="2.5"/>
+<path d="M40 66 C150 104, 250 140, 440 178" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".55" stroke-dasharray="5 4"/>
+<g font-size="13" font-family="sans-serif">
+<text x="352" y="48" fill="var(--moss)">香り・渋み</text>
+<text x="44" y="56" fill="var(--ink)" opacity=".72">甘み</text></g>
+<rect x="180" y="52" width="56" height="144" fill="var(--moss)" opacity=".16"/>
+<text x="168" y="42" font-size="12" font-family="sans-serif" fill="var(--ink)" opacity=".72">推奨帯</text>
+</svg>
+<figcaption>破線が甘み、実線が香りと渋み。七十度前後が交点です。</figcaption>
+</figure>
+</div>
+<div class="steps">
+<div class="step"><b>一</b><p>茶葉 3g。ひとり分の目安です。急須は小さいほど扱いやすくなります。</p></div>
+<div class="step"><b>二</b><p>湯 70℃、60ml。沸かしてから湯冷ましに一度移すと、ちょうどこのくらいになります。</p></div>
+<div class="step"><b>三</b><p>90秒待ちます。この間、急須を動かさないこと。揺らすと渋みが出ます。</p></div>
+<div class="step"><b>四</b><p>最後の一滴まで注ぎ切ります。残すと二煎目が濁ります。</p></div>
+<div class="step"><b>五</b><p>二煎目は湯を少し高く、時間は半分に。同じ茶葉が別の顔を見せます。</p></div>
+</div>
+</section>
+
+<section class="buy" aria-labelledby="s4">
+<div><h2 class="lead" id="s4">購入</h2>
+<h3>三種を飲み比べる</h3>
+<p style="color:var(--dim);margin-top:.7em">各 30g・送料込 3,200円。淹れ方の手引きを同梱します。<br>
+はじめての方はこちらから。単品は各 1,200円です。</p></div>
+<a class="cta" href="mailto:order@example.com">はじめる</a>
+</section>
+</main>
+
+<footer><span>常葉園</span><span>静岡県島田市</span><span>架空のサンプルです</span></footer>
+</div></body></html>

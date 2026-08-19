@@ -39,6 +39,11 @@ border-top:1px solid var(--rule)}
 .col{border-right:1px solid var(--rule);padding:24px 20px}
 .col:last-child{border-right:0}
 .col.win{background:color-mix(in srgb,var(--mark) 8%,transparent)}
+.cols.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cols.four .shot{height:230px}
+.cols.four .shot iframe{transform:scale(.222)}
+@media(max-width:1000px){.cols.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols.four .col:nth-child(-n+2){border-bottom:1px solid var(--rule)}}
 .tag{font-size:12px;letter-spacing:.2em;color:var(--mark);font-weight:700}
 .col p{font-size:14px;color:var(--dim);margin-top:.5em;min-height:4.6em}
 .shot{position:relative;overflow:hidden;border:1px solid var(--rule);
@@ -51,7 +56,7 @@ text-decoration:none;padding:0 2px}
 .col a:hover{color:var(--mark)}
 footer{padding:56px 0;border-top:1px solid var(--rule);color:var(--dim);font-size:14px}
 footer a{color:var(--ink)}
-@media(max-width:860px){.cols{grid-template-columns:minmax(0,1fr)}
+@media(max-width:860px){.cols,.cols.four{grid-template-columns:minmax(0,1fr)}
 .col{border-right:0;border-bottom:1px solid var(--rule)}.col p{min-height:0}}
 </style></head><body>
 <div class="wrap">
@@ -67,7 +72,7 @@ footer a{color:var(--ink)}
 <main>
 <section aria-labelledby="s1">
 <h2 id="s1">題材1 — 日本茶ブランドLP</h2>
-<div class="cols">
+<div class="cols four">
 <div class="col"><span class="tag">A — 対照群</span><h3>指示なし</h3>
 <p>ブリーフのみを白紙のエージェントに渡した出力。</p>
 <div class="shot"><iframe src="references/samples/A-a-tea.html" title="対照群：日本茶ブランドLP" loading="lazy"></iframe></div>
@@ -78,25 +83,32 @@ footer a{color:var(--ink)}
 <div class="shot"><iframe src="references/samples/B-a-tea.html" title="見た目リストのみ：日本茶ブランドLP" loading="lazy"></iframe></div>
 <a href="references/samples/B-a-tea.html">全体を開く</a></div>
 
-<div class="col win"><span class="tag">B2 — UX＋見た目</span><h3>両方適用</h3>
-<p>UX全項目クリア。コントラスト違反0件（最悪 6.76:1）。</p>
+<div class="col"><span class="tag">B2 — UX＋見た目</span><h3>両方適用</h3>
+<p>UX全項目クリア。ただし本文もイラストも最小限になった。</p>
 <div class="shot"><iframe src="references/samples/B2-a-tea.html" title="UXと見た目の両方を適用：日本茶ブランドLP" loading="lazy"></iframe></div>
 <a href="references/samples/B2-a-tea.html">全体を開く</a></div>
+
+<div class="col win"><span class="tag">B3 — ＋作り込みを明示</span><h3>両方＋作り込み</h3>
+<p>制約を守ったまま図版7点・本文3倍。全項目クリアのまま。</p>
+<div class="shot"><iframe src="references/samples/B3-a-tea.html" title="UX・見た目の制約に加えて作り込みを明示：日本茶ブランドLP" loading="lazy"></iframe></div>
+<a href="references/samples/B3-a-tea.html">全体を開く</a></div>
 </div>
 
 <div class="scroll" style="margin-top:36px">
 <table><caption>題材1の測定値</caption>
-<thead><tr><th>指標</th><th>A 対照群</th><th>B 見た目のみ</th><th>B2 両方</th></tr></thead>
+<thead><tr><th>指標</th><th>A 対照群</th><th>B 見た目のみ</th><th>B2 両方</th><th>B3 ＋作り込み</th></tr></thead>
 <tbody>
-<tr><th>コントラスト違反</th><td class="bad">64</td><td class="bad">15</td><td>0</td></tr>
-<tr><th>角丸</th><td class="bad">6</td><td>0</td><td>0</td></tr>
-<tr><th>均一カード羅列</th><td class="bad">3</td><td>0</td><td>0</td></tr>
-<tr><th>色相数</th><td>5</td><td>3</td><td>3</td></tr>
-<tr><th>紫系の色</th><td>0</td><td>0</td><td>0</td></tr>
-<tr><th>絵文字</th><td>0</td><td>0</td><td>0</td></tr>
-<tr><th>:focus</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td></tr>
-<tr><th>&lt;main&gt;</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td></tr>
-<tr><th>ファイルサイズ</th><td>44KB</td><td>6KB</td><td>6KB</td></tr>
+<tr><th>コントラスト違反</th><td class="bad">64</td><td class="bad">15</td><td>0</td><td>0</td></tr>
+<tr><th>角丸</th><td class="bad">6</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>均一カード羅列</th><td class="bad">3</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>色相数</th><td>5</td><td>3</td><td>3</td><td>3</td></tr>
+<tr><th>紫系の色</th><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>絵文字</th><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>:focus</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td><td>あり</td></tr>
+<tr><th>&lt;main&gt;</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td><td>あり</td></tr>
+<tr><th>図版（SVG）</th><td>9点</td><td class="bad">1点</td><td class="bad">1点</td><td>7点</td></tr>
+<tr><th>本文の量</th><td>3,662字</td><td class="bad">432字</td><td class="bad">432字</td><td>1,335字</td></tr>
+<tr><th>ファイルサイズ</th><td>44KB</td><td>5KB</td><td>6KB</td><td>14KB</td></tr>
 </tbody></table></div>
 </section>
 
@@ -139,14 +151,15 @@ footer a{color:var(--ink)}
 <section aria-labelledby="v" style="border-top:2px solid var(--mark)">
 <h2 id="v">結論</h2>
 <div style="max-width:70ch">
-<h3 style="font-size:23px">測定できる範囲では B2（UX＋見た目）が最良。ただし条件付き。</h3>
+<h3 style="font-size:23px">測定できる範囲では B3（UX＋見た目＋作り込みの明示）が最良。</h3>
 
 <table style="margin-top:1.8em"><caption>3条件の総合判定</caption>
 <thead><tr><th>条件</th><th>UX</th><th>見た目</th><th>作り込み</th><th>判定</th></tr></thead>
 <tbody>
 <tr><th>A 対照群</th><td>題材により全クリア〜4項目違反</td><td class="bad">弱い</td><td>本文8.5倍・SVG9点</td><td>題材次第</td></tr>
 <tr><th>B 見た目のみ</th><td class="bad">両題材で4項目違反</td><td>良い</td><td class="bad">最小</td><td class="bad">非推奨</td></tr>
-<tr><th>B2 両方</th><td>両題材で全クリア</td><td>良い</td><td class="bad">最小</td><td>推奨</td></tr>
+<tr><th>B2 両方</th><td>両題材で全クリア</td><td>良い</td><td class="bad">最小</td><td>及第</td></tr>
+<tr><th>B3 ＋作り込み</th><td>全クリア</td><td>良い</td><td>図版7点・本文3倍</td><td>推奨</td></tr>
 </tbody></table>
 
 <h3 style="margin-top:2.4em;font-size:19px">1. 見た目の禁止リストだけを使うのは、使わないより悪い</h3>
@@ -154,25 +167,29 @@ footer a{color:var(--ink)}
 見た目リストのみの条件はコントラスト違反4件・フォーカス表示なし・<code>&lt;main&gt;</code> なしでした。
 <strong style="color:var(--ink)">B は A の下位互換</strong>であり、単独で使う理由がありません。</p>
 
-<h3 style="margin-top:2.4em;font-size:19px">2. ただし「B2が良いデザインだ」とは測っていない</h3>
-<p style="color:var(--dim);margin-top:.6em">測ったのは<strong style="color:var(--ink)">アクセシビリティと、AI感の構造的指標</strong>だけです。
-魅力があるか、伝わるか、記憶に残るかは測定していません。</p>
-<p style="color:var(--dim);margin-top:1em">むしろ制約は<strong style="color:var(--ink)">作り込みも抑制しました</strong>。
-題材1の対照群は本文3,664字・SVGイラスト9点（風景・人物）を自発的に作りましたが、
-B2は432字・SVG1点です。「44KB→6KB」を当初は冗長さの削減と解釈しましたが、
-<strong style="color:var(--ink)">差分の中身はイラストと本文でした</strong>。
-禁止リストは、余計な装飾と一緒に野心も削ります。</p>
+<h3 style="margin-top:2.4em;font-size:19px">2. 制約は作り込みを抑制するが、それは制約のせいではない</h3>
+<p style="color:var(--dim);margin-top:.6em">当初、対照群の3,662字・SVG9点に対してB2が432字・SVG1点だったことから、
+「禁止リストは余計な装飾と一緒に野心も削る」と結論しました。<strong style="color:var(--ink)">これは誤りでした。</strong></p>
+<p style="color:var(--dim);margin-top:1em">同じ制約に「本文を厚く、必要なら図版も作る」という一文を足した条件（B3）では、
+<strong style="color:var(--ink)">全項目クリアのまま図版7点・本文1,335字まで回復</strong>しました。
+抑制していたのは制約ではなく、<strong style="color:var(--ink)">作り込みを求めなかったこと</strong>です。
+禁止リストは「やらないこと」しか書いていないため、放っておくと最小限の出力に落ちます。</p>
+<p style="color:var(--dim);margin-top:1em">ただし対照群の水準（3,662字・9点）には届いていません。
+B3は制約を熟知した状態での最善手であり、<strong style="color:var(--ink)">両立が可能だという存在証明</strong>であって、
+手順が毎回この品質を出すことの証明ではありません。</p>
 
 <h3 style="margin-top:2.4em;font-size:19px">3. 実務での使い分け</h3>
 <div class="scroll"><table style="margin-top:.8em">
 <thead><tr><th>状況</th><th>推奨</th></tr></thead>
 <tbody>
-<tr><th>公開する制作物・クライアント案件</th><td>B2（UX要件は必須。事故を防ぐ）</td></tr>
+<tr><th>公開する制作物・クライアント案件</th><td>B3（UX要件＋見た目の制約＋作り込みの明示）</td></tr>
 <tr><th>初期の発想出し・方向性の探索</th><td>A に近い状態で発散させ、収束後に B2 の制約を掛ける</td></tr>
 <tr><th>見た目リストのみ</th><td>使わない</td></tr>
 </tbody></table></div>
 <p style="color:var(--dim);margin-top:1.2em">つまり<strong style="color:var(--ink)">制約は最初からではなく、
-発散のあとに掛ける</strong>のが妥当です。本スキルの手順で発散（10案）を先に置いているのはこのためです。</p>
+発散のあとに掛ける</strong>。そして<strong style="color:var(--ink)">禁止リストと必ずセットで、
+何を作り込むかを指示する</strong>。禁止リストは「やらないこと」しか書いていないため、
+それ単独では最小限の出力に落ちます。</p>
 
 <p style="color:var(--dim);margin-top:2em;font-size:14px">各条件 n=1、単一モデル、題材2種。
 小さい差（色相数など）は誤差の範囲です。大きい差（コントラスト違反、フォーカス表示の有無）のみ
