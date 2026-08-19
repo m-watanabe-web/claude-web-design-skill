@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>常葉園｜静岡・シングルオリジン煎茶</title>
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --paper-2:#EFE9DC;
+    --ink:#20261F;
+    --ink-70:rgba(32,38,31,.70);
+    --ink-45:rgba(32,38,31,.45);
+    --ink-15:rgba(32,38,31,.15);
+    --deep:#1F3A2A;
+    --leaf:#5E7F4E;
+    --leaf-lt:#8FA97A;
+    --gold:#A9853F;
+    --line:rgba(32,38,31,.14);
+    --maxw:1120px;
+    --mincho:"Hiragino Mincho ProN","HiraMinProN-W3","Yu Mincho","YuMincho","Noto Serif JP","Songti SC",serif;
+    --gothic:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","YuGothic","Noto Sans JP",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--gothic);
+    font-size:16px;
+    line-height:1.95;
+    letter-spacing:.02em;
+    font-feature-settings:"palt" 1;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:var(--mincho);font-weight:600;line-height:1.5;letter-spacing:.04em;margin:0}
+  p{margin:0}
+  a{color:inherit}
+  img,svg{display:block;max-width:100%}
+  .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-family:var(--gothic);font-size:11px;letter-spacing:.28em;
+    color:var(--ink-45);text-transform:uppercase;margin-bottom:22px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--ink-45);flex:none}
+  .eyebrow.on-dark{color:rgba(246,242,233,.5)}
+  .eyebrow.on-dark::before{background:rgba(246,242,233,.45)}
+  section{padding:104px 0}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,242,233,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .navbar{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:baseline;gap:10px}
+  .brand .jp{font-family:var(--mincho);font-size:20px;letter-spacing:.18em}
+  .brand .en{font-size:9.5px;letter-spacing:.24em;color:var(--ink-45)}
+  .nav-links{display:flex;gap:30px;font-size:12.5px;letter-spacing:.12em;color:var(--ink-70)}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--deep)}
+  .nav-cta{
+    font-size:12px;letter-spacing:.14em;text-decoration:none;
+    background:var(--deep);color:var(--paper);
+    padding:10px 20px;border-radius:999px;white-space:nowrap;
+  }
+  .nav-cta:hover{background:#16291D}
+  @media(max-width:820px){.nav-links{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:0;overflow:hidden;background:var(--deep)}
+  .hero-inner{
+    position:relative;z-index:2;
+    max-width:var(--maxw);margin:0 auto;padding:112px 28px 128px;
+    color:var(--paper);
+  }
+  .hero h1{
+    font-size:clamp(38px,6.2vw,72px);
+    line-height:1.34;letter-spacing:.05em;
+    text-shadow:0 1px 30px rgba(0,0,0,.25);
+  }
+  .hero h1 .thin{display:block;font-size:.5em;letter-spacing:.18em;color:rgba(246,242,233,.72);margin-top:26px;line-height:1.9}
+  .hero-lead{
+    max-width:34em;margin-top:34px;
+    color:rgba(246,242,233,.82);font-size:15.5px;line-height:2.15;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
+  .btn{
+    display:inline-block;text-decoration:none;font-size:13.5px;letter-spacing:.12em;
+    padding:16px 34px;border-radius:2px;transition:.2s;
+  }
+  .btn-primary{background:var(--paper);color:var(--deep)}
+  .btn-primary:hover{background:#fff}
+  .btn-ghost{border:1px solid rgba(246,242,233,.42);color:var(--paper)}
+  .btn-ghost:hover{background:rgba(246,242,233,.1)}
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:38px;margin-top:64px;
+    padding-top:28px;border-top:1px solid rgba(246,242,233,.2);
+    font-size:12px;letter-spacing:.1em;color:rgba(246,242,233,.6);
+  }
+  .hero-meta b{display:block;font-family:var(--mincho);font-size:19px;color:var(--paper);letter-spacing:.06em;font-weight:500;margin-bottom:2px}
+  .hero-bg{position:absolute;inset:0;z-index:1}
+  .hero-bg svg{width:100%;height:100%;object-fit:cover}
+  .hero-fade{position:absolute;left:0;right:0;bottom:0;height:120px;z-index:2;
+    background:linear-gradient(to bottom,rgba(31,58,42,0),var(--paper));pointer-events:none}
+
+  /* ---------- intro ---------- */
+  .intro{background:var(--paper)}
+  .intro-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:76px;align-items:start}
+  .intro h2{font-size:clamp(24px,3vw,33px);line-height:1.85}
+  .intro .body p+p{margin-top:1.5em}
+  .intro .body{color:var(--ink-70);font-size:15px}
+  .pull{
+    margin-top:40px;padding:24px 28px;border-left:2px solid var(--leaf);
+    background:var(--paper-2);font-family:var(--mincho);font-size:16px;
+    letter-spacing:.05em;line-height:2.05;color:var(--ink);
+  }
+  @media(max-width:860px){.intro-grid{grid-template-columns:1fr;gap:36px}}
+
+  /* ---------- teas ---------- */
+  .teas{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-head{max-width:44em;margin-bottom:66px}
+  .sec-head h2{font-size:clamp(26px,3.4vw,38px);letter-spacing:.06em}
+  .sec-head p{margin-top:22px;color:var(--ink-70);font-size:15px}
+  .tea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:960px){.tea-grid{grid-template-columns:1fr;gap:20px}}
+  .tea{
+    background:var(--paper);border:1px solid var(--line);
+    display:flex;flex-direction:column;transition:.25s;
+  }
+  .tea:hover{transform:translateY(-4px);box-shadow:0 18px 44px -22px rgba(32,38,31,.4)}
+  .tea-top{padding:30px 28px 22px;border-bottom:1px solid var(--line);position:relative}
+  .tea-no{
+    position:absolute;top:24px;right:26px;
+    font-family:var(--mincho);font-size:12px;letter-spacing:.2em;color:var(--ink-45);
+  }
+  .tea-swatch{width:100%;height:112px;margin-bottom:22px}
+  .tea h3{font-size:25px;letter-spacing:.1em}
+  .tea .kana{font-size:11px;letter-spacing:.22em;color:var(--ink-45);margin-top:8px}
+  .tea .catch{font-family:var(--mincho);font-size:14.5px;color:var(--leaf);margin-top:14px;letter-spacing:.06em}
+  .tea-body{padding:26px 28px 30px;display:flex;flex-direction:column;gap:24px;flex:1}
+  .tea-note{font-size:14px;color:var(--ink-70);line-height:2.05}
+  .spec{border-top:1px dotted var(--ink-15);padding-top:16px;display:grid;gap:7px}
+  .spec-row{display:flex;gap:14px;font-size:12px;letter-spacing:.06em}
+  .spec-row dt{width:5.2em;flex:none;color:var(--ink-45)}
+  .spec-row dd{margin:0;color:var(--ink)}
+  .bars{display:grid;gap:9px}
+  .bar{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:.12em;color:var(--ink-45)}
+  .bar span{width:3.4em;flex:none}
+  .bar i{display:block;height:3px;background:var(--ink-15);flex:1;border-radius:2px;position:relative}
+  .bar i::after{content:"";position:absolute;left:0;top:0;bottom:0;background:var(--leaf);border-radius:2px;width:var(--v)}
+  .tea-price{
+    margin-top:auto;padding-top:20px;border-top:1px solid var(--line);
+    display:flex;align-items:baseline;justify-content:space-between;
+  }
+  .tea-price .yen{font-family:var(--mincho);font-size:22px;letter-spacing:.04em}
+  .tea-price .yen small{font-size:11px;color:var(--ink-45);letter-spacing:.1em;margin-left:6px;font-family:var(--gothic)}
+  .tea-price a{font-size:12px;letter-spacing:.12em;color:var(--deep);text-decoration:none;border-bottom:1px solid var(--leaf-lt);padding-bottom:2px}
+  .tea-price a:hover{border-color:var(--deep)}
+
+  /* comparison table */
+  .compare{margin-top:56px;background:var(--paper);border:1px solid var(--line);overflow-x:auto}
+  .compare table{border-collapse:collapse;width:100%;min-width:620px;font-size:13px}
+  .compare th,.compare td{padding:16px 20px;text-align:left;border-bottom:1px solid var(--line);letter-spacing:.05em}
+  .compare thead th{
+    font-family:var(--mincho);font-size:14px;letter-spacing:.1em;
+    background:var(--deep);color:var(--paper);font-weight:500;border-bottom:none;
+  }
+  .compare thead th:first-child{background:var(--deep);color:rgba(246,242,233,.55);font-size:11px;letter-spacing:.18em}
+  .compare tbody th{width:9em;color:var(--ink-45);font-family:var(--gothic);font-weight:400;font-size:11.5px;letter-spacing:.14em}
+  .compare tbody tr:last-child td,.compare tbody tr:last-child th{border-bottom:none}
+  .compare td{color:var(--ink-70)}
+
+  /* ---------- maker ---------- */
+  .maker{background:var(--deep);color:var(--paper);position:relative;overflow:hidden}
+  .maker::after{
+    content:"";position:absolute;right:-140px;top:-90px;width:460px;height:460px;
+    border-radius:50%;background:rgba(143,169,122,.10);
+  }
+  .maker-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:74px;align-items:center;position:relative;z-index:2}
+  .portrait{border:1px solid rgba(246,242,233,.22);padding:12px;background:rgba(246,242,233,.05)}
+  .maker h2{font-size:clamp(25px,3.2vw,36px);line-height:1.75;letter-spacing:.06em}
+  .maker .body{margin-top:30px;color:rgba(246,242,233,.78);font-size:15px;line-height:2.2}
+  .maker .body p+p{margin-top:1.5em}
+  .sign{
+    margin-top:40px;padding-top:26px;border-top:1px solid rgba(246,242,233,.2);
+    display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;
+  }
+  .sign .name{font-family:var(--mincho);font-size:22px;letter-spacing:.16em}
+  .sign .role{font-size:11.5px;letter-spacing:.14em;color:rgba(246,242,233,.55);padding-bottom:5px}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:44px;background:rgba(246,242,233,.18)}
+  .facts div{background:var(--deep);padding:22px 18px}
+  .facts b{display:block;font-family:var(--mincho);font-size:26px;letter-spacing:.04em;font-weight:500}
+  .facts span{font-size:11px;letter-spacing:.14em;color:rgba(246,242,233,.55)}
+  @media(max-width:880px){.maker-grid{grid-template-columns:1fr;gap:40px}}
+
+  /* ---------- brew ---------- */
+  .brew{background:var(--paper)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+  .step{padding:34px 28px 34px 0;border-right:1px solid var(--line);position:relative}
+  .step:last-child{border-right:none;padding-right:0}
+  .step:not(:first-child){padding-left:28px}
+  .step .n{font-family:var(--mincho);font-size:12px;letter-spacing:.2em;color:var(--gold)}
+  .step h4{font-size:19px;margin:14px 0 12px;letter-spacing:.08em}
+  .step p{font-size:13.5px;color:var(--ink-70);line-height:2.05}
+  .step .icon{height:52px;margin-bottom:18px}
+  @media(max-width:900px){
+    .steps{grid-template-columns:1fr 1fr}
+    .step:nth-child(2n){border-right:none}
+    .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+    .step:nth-child(2n+1){padding-left:0;padding-right:28px}
+    .step:nth-child(2n){padding-left:28px;padding-right:0}
+  }
+  @media(max-width:560px){
+    .steps{grid-template-columns:1fr}
+    .step{border-right:none!important;border-bottom:1px solid var(--line);padding:30px 0!important}
+  }
+  .temp{
+    margin-top:70px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  @media(max-width:860px){.temp{grid-template-columns:1fr}}
+  .temp-card{border:1px solid var(--line);padding:30px 28px;background:var(--paper-2)}
+  .temp-card .deg{font-family:var(--mincho);font-size:34px;letter-spacing:.03em;color:var(--deep)}
+  .temp-card .deg small{font-size:13px;color:var(--ink-45);margin-left:4px}
+  .temp-card h4{font-size:15px;margin:12px 0 10px;letter-spacing:.1em}
+  .temp-card p{font-size:13.5px;color:var(--ink-70)}
+  .temp-scale{height:4px;border-radius:2px;margin:20px 0 0;
+    background:linear-gradient(90deg,#8FA97A,#C9A24B,#B4642F)}
+  .note-strip{
+    margin-top:46px;padding:26px 30px;border:1px dashed var(--ink-15);
+    font-size:13.5px;color:var(--ink-70);display:flex;gap:20px;align-items:flex-start;
+  }
+  .note-strip b{font-family:var(--mincho);color:var(--deep);letter-spacing:.1em;flex:none}
+  @media(max-width:640px){.note-strip{flex-direction:column;gap:8px}}
+
+  /* ---------- buy ---------- */
+  .buy{background:var(--paper-2);border-top:1px solid var(--line)}
+  .buy-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:66px;align-items:center}
+  @media(max-width:880px){.buy-grid{grid-template-columns:1fr;gap:44px}}
+  .offer{background:var(--paper);border:1px solid var(--deep);padding:40px 38px}
+  .offer .tag{
+    display:inline-block;background:var(--deep);color:var(--paper);
+    font-size:10.5px;letter-spacing:.2em;padding:6px 14px;margin-bottom:22px;
+  }
+  .offer h3{font-size:26px;letter-spacing:.08em;line-height:1.7}
+  .offer .desc{margin-top:16px;font-size:14px;color:var(--ink-70)}
+  .offer ul{list-style:none;padding:0;margin:26px 0 0;border-top:1px solid var(--line)}
+  .offer li{
+    padding:13px 0;border-bottom:1px solid var(--line);
+    font-size:13.5px;display:flex;gap:12px;align-items:flex-start;color:var(--ink-70);
+  }
+  .offer li::before{content:"—";color:var(--leaf);flex:none}
+  .price-row{display:flex;align-items:baseline;gap:14px;margin-top:30px;flex-wrap:wrap}
+  .price-row .now{font-family:var(--mincho);font-size:40px;letter-spacing:.02em;color:var(--deep)}
+  .price-row .was{font-size:14px;color:var(--ink-45);text-decoration:line-through}
+  .price-row .ship{font-size:11.5px;letter-spacing:.1em;color:var(--gold)}
+  .btn-buy{
+    display:block;text-align:center;margin-top:26px;
+    background:var(--deep);color:var(--paper);text-decoration:none;
+    padding:20px;font-size:15px;letter-spacing:.16em;font-family:var(--mincho);
+    transition:.2s;
+  }
+  .btn-buy:hover{background:#16291D}
+  .buy-sub{margin-top:16px;font-size:11.5px;color:var(--ink-45);text-align:center;letter-spacing:.06em}
+  .buy-copy h2{font-size:clamp(25px,3.2vw,36px);line-height:1.8}
+  .buy-copy .body{margin-top:26px;color:var(--ink-70);font-size:15px}
+  .single-list{margin-top:34px;border-top:1px solid var(--line)}
+  .single-list .row{
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:15px 0;border-bottom:1px solid var(--line);font-size:14px;
+  }
+  .single-list .row span{color:var(--ink-70)}
+  .single-list .row b{font-family:var(--mincho);font-size:16px;font-weight:500}
+
+  /* ---------- faq ---------- */
+  .faq{background:var(--paper)}
+  .faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 56px}
+  @media(max-width:820px){.faq-grid{grid-template-columns:1fr}}
+  .qa{padding:24px 0;border-bottom:1px solid var(--line)}
+  .qa h4{font-size:15px;letter-spacing:.06em;display:flex;gap:12px}
+  .qa h4::before{content:"Q";font-size:11px;color:var(--gold);letter-spacing:.1em;padding-top:4px}
+  .qa p{margin-top:10px;padding-left:23px;font-size:13.5px;color:var(--ink-70)}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--deep);color:rgba(246,242,233,.62);padding:70px 0 44px;font-size:12.5px}
+  .foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:44px}
+  @media(max-width:760px){.foot-grid{grid-template-columns:1fr;gap:30px}}
+  footer .brand .jp{color:var(--paper)}
+  footer h5{font-family:var(--gothic);font-size:11px;letter-spacing:.2em;color:rgba(246,242,233,.45);margin:0 0 14px;font-weight:400}
+  footer ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--paper)}
+  .foot-bottom{
+    margin-top:52px;padding-top:22px;border-top:1px solid rgba(246,242,233,.16);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11px;letter-spacing:.1em;color:rgba(246,242,233,.4);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap navbar">
+    <div class="brand">
+      <span class="jp">常葉園</span>
+      <span class="en">TOKOHAEN&nbsp;/&nbsp;SHIZUOKA</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#teas">三つの畑</a>
+      <a href="#maker">つくり手</a>
+      <a href="#brew">淹れ方</a>
+      <a href="#buy">買う</a>
+    </nav>
+    <a class="nav-cta" href="#buy">飲みくらべを注文</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 820" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#16291D"/>
+          <stop offset="55%" stop-color="#1F3A2A"/>
+          <stop offset="100%" stop-color="#2A4A33"/>
+        </linearGradient>
+        <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2E5039"/><stop offset="100%" stop-color="#24402C"/>
+        </linearGradient>
+        <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3B6446"/><stop offset="100%" stop-color="#2C4E37"/>
+        </linearGradient>
+        <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4C7A54"/><stop offset="100%" stop-color="#365C3E"/>
+        </linearGradient>
+        <radialGradient id="sun" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="#F3E4C2" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#F3E4C2" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1440" height="820" fill="url(#sky)"/>
+      <circle cx="1130" cy="180" r="230" fill="url(#sun)"/>
+      <circle cx="1130" cy="180" r="46" fill="#F0E3C6" opacity=".30"/>
+      <!-- distant ridges -->
+      <path d="M0 372 L150 330 L300 356 L470 300 L640 348 L820 306 L1000 344 L1180 312 L1330 350 L1440 326 L1440 820 L0 820Z" fill="#24402C" opacity=".65"/>
+      <path d="M0 448 L190 404 L360 440 L540 396 L720 436 L900 400 L1090 442 L1270 408 L1440 444 L1440 820 L0 820Z" fill="url(#r1)"/>
+      <path d="M0 546 L200 508 L400 548 L620 502 L840 546 L1060 508 L1260 552 L1440 516 L1440 820 L0 820Z" fill="url(#r2)"/>
+      <!-- terraced tea rows -->
+      <g fill="none" stroke="#5E8A5F" stroke-width="9" stroke-linecap="round" opacity=".55">
+        <path d="M-40 620 C 260 588, 620 606, 1480 570"/>
+        <path d="M-40 654 C 280 620, 640 640, 1480 602"/>
+        <path d="M-40 690 C 300 654, 660 676, 1480 636"/>
+      </g>
+      <path d="M0 700 L240 664 L520 706 L800 660 L1080 704 L1440 662 L1440 820 L0 820Z" fill="url(#r3)"/>
+      <g fill="none" stroke="#2A4A33" stroke-width="11" stroke-linecap="round" opacity=".7">
+        <path d="M-40 752 C 300 716, 700 744, 1480 706"/>
+        <path d="M-40 796 C 320 758, 720 788, 1480 748"/>
+      </g>
+      <!-- mist -->
+      <g fill="#F6F2E9" opacity=".07">
+        <ellipse cx="330" cy="470" rx="360" ry="26"/>
+        <ellipse cx="1080" cy="520" rx="420" ry="22"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow on-dark">SINGLE ORIGIN SENCHA / SHIZUOKA</div>
+    <h1>
+      同じ煎茶、と<br>思っていた頃の話。
+      <span class="thin">静岡・本山（ほんやま）の三つの畑から、<br>畑ごとに分けて仕上げた煎茶を。</span>
+    </h1>
+    <p class="hero-lead">
+      常葉園は、家族三人で年に三ヘクタールだけを摘む小さな茶園です。畑を混ぜずに、標高も品種も摘む日も違うまま、別々に仕上げています。コーヒーで「エチオピアとグアテマラは別物」と当たり前に言うように、煎茶もまた、畑が変われば別の飲みものになります。
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#buy">3種の飲みくらべを注文する</a>
+      <a class="btn btn-ghost" href="#teas">三つの畑を見る</a>
+    </div>
+    <div class="hero-meta">
+      <div><b>3</b>つの畑・単一畑仕上げ</div>
+      <div><b>180–420m</b>標高差のある茶園</div>
+      <div><b>摘採後14日</b>以内に発送</div>
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+</div>
+
+<!-- ============ INTRO ============ -->
+<section class="intro">
+  <div class="wrap intro-grid">
+    <div>
+      <div class="eyebrow">WHY SINGLE ORIGIN</div>
+      <h2>「煎茶」という一杯は、<br>存在しません。</h2>
+    </div>
+    <div class="body">
+      <p>スーパーの棚に並ぶ煎茶の多くは、いくつもの茶園の葉を混ぜ、毎年同じ味に整えた「合組（ごうぐみ）」のお茶です。安定していて、間違いがない。それは技術であり、価値でもあります。</p>
+      <p>ただ、その工程で消えてしまうものがあります。日当たりの違い、朝霧の量、木の樹齢、摘んだ日の天気。畑の個性は、混ぜた瞬間に平均に還ります。</p>
+      <p>常葉園は、その平均をつくりません。橋詰、奥沢、日向（ひなた）。歩いて回れる距離にある三つの畑を、別々に摘み、別々に蒸し、別々に袋詰めしています。だから年によって味は動きます。それは欠点ではなく、その年の記録です。</p>
+      <div class="pull">
+        豆を選び、挽き目を決め、湯温を測ってきた人なら、<br>
+        このお茶の変数の多さは、たぶん退屈しないはずです。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAS ============ -->
+<section class="teas" id="teas">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">THREE GARDENS</div>
+      <h2>三つの畑、三つの味。</h2>
+      <p>同じ作り手が、同じ年に、同じ谷で仕上げた三種です。それでも並べて飲むと、別の飲みものだとすぐにわかります。まずは、いちばん気になった一種から。</p>
+    </div>
+
+    <div class="tea-grid">
+
+      <!-- 1 -->
+      <article class="tea">
+        <div class="tea-top">
+          <div class="tea-no">No.01</div>
+          <svg class="tea-swatch" viewBox="0 0 300 112" xmlns="http://www.w3.org/2000/svg" aria-label="春摘みの水色">
+            <rect width="300" height="112" fill="#F1F4E4"/>
+            <g fill="none" stroke="#B8CDA0" stroke-width="1.4" opacity=".9">
+              <path d="M-10 96 C 60 76, 120 92, 190 70 S 290 60, 320 66"/>
+              <path d="M-10 108 C 70 88, 130 104, 200 84 S 300 74, 320 80"/>
+            </g>
+            <circle cx="150" cy="52" r="34" fill="#DCE8C2"/>
+            <circle cx="150" cy="52" r="34" fill="none" stroke="#A9C084" stroke-width="1.2"/>
+            <path d="M150 30 C 168 42, 168 62, 150 74 C 132 62, 132 42, 150 30Z" fill="#9FBB79"/>
+            <path d="M150 30 L150 74" stroke="#EFF4E3" stroke-width="1"/>
+          </svg>
+          <h3>春摘み</h3>
+          <div class="kana">HARUTSUMI / 橋詰の畑・やぶきた</div>
+          <div class="catch">若草と、しぼりたての豆乳。</div>
+        </div>
+        <div class="tea-body">
+          <p class="tea-note">四月の下旬、その年でいちばん早く動いた畑から。渋みがまだ立ち上がる前の、透きとおった甘みが主役です。低温でゆっくり淹れると、旨みが舌の上に薄く広がって、しばらく消えません。朝いちばんの一杯に。</p>
+          <div class="bars">
+            <div class="bar"><span>甘み</span><i style="--v:88%"></i></div>
+            <div class="bar"><span>旨み</span><i style="--v:80%"></i></div>
+            <div class="bar"><span>渋み</span><i style="--v:28%"></i></div>
+            <div class="bar"><span>香り</span><i style="--v:58%"></i></div>
+          </div>
+          <dl class="spec">
+            <div class="spec-row"><dt>畑</dt><dd>橋詰／標高180m・南向き</dd></div>
+            <div class="spec-row"><dt>品種</dt><dd>やぶきた（樹齢32年）</dd></div>
+            <div class="spec-row"><dt>摘採</dt><dd>4月24日・手摘み一番茶</dd></div>
+            <div class="spec-row"><dt>製法</dt><dd>中蒸し（45秒）</dd></div>
+          </dl>
+          <div class="tea-price">
+            <div class="yen">¥1,680<small>／50g</small></div>
+            <a href="#buy">単品を見る</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="tea">
+        <div class="tea-top">
+          <div class="tea-no">No.02</div>
+          <svg class="tea-swatch" viewBox="0 0 300 112" xmlns="http://www.w3.org/2000/svg" aria-label="在来種の水色">
+            <rect width="300" height="112" fill="#EDEEDC"/>
+            <g fill="none" stroke="#A8AF7E" stroke-width="1.4" opacity=".85">
+              <path d="M-10 92 C 70 70, 120 96, 195 66 S 295 58, 320 64"/>
+              <path d="M-10 106 C 60 86, 140 106, 205 82 S 300 72, 320 78"/>
+            </g>
+            <circle cx="150" cy="52" r="34" fill="#CFD3A5"/>
+            <circle cx="150" cy="52" r="34" fill="none" stroke="#96A06B" stroke-width="1.2"/>
+            <path d="M136 34 C 150 44, 152 62, 142 74 C 128 64, 126 44, 136 34Z" fill="#7E8B55"/>
+            <path d="M166 36 C 176 48, 174 64, 160 74 C 152 60, 154 44, 166 36Z" fill="#8E9A63"/>
+          </svg>
+          <h3>在来種</h3>
+          <div class="kana">ZAIRAI / 奥沢の畑・実生在来</div>
+          <div class="catch">山栗と、焚き火のあとの空気。</div>
+        </div>
+        <div class="tea-body">
+          <p class="tea-note">戦後に種から植えられ、一本ずつ性格の違う古木の畑。谷の奥で日照が短く、育ちが遅いぶん味が濃く出ます。骨太で、後半にはっきり苦みが来る。ミルクを入れないコーヒーが好きな人ほど、最初にこれを気に入ります。</p>
+          <div class="bars">
+            <div class="bar"><span>甘み</span><i style="--v:44%"></i></div>
+            <div class="bar"><span>旨み</span><i style="--v:62%"></i></div>
+            <div class="bar"><span>渋み</span><i style="--v:82%"></i></div>
+            <div class="bar"><span>香り</span><i style="--v:92%"></i></div>
+          </div>
+          <dl class="spec">
+            <div class="spec-row"><dt>畑</dt><dd>奥沢／標高420m・北東向き</dd></div>
+            <div class="spec-row"><dt>品種</dt><dd>在来実生（樹齢70年超）</dd></div>
+            <div class="spec-row"><dt>摘採</dt><dd>5月8日・手摘み一番茶</dd></div>
+            <div class="spec-row"><dt>製法</dt><dd>中蒸し（50秒）・強火乾燥</dd></div>
+          </dl>
+          <div class="tea-price">
+            <div class="yen">¥1,980<small>／50g</small></div>
+            <a href="#buy">単品を見る</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="tea">
+        <div class="tea-top">
+          <div class="tea-no">No.03</div>
+          <svg class="tea-swatch" viewBox="0 0 300 112" xmlns="http://www.w3.org/2000/svg" aria-label="浅蒸しの水色">
+            <rect width="300" height="112" fill="#F3F5E7"/>
+            <g fill="none" stroke="#C3D3A6" stroke-width="1.4" opacity=".9">
+              <path d="M-10 90 C 80 72, 130 94, 200 68 S 296 56, 320 62"/>
+              <path d="M-10 104 C 70 84, 150 104, 210 80 S 300 70, 320 76"/>
+            </g>
+            <circle cx="150" cy="52" r="34" fill="#E4EDCB"/>
+            <circle cx="150" cy="52" r="34" fill="none" stroke="#B3C68C" stroke-width="1.2"/>
+            <g stroke="#8FA96C" stroke-width="1.6" fill="none" stroke-linecap="round">
+              <path d="M132 62 C 140 46, 160 44, 170 40"/>
+              <path d="M134 52 C 144 40, 158 56, 170 50"/>
+            </g>
+            <circle cx="150" cy="52" r="4" fill="#8FA96C"/>
+          </svg>
+          <h3>浅蒸し</h3>
+          <div class="kana">ASAMUSHI / 日向の段・おくみどり</div>
+          <div class="catch">白い花と、蜜の余韻。</div>
+        </div>
+        <div class="tea-body">
+          <p class="tea-note">蒸し時間を思いきり短くして、香りの輪郭を残しました。水色（すいしょく）は驚くほど澄んだ淡い黄金色。飲んだ直後より、二呼吸おいてからの戻り香が本番です。同じ茶葉で三煎まで、味の変化がいちばん大きい一種。</p>
+          <div class="bars">
+            <div class="bar"><span>甘み</span><i style="--v:66%"></i></div>
+            <div class="bar"><span>旨み</span><i style="--v:54%"></i></div>
+            <div class="bar"><span>渋み</span><i style="--v:48%"></i></div>
+            <div class="bar"><span>香り</span><i style="--v:96%"></i></div>
+          </div>
+          <dl class="spec">
+            <div class="spec-row"><dt>畑</dt><dd>日向の段／標高300m・東向き</dd></div>
+            <div class="spec-row"><dt>品種</dt><dd>おくみどり（樹齢18年）</dd></div>
+            <div class="spec-row"><dt>摘採</dt><dd>5月15日・手摘み一番茶</dd></div>
+            <div class="spec-row"><dt>製法</dt><dd>浅蒸し（20秒）</dd></div>
+          </dl>
+          <div class="tea-price">
+            <div class="yen">¥1,780<small>／50g</small></div>
+            <a href="#buy">単品を見る</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="compare">
+      <table>
+        <thead>
+          <tr><th>比較</th><th>春摘み</th><th>在来種</th><th>浅蒸し</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>味の軸</th><td>甘みと旨み</td><td>苦みとコク</td><td>香りと透明感</td></tr>
+          <tr><th>水色</th><td>淡い若草色</td><td>深い黄緑</td><td>澄んだ淡黄金</td></tr>
+          <tr><th>おすすめ湯温</th><td>60℃</td><td>70℃</td><td>75℃</td></tr>
+          <tr><th>一煎目の時間</th><td>90秒</td><td>60秒</td><td>45秒</td></tr>
+          <tr><th>コーヒーで言うと</th><td>浅煎りのゲイシャ</td><td>深めの中煎りブレンド</td><td>華やかなナチュラル精製</td></tr>
+          <tr><th>合わせるなら</th><td>和菓子・朝の空腹</td><td>食後・チョコレート</td><td>柑橘・焼き菓子</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAKER ============ -->
+<section class="maker" id="maker">
+  <div class="wrap maker-grid">
+    <div class="portrait">
+      <svg viewBox="0 0 460 540" xmlns="http://www.w3.org/2000/svg" aria-label="三代目・杉山常一の肖像">
+        <defs>
+          <linearGradient id="pbg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3E6446"/><stop offset="100%" stop-color="#213C2C"/>
+          </linearGradient>
+        </defs>
+        <rect width="460" height="540" fill="url(#pbg)"/>
+        <!-- background rows -->
+        <g fill="none" stroke="#4E7A55" stroke-width="16" stroke-linecap="round" opacity=".7">
+          <path d="M-20 400 C 120 376, 320 396, 480 368"/>
+          <path d="M-20 452 C 140 424, 340 448, 480 416"/>
+          <path d="M-20 508 C 150 476, 350 504, 480 468"/>
+        </g>
+        <circle cx="356" cy="98" r="42" fill="#F0E3C6" opacity=".22"/>
+        <!-- figure -->
+        <g>
+          <!-- body -->
+          <path d="M230 540 C 230 430, 300 392, 344 388 L344 540Z" fill="#22382A"/>
+          <path d="M230 540 C 230 430, 160 392, 116 388 L116 540Z" fill="#22382A"/>
+          <path d="M116 388 C 150 366, 200 356, 230 356 C 260 356, 310 366, 344 388 L344 540 L116 540Z" fill="#2C4B36"/>
+          <!-- collar -->
+          <path d="M196 360 L230 412 L264 360 L246 352 L230 384 L214 352Z" fill="#EDE7D6" opacity=".85"/>
+          <!-- neck -->
+          <path d="M208 316 h44 v46 h-44Z" fill="#D9B48E"/>
+          <!-- head -->
+          <ellipse cx="230" cy="256" rx="62" ry="74" fill="#E4C09A"/>
+          <!-- hair -->
+          <path d="M168 254 C 166 190, 200 172, 230 172 C 262 172, 294 192, 292 254 C 286 232, 276 214, 254 206 C 228 224, 196 226, 178 240 C 172 244, 170 248, 168 254Z" fill="#2B2A28"/>
+          <!-- towel band -->
+          <path d="M170 236 C 196 220, 264 220, 290 236 L288 250 C 262 234, 198 234, 172 250Z" fill="#E4E0D0" opacity=".9"/>
+          <!-- eyes / brows -->
+          <g fill="#33302C">
+            <path d="M198 262 c8 -6 20 -6 27 0 c-8 -2 -19 -2 -27 0Z"/>
+            <path d="M235 262 c8 -6 20 -6 27 0 c-8 -2 -19 -2 -27 0Z"/>
+          </g>
+          <g stroke="#3A3630" stroke-width="3" stroke-linecap="round" fill="none">
+            <path d="M196 248 c9 -6 20 -6 28 -2"/>
+            <path d="M264 248 c-9 -6 -20 -6 -28 -2"/>
+          </g>
+          <path d="M230 268 c-3 10 -6 14 -1 18" stroke="#C79E77" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M214 300 c10 7 22 7 32 0" stroke="#A8785A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- hands holding leaves -->
+          <ellipse cx="230" cy="452" rx="52" ry="26" fill="#D9B48E"/>
+          <g fill="#7FA164">
+            <path d="M214 444 c10 -14 26 -14 34 -2 c-10 12 -26 12 -34 2Z"/>
+            <path d="M236 456 c12 -10 26 -6 30 6 c-13 6 -25 3 -30 -6Z"/>
+            <path d="M196 456 c8 -12 22 -12 30 -2 c-10 9 -24 9 -30 2Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <div class="eyebrow on-dark">THE GROWER</div>
+      <h2>畑の名前で呼べる量しか、<br>つくらないと決めました。</h2>
+      <div class="body">
+        <p>祖父が開いた畑を、父が広げ、私が三分の一に戻しました。荒茶の相場に合わせて量を追いかけていた頃、自分の茶を自分で飲んで「おいしい」と思えなくなったのが理由です。</p>
+        <p>いまは家族三人で、歩いて回れる三つの畑だけを見ています。奥沢の在来は収量が普通の畑の半分しかありませんが、あの苦みは他所では出せません。摘む日は毎年ちがう。葉の開き方と、朝の匂いで決めています。</p>
+        <p>お茶は飲む人が仕上げる飲みものだと思っています。私がやるのは、渡すところまで。あとは、その日の湯の温度に任せます。</p>
+      </div>
+      <div class="sign">
+        <div class="name">杉山 常一</div>
+        <div class="role">常葉園 三代目／静岡市葵区・本山</div>
+      </div>
+      <div class="facts">
+        <div><b>1948</b><span>創業（初代・杉山常吉）</span></div>
+        <div><b>3.0ha</b><span>栽培面積・全区画自園</span></div>
+        <div><b>3人</b><span>栽培から仕上げまで</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BREW ============ -->
+<section class="brew" id="brew">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">HOW TO BREW</div>
+      <h2>おいしくない煎茶の、<br>ほとんどは湯温のせいです。</h2>
+      <p>茶葉は変えず、湯の温度だけを10℃動かしてみてください。旨みと渋みの出る速さが違うので、同じ50gの袋から、まったく別の一杯が出てきます。まずは基本の四手順から。</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <svg class="icon" viewBox="0 0 60 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="10" y="14" width="34" height="26" rx="4" fill="none" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M44 20 h6 a5 5 0 0 1 0 12 h-6" fill="none" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M18 8 c0 4 -4 4 -4 8" stroke="#A9853F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M28 6 c0 4 -4 4 -4 8" stroke="#A9853F" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="n">STEP 01</div>
+        <h4>湯を冷ます</h4>
+        <p>沸かした湯を、湯呑みに移すたび約10℃下がります。ポット→湯呑み→急須と二回移せば、だいたい70℃前後。温度計がなくても十分です。</p>
+      </div>
+      <div class="step">
+        <svg class="icon" viewBox="0 0 60 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 34 h30 l-4 12 h-22Z" fill="none" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M8 34 h38" stroke="#1F3A2A" stroke-width="1.6"/>
+          <g fill="#5E7F4E">
+            <path d="M20 26 c6 -8 16 -8 20 -2 c-6 7 -16 8 -20 2Z"/>
+            <path d="M32 18 c7 -5 15 -1 16 6 c-8 3 -14 1 -16 -6Z"/>
+          </g>
+          <text x="6" y="16" font-size="9" fill="#A9853F" font-family="serif">4g</text>
+        </svg>
+        <div class="n">STEP 02</div>
+        <h4>茶葉は少し多めに</h4>
+        <p>二人分で4g（大さじ山盛り一杯）。ここをケチると、薄さを補うために湯温と時間を上げてしまい、渋みだけが立ちます。</p>
+      </div>
+      <div class="step">
+        <svg class="icon" viewBox="0 0 60 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="30" cy="28" r="17" fill="none" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M30 28 V17" stroke="#1F3A2A" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M30 28 l9 5" stroke="#A9853F" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M24 7 h12" stroke="#1F3A2A" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <div class="n">STEP 03</div>
+        <h4>時間はきっちり計る</h4>
+        <p>一煎目は45〜90秒（茶葉ごとの目安は下の表へ）。急須を揺すらないこと。葉が動くと渋みが先に出ます。待つあいだは静かに置いておく。</p>
+      </div>
+      <div class="step">
+        <svg class="icon" viewBox="0 0 60 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M14 12 h22 v10 a11 11 0 0 1 -22 0Z" fill="none" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M25 33 v8" stroke="#1F3A2A" stroke-width="1.6"/>
+          <path d="M14 44 h22" stroke="#1F3A2A" stroke-width="1.6" stroke-linecap="round"/>
+          <g fill="#5E7F4E"><circle cx="44" cy="20" r="2.5"/><circle cx="50" cy="27" r="2"/><circle cx="45" cy="33" r="1.6"/></g>
+        </svg>
+        <div class="n">STEP 04</div>
+        <h4>最後の一滴まで</h4>
+        <p>注ぎ切らないと、残った湯で葉が煮え、二煎目が濁ります。「ゴールデンドロップ」は最後に落ちる数滴。ここに旨みが集まっています。</p>
+      </div>
+    </div>
+
+    <div class="temp">
+      <div class="temp-card">
+        <div class="deg">60<small>℃</small></div>
+        <div class="temp-scale"></div>
+        <h4>甘みだけを引き出す</h4>
+        <p>旨み成分は低温でも溶けますが、渋みのカテキンはほとんど出ません。<b>春摘み</b>を90秒。とろりとした、お茶とは思えない甘さになります。</p>
+      </div>
+      <div class="temp-card">
+        <div class="deg">70<small>℃</small></div>
+        <div class="temp-scale"></div>
+        <h4>味の骨格を出す</h4>
+        <p>甘みと渋みが釣り合う基準点。迷ったらここ。<b>在来種</b>を60秒で、山の匂いと後口の苦みがきれいに揃います。</p>
+      </div>
+      <div class="temp-card">
+        <div class="deg">80<small>℃</small></div>
+        <div class="temp-scale"></div>
+        <h4>香りを立たせる</h4>
+        <p>高温は香りを一気に開かせる代わりに、渋みも連れてきます。<b>浅蒸し</b>を40秒で切り上げれば、香りだけを取り出せます。</p>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      <b>氷水出しも、ぜひ。</b>
+      <span>茶葉4gに氷を敷き、常温の水150mlを注いで冷蔵庫で3時間。渋みが一切出ず、出汁のような甘みだけが残ります。夏は在来種でやると、驚かれます。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUY ============ -->
+<section class="buy" id="buy">
+  <div class="wrap buy-grid">
+    <div class="buy-copy">
+      <div class="eyebrow">ORDER</div>
+      <h2>三つ並べて飲む日を、<br>一度だけつくってみてください。</h2>
+      <div class="body">
+        <p>単品でも買えますが、最初の一回は三種そろえることをおすすめしています。一種だけだと「おいしい／そうでもない」で終わってしまうのに、三つ並べた瞬間、味の違いが言葉になるからです。</p>
+        <p>飲みくらべ用の20gパックが三つと、湯温・時間・水の量を書いた一枚のカードが入ります。カードのとおりに淹れて、それから自分の好みに寄せていってください。</p>
+      </div>
+      <div class="single-list">
+        <div class="row"><span>春摘み 50g（単品）</span><b>¥1,680</b></div>
+        <div class="row"><span>在来種 50g（単品）</span><b>¥1,980</b></div>
+        <div class="row"><span>浅蒸し 50g（単品）</span><b>¥1,780</b></div>
+        <div class="row"><span>毎月お届け便（3種各30g・送料込）</span><b>¥3,200／月</b></div>
+      </div>
+    </div>
+
+    <div class="offer">
+      <span class="tag">FIRST ORDER ONLY</span>
+      <h3>三畑（さんぱた）<br>飲みくらべセット</h3>
+      <p class="desc">春摘み・在来種・浅蒸し、各20g（各約8杯分）。はじめての方お一人さま一回限りの価格です。</p>
+      <ul>
+        <li>単一畑仕上げの煎茶 3種 × 20g</li>
+        <li>畑ごとの淹れ方カード（湯温・時間・湯量）</li>
+        <li>今年の摘採日と天候の記録メモ</li>
+        <li>ご注文から3営業日以内に発送・全国送料無料</li>
+      </ul>
+      <div class="price-row">
+        <span class="now">¥1,980</span>
+        <span class="was">¥2,640</span>
+        <span class="ship">送料無料</span>
+      </div>
+      <a class="btn-buy" href="#buy">飲みくらべセットを注文する</a>
+      <p class="buy-sub">お口に合わなければ、開封後でも全額返金します（初回のみ）</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">FAQ</div>
+      <h2>よくいただく質問</h2>
+    </div>
+    <div class="faq-grid">
+      <div>
+        <div class="qa">
+          <h4>急須を持っていません。</h4>
+          <p>茶こし付きのマグや、コーヒー用のドリッパーに紙フィルターでも淹れられます。金属の細かい茶こしがあれば十分です。急須を買うなら、まず容量200ml前後の小ぶりなものを。</p>
+        </div>
+        <div class="qa">
+          <h4>温度計は必要ですか。</h4>
+          <p>なくても大丈夫です。器を移し替えるたびに約10℃下がる、と覚えておけば足ります。より正確にやりたくなったら、コーヒー用の温度計がそのまま使えます。</p>
+        </div>
+        <div class="qa">
+          <h4>何煎まで飲めますか。</h4>
+          <p>三煎までを想定しています。二煎目は湯温を10℃上げて時間を短く、三煎目は熱湯でさっと。同じ葉から違う味が出るのが、煎茶のいちばん面白いところです。</p>
+        </div>
+      </div>
+      <div>
+        <div class="qa">
+          <h4>保存方法は。</h4>
+          <p>開封後は袋の空気を抜いて密閉し、冷暗所で1か月以内に。冷蔵庫に入れる場合は、常温に戻してから開けてください。結露が茶葉に移ると香りが落ちます。</p>
+        </div>
+        <div class="qa">
+          <h4>味は毎年同じですか。</h4>
+          <p>違います。天候で摘採日も味も動きます。年ごとの差が出るのが単一畑の性質なので、同封のメモにその年の記録を書いています。</p>
+        </div>
+        <div class="qa">
+          <h4>贈りものにできますか。</h4>
+          <p>可能です。注文時に「贈答」を選ぶと、和紙の外袋と無地の短冊を添えてお送りします。価格のわかるものは同梱しません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="margin-bottom:16px">
+          <span class="jp" style="font-family:var(--mincho);font-size:22px;letter-spacing:.18em">常葉園</span>
+        </div>
+        <p style="max-width:24em;line-height:2">静岡県静岡市葵区・本山地区。三つの畑の煎茶を、畑ごとに仕上げてお届けしています。</p>
+      </div>
+      <div>
+        <h5>SHOP</h5>
+        <ul>
+          <li><a href="#buy">飲みくらべセット</a></li>
+          <li><a href="#teas">単品のお茶</a></li>
+          <li><a href="#buy">毎月お届け便</a></li>
+          <li><a href="#brew">淹れ方ガイド</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>ABOUT</h5>
+        <ul>
+          <li><a href="#maker">つくり手について</a></li>
+          <li><a href="#faq">よくある質問</a></li>
+          <li><a href="#buy">配送と返品</a></li>
+          <li><a href="#buy">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 常葉園 TOKOHAEN</span>
+      <span>特定商取引法に基づく表記／プライバシーポリシー</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

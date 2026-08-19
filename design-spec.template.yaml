@@ -1,0 +1,16 @@
+# Step 4 で使う仕様テンプレート。案件ごとにコピーして埋める。
+design_spec:
+  tone: ""                      # 例: "紙とインクの質感／余白主体／静けさ"
+  reference_system: ""          # 例: "IBM Carbon Design System（グリッドと活字の規律）"
+  palette:
+    base: ""
+    ink: ""
+    accent: ""
+    max_hues: 3                 # 色"数"でなく色"相"数。同一色相の濃淡は制限しない
+  typography:
+    heading: ""
+    body: ""
+    numerals: "tabular-nums"    # 数値を並べる面では必須
+  layout: ""                    # 例: "非対称・縦組みの緊張感。均一グリッド禁止"
+  motion: ""                    # 例: "スクロール連動のフェードのみ、0.3s以内" / "なし"
+  forbid_ref: "forbid.md"       # 禁止リストは別ファイルを参照（重複定義しない）

@@ -1,0 +1,101 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Portfolio</title>
+<style>
+:root{--bg:#0f1113;--ink:#e8e6e1;--brass:#d4b87a;
+--rule:color-mix(in srgb,var(--ink) 20%,transparent);
+--dim:color-mix(in srgb,var(--ink) 78%,transparent);
+--faint:color-mix(in srgb,var(--ink) 62%,transparent)}
+@media(prefers-color-scheme:light){:root{--bg:#faf9f7;--ink:#1a1c1e;--brass:#6b5320;
+--rule:color-mix(in srgb,var(--ink) 20%,transparent);
+--dim:color-mix(in srgb,var(--ink) 82%,transparent);
+--faint:color-mix(in srgb,var(--ink) 70%,transparent)}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.85;
+font-family:"Hiragino Sans","Yu Gothic",sans-serif;-webkit-font-smoothing:antialiased;
+font-feature-settings:"tnum" 1}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+background-image:linear-gradient(var(--rule) 1px,transparent 1px),linear-gradient(90deg,var(--rule) 1px,transparent 1px);
+background-size:88px 88px}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 28px}
+.num{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+h2{font-size:13px;letter-spacing:.34em;color:var(--brass);margin-bottom:2.2em;font-weight:600}
+section{padding:84px 0;border-top:1px solid var(--rule)}
+header{padding:120px 0 84px;max-width:24ch}
+.kicker{font-size:13px;letter-spacing:.34em;color:var(--brass);font-weight:600}
+header h1{font-size:clamp(38px,6vw,68px);line-height:1.3;font-weight:700;
+letter-spacing:.01em;margin-top:1.6em}
+header h1 em{font-style:normal;color:var(--brass)}
+header p{margin-top:1.8em;color:var(--dim);max-width:34ch}
+.rec{display:grid;grid-template-columns:16ch 1fr;gap:36px;padding:34px 0;
+border-bottom:1px solid var(--rule);align-items:start}
+.rec:first-of-type{border-top:1px solid var(--rule)}
+.rec .k{font-size:13px;letter-spacing:.16em;color:var(--faint);padding-top:.8em}
+.rec h3{font-size:21px;font-weight:600;letter-spacing:.02em}
+.rec p{color:var(--dim);font-size:15px;margin-top:.5em;max-width:56ch}
+.fig{display:flex;align-items:baseline;gap:14px;margin-top:1.1em}
+.fig b{font-size:46px;font-weight:700;color:var(--brass);line-height:1}
+.fig .was{font-size:24px;color:var(--faint);text-decoration:line-through}
+.fig span{font-size:14px;color:var(--dim);letter-spacing:.08em}
+.flow{border-left:1px solid var(--rule);padding-left:34px;margin-left:6px;list-style:none}
+.flow li{padding:16px 0;position:relative}
+.flow li::before{content:attr(data-n);position:absolute;left:-46px;top:19px;
+font-size:12px;color:var(--brass);letter-spacing:.12em;font-weight:600}
+.flow b{font-weight:600}
+.flow p{color:var(--dim);font-size:15px}
+footer{padding:64px 0;border-top:1px solid var(--rule);display:flex;
+justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;
+font-size:15px;color:var(--dim)}
+footer a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--brass);
+display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
+footer a:hover{color:var(--brass)}
+@media(max-width:760px){.rec{grid-template-columns:1fr;gap:10px}.rec .k{padding-top:0}}
+</style></head><body><div class="wrap">
+
+<header>
+<p class="kicker">AI / DATA PIPELINE</p>
+<h1>散らばった情報を、<em>決められる形</em>にする。</h1>
+<p>データの構造化とLLM活用を軸に、要件定義から運用までを一貫して設計します。</p>
+</header>
+
+<main>
+<section aria-labelledby="s1">
+<h2 id="s1">強み</h2>
+<ul class="flow">
+<li data-n="A"><b>可視化で認識を揃える</b><p>関係者の前提がずれたまま進む状態を、図と数値で一枚に落として解消します。</p></li>
+<li data-n="B"><b>非定型データを構造に落とす</b><p>自由記述・帳票・音声など、そのままでは集計できない情報を扱える形にします。</p></li>
+<li data-n="C"><b>評価まで含めて設計する</b><p>出力の妥当性を採点する仕組みを最初から組み込み、改善を回せる状態にします。</p></li>
+</ul>
+</section>
+
+<section aria-labelledby="s2">
+<h2 id="s2">実績</h2>
+<div class="rec"><div class="k">業務プロセス改善</div><div>
+<h3>工数の再設計</h3>
+<p>手作業に依存していた工程を切り分け、自動化と人の判断を分離。対象は240名・約3.5万件。</p>
+<div class="fig"><span class="was num">120</span><b class="num">80</b><span>人日 / 削減後</span></div>
+</div></div>
+<div class="rec"><div class="k">研究データ基盤</div><div>
+<h3>非定型記述の構造化とLLM活用</h3>
+<p>記述のゆらぎを吸収する正規化層を設け、抽出結果を機械採点して精度を追跡できる形にしました。</p>
+</div></div>
+<div class="rec"><div class="k">製造業／業務委託</div><div>
+<h3>要件定義と設計</h3>
+<p>現場ヒアリングから要件を起こし、非エンジニアの意思決定者が読める設計資料に落として合意を取りました。</p>
+</div></div>
+</section>
+
+<section aria-labelledby="s3">
+<h2 id="s3">進め方</h2>
+<ul class="flow">
+<li data-n="01"><b>現状を一枚にする</b><p>まず図にして、前提のずれを先に潰します。</p></li>
+<li data-n="02"><b>小さく作って見せる</b><p>議論より動くものを早く出し、判断材料を具体にします。</p></li>
+<li data-n="03"><b>評価軸を先に決める</b><p>何をもって良しとするかを、作る前に合意します。</p></li>
+<li data-n="04"><b>運用に渡す</b><p>引き継げる形まで含めて設計します。</p></li>
+</ul>
+</section>
+</main>
+
+<footer><span>お問い合わせ</span><a href="mailto:contact@example.com">contact@example.com</a></footer>
+</div></body></html>

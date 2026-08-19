@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>可視化から動かす</title>
+<style>
+  :root{
+    --paper:#F2F4F7;
+    --surface:#FFFFFF;
+    --ink:#131820;
+    --graphite:#5C6675;
+    --rule:#D8DEE7;
+    --rule-soft:#E7EBF1;
+    --accent:#2450C8;
+    --accent-soft:#DCE4F8;
+    --accent-line:#93ABE4;
+    --shadow:0 1px 0 rgba(19,24,32,.04), 0 12px 32px -24px rgba(19,24,32,.5);
+
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","Songti SC",serif;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SFMono-Regular","SF Mono",Menlo,Consolas,monospace;
+
+    --measure:34rem;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0F131A;
+      --surface:#161B23;
+      --ink:#E7EBF1;
+      --graphite:#9AA5B5;
+      --rule:#2A323E;
+      --rule-soft:#20262F;
+      --accent:#7FA0F7;
+      --accent-soft:#1D2740;
+      --accent-line:#3F5C9E;
+      --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 32px -24px rgba(0,0,0,.9);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0F131A;
+    --surface:#161B23;
+    --ink:#E7EBF1;
+    --graphite:#9AA5B5;
+    --rule:#2A323E;
+    --rule-soft:#20262F;
+    --accent:#7FA0F7;
+    --accent-soft:#1D2740;
+    --accent-line:#3F5C9E;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 12px 32px -24px rgba(0,0,0,.9);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.85;
+    font-feature-settings:"palt" 1;
+    letter-spacing:.01em;
+  }
+  a{color:var(--accent);text-underline-offset:.25em;text-decoration-thickness:1px;}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+
+  .wrap{
+    max-width:64rem;
+    margin:0 auto;
+    padding:0 clamp(1.25rem,5vw,3rem);
+  }
+
+  /* ---- layout: index rail + measured column ---- */
+  .frame{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+  }
+  @media (min-width:60rem){
+    .frame{
+      grid-template-columns:9.5rem minmax(0,1fr);
+      column-gap:3.5rem;
+      align-items:start;
+    }
+  }
+
+  .rail{display:none;}
+  @media (min-width:60rem){
+    .rail{
+      display:block;
+      position:sticky;
+      top:3.5rem;
+      padding-top:.4rem;
+      border-right:1px solid var(--rule-soft);
+      padding-right:1.25rem;
+    }
+    .rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem;}
+    .rail a{
+      display:block;
+      font-family:var(--mono);
+      font-size:.68rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--graphite);
+      text-decoration:none;
+      line-height:1.4;
+    }
+    .rail a:hover{color:var(--accent);}
+    .rail .rail-jp{display:block;font-family:var(--sans);font-size:.78rem;letter-spacing:.02em;color:var(--ink);}
+  }
+
+  /* ---- shared type ---- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--graphite);
+    margin:0;
+  }
+  h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;margin:0;letter-spacing:.02em;}
+  h1{font-size:clamp(2rem,5.4vw,3.1rem);line-height:1.32;}
+  h2{font-size:clamp(1.4rem,3vw,1.85rem);line-height:1.45;}
+  h3{font-size:1.06rem;line-height:1.6;}
+  p{margin:0;max-width:var(--measure);}
+
+  section{
+    border-top:1px solid var(--rule);
+    padding-block:clamp(3rem,7vw,4.75rem);
+  }
+  .sec-head{
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+    margin-bottom:2rem;
+  }
+
+  /* ---- masthead ---- */
+  .masthead{
+    padding-top:clamp(2.5rem,6vw,4rem);
+    padding-bottom:clamp(2.75rem,6vw,4rem);
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+  }
+  .kicker{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+  }
+  .tag{
+    font-family:var(--mono);
+    font-size:.68rem;
+    letter-spacing:.1em;
+    color:var(--graphite);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:.2rem .55rem;
+    line-height:1.7;
+  }
+  .lede{
+    font-size:1.02rem;
+    color:var(--graphite);
+    max-width:var(--measure);
+  }
+  .lede strong{color:var(--ink);font-weight:600;}
+
+  /* ---- hero schematic ---- */
+  .schematic{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    box-shadow:var(--shadow);
+    padding:clamp(1.25rem,3.5vw,1.9rem);
+    display:flex;
+    flex-direction:column;
+    gap:1.15rem;
+  }
+  .schematic-cap{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:1rem;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--rule-soft);
+    padding-bottom:.85rem;
+  }
+  .schematic-cap h2{font-size:1.05rem;font-family:var(--sans);font-weight:600;letter-spacing:.02em;}
+
+  .bars{display:flex;flex-direction:column;gap:1rem;}
+  .bar-row{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:.85rem;align-items:center;}
+  .bar-label{
+    font-family:var(--mono);
+    font-size:.7rem;
+    letter-spacing:.1em;
+    color:var(--graphite);
+    text-transform:uppercase;
+  }
+  .bar-track{position:relative;height:2.3rem;}
+  .bar-fill{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    padding-right:.7rem;
+    border-radius:1px;
+    font-family:var(--mono);
+    font-size:.9rem;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+    transform-origin:left center;
+    animation:grow .9s cubic-bezier(.22,.68,.36,1) both;
+  }
+  .bar-before .bar-fill{width:100%;background:var(--accent-soft);color:var(--ink);border:1px solid var(--accent-line);}
+  .bar-after .bar-fill{width:66.7%;background:var(--accent);color:#fff;animation-delay:.22s;}
+  :root[data-theme="dark"] .bar-after .bar-fill{color:#0F131A;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .bar-after .bar-fill{color:#0F131A;}
+  }
+  .bar-after{position:relative;}
+  .delta{
+    font-family:var(--mono);
+    font-size:.78rem;
+    letter-spacing:.06em;
+    color:var(--graphite);
+    font-variant-numeric:tabular-nums;
+    display:flex;
+    gap:.9rem;
+    flex-wrap:wrap;
+    padding-left:6.35rem;
+  }
+  .delta b{color:var(--accent);font-weight:600;}
+  @media (max-width:34rem){
+    .bar-row{grid-template-columns:1fr;gap:.3rem;}
+    .delta{padding-left:0;}
+  }
+  @keyframes grow{from{transform:scaleX(.04);opacity:0;}to{transform:scaleX(1);opacity:1;}}
+  @media (prefers-reduced-motion: reduce){
+    .bar-fill{animation:none;}
+  }
+
+  .scope{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));
+    gap:1px;
+    background:var(--rule-soft);
+    border-top:1px solid var(--rule-soft);
+  }
+  .scope div{background:var(--surface);padding:.9rem .2rem .2rem;}
+  .scope dt{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);}
+  .scope dd{margin:.15rem 0 0;font-family:var(--mono);font-size:1.3rem;font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+  .scope dd span{font-family:var(--sans);font-size:.85rem;color:var(--graphite);margin-left:.15rem;}
+
+  /* ---- strengths ---- */
+  .pillars{display:grid;gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:3px;}
+  @media (min-width:44rem){.pillars{grid-template-columns:repeat(3,1fr);}}
+  .pillar{background:var(--surface);padding:1.35rem 1.3rem 1.5rem;display:flex;flex-direction:column;gap:.6rem;}
+  .pillar .eyebrow{color:var(--accent);}
+  .pillar p{font-size:.94rem;color:var(--graphite);}
+
+  /* ---- works ---- */
+  .works{display:flex;flex-direction:column;gap:2.25rem;}
+  .work{
+    display:grid;
+    gap:1rem .5rem;
+    padding-bottom:2.25rem;
+    border-bottom:1px dashed var(--rule);
+  }
+  .work:last-child{border-bottom:0;padding-bottom:0;}
+  @media (min-width:52rem){
+    .work{grid-template-columns:11rem minmax(0,1fr);column-gap:2.5rem;}
+  }
+  .work-meta{display:flex;flex-direction:column;gap:.35rem;}
+  .work-field{font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--graphite);}
+  .work-role{font-size:.86rem;color:var(--graphite);line-height:1.7;}
+  .work-body{display:flex;flex-direction:column;gap:.85rem;}
+  .work-body p{font-size:.96rem;}
+  .facts{
+    list-style:none;margin:0;padding:0;
+    display:flex;flex-direction:column;gap:.4rem;
+    max-width:var(--measure);
+  }
+  .facts li{
+    position:relative;
+    padding-left:1.1rem;
+    font-size:.92rem;
+    color:var(--graphite);
+    line-height:1.8;
+  }
+  .facts li::before{
+    content:"";
+    position:absolute;left:0;top:.82em;
+    width:.5rem;height:1px;background:var(--accent-line);
+  }
+  .facts li b{color:var(--ink);font-weight:600;font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+  .stack{display:flex;flex-wrap:wrap;gap:.4rem;}
+
+  /* ---- process ---- */
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+  .step{
+    display:grid;
+    grid-template-columns:3rem minmax(0,1fr);
+    gap:.4rem 1.25rem;
+    padding:1.15rem 0;
+    border-top:1px solid var(--rule-soft);
+    align-items:start;
+  }
+  .step:first-child{border-top:0;padding-top:0;}
+  .step-no{
+    font-family:var(--mono);
+    font-size:.75rem;
+    letter-spacing:.08em;
+    color:var(--accent);
+    font-variant-numeric:tabular-nums;
+    padding-top:.35rem;
+  }
+  .step p{font-size:.94rem;color:var(--graphite);margin-top:.2rem;}
+
+  /* ---- contact ---- */
+  .contact{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:clamp(1.35rem,4vw,2.1rem);
+    display:flex;flex-direction:column;gap:1.35rem;
+    box-shadow:var(--shadow);
+  }
+  .rows{display:flex;flex-direction:column;gap:0;margin:0;}
+  .row{
+    display:grid;
+    grid-template-columns:7.5rem minmax(0,1fr);
+    gap:.2rem .75rem;
+    padding:.7rem 0;
+    border-top:1px solid var(--rule-soft);
+    align-items:baseline;
+  }
+  .row:first-child{border-top:0;}
+  .row dt{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--graphite);}
+  .row dd{margin:0;font-size:.95rem;}
+  .row dd .ph{color:var(--graphite);font-size:.88rem;}
+  @media (max-width:34rem){
+    .row{grid-template-columns:1fr;}
+  }
+
+  footer{
+    border-top:1px solid var(--rule);
+    padding:1.6rem 0 3rem;
+    font-family:var(--mono);
+    font-size:.66rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--graphite);
+    display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
+
+    <nav class="rail" aria-label="目次">
+      <ol>
+        <li><a href="#strength">01 <span class="rail-jp">強み</span></a></li>
+        <li><a href="#works">02 <span class="rail-jp">実績</span></a></li>
+        <li><a href="#process">03 <span class="rail-jp">進め方</span></a></li>
+        <li><a href="#contact">04 <span class="rail-jp">連絡先</span></a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <header class="masthead">
+        <div class="kicker">
+          <span class="tag">AI / LLM</span>
+          <span class="tag">DATA PIPELINE</span>
+          <span class="tag">要件定義・設計</span>
+        </div>
+        <h1>散らばったデータと、<br>揃わない認識を、<br>動かせる形にする。</h1>
+        <p class="lede">
+          データ処理の自動化とLLMの活用で、人手に頼っていた業務を組み替えてきました。
+          特に力を入れているのは、<strong>処理の中身を関係者全員が見える形にすること</strong>。
+          何がどこで詰まっているかが図で共有できると、議論は「たぶん」から「では次はこうする」に変わります。
+        </p>
+
+        <div class="schematic">
+          <div class="schematic-cap">
+            <h2>業務プロセス改善の結果</h2>
+            <p class="eyebrow">単位：人日</p>
+          </div>
+          <div class="bars">
+            <div class="bar-row bar-before">
+              <span class="bar-label">Before</span>
+              <div class="bar-track"><div class="bar-fill">120</div></div>
+            </div>
+            <div class="bar-row bar-after">
+              <span class="bar-label">After</span>
+              <div class="bar-track"><div class="bar-fill">80</div></div>
+            </div>
+          </div>
+          <p class="delta"><span><b>−18人日</b> の削減</span><span><b>−33%</b></span></p>
+          <dl class="scope">
+            <div>
+              <dt>対象人数</dt>
+              <dd>162<span>名</span></dd>
+            </div>
+            <div>
+              <dt>対象データ</dt>
+              <dd>約1.2<span>万件</span></dd>
+            </div>
+            <div>
+              <dt>関与領域</dt>
+              <dd>2<span>領域</span></dd>
+            </div>
+          </dl>
+        </div>
+      </header>
+
+      <section id="strength">
+        <div class="sec-head">
+          <p class="eyebrow">01 — Strength</p>
+          <h2>できること、続けてきたこと</h2>
+        </div>
+        <div class="pillars">
+          <div class="pillar">
+            <p class="eyebrow">Structure</p>
+            <h3>バラバラの情報を、構造化する</h3>
+            <p>形式の揃っていない記述や自由記入のテキストを、後工程が機械的に扱える形に整えます。件数が増えても同じ品質で通るように、処理の手順そのものを設計します。</p>
+          </div>
+          <div class="pillar">
+            <p class="eyebrow">Automate</p>
+            <h3>人がやらなくていい作業を、外す</h3>
+            <p>手作業の工程を洗い出し、自動化できる部分とレビューが要る部分を切り分けます。全部を機械に任せず、人が確認すべき一点を残すことで、精度と速度を両立させます。</p>
+          </div>
+          <div class="pillar">
+            <p class="eyebrow">Align</p>
+            <h3>可視化して、判断を前に進める</h3>
+            <p>処理の流れ・データの状態・詰まりどころを図と数字で示し、技術者以外にも同じ絵が見えるようにします。認識が揃えば、意思決定は止まりません。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="works">
+        <div class="sec-head">
+          <p class="eyebrow">02 — Selected Work</p>
+          <h2>実績</h2>
+        </div>
+        <div class="works">
+
+          <article class="work">
+            <div class="work-meta">
+              <p class="work-field">Process Redesign</p>
+              <p class="work-role">現状分析 / 自動化設計 / 実装 / 定着</p>
+            </div>
+            <div class="work-body">
+              <h3>手作業前提の業務を組み替え、120人日を80人日に</h3>
+              <p>担当者ごとにやり方が違い、工数の内訳も見えていなかった業務を対象に、まず工程を分解して所要時間を数字で並べるところから始めました。削るべき工程が合意できたうえで自動化を組み、運用に載せています。</p>
+              <ul class="facts">
+                <li>工数：<b>120人日</b> → <b>80人日</b></li>
+                <li>対象人数：<b>240名</b></li>
+                <li>対象データ：<b>約3.5万件</b></li>
+                <li>効果を工程別に可視化し、優先順位を関係者と合意したうえで着手</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="work">
+            <div class="work-meta">
+              <p class="work-field">Medical Registry</p>
+              <p class="work-role">データ構造化 / LLM活用 / パイプライン構築</p>
+            </div>
+            <div class="work-body">
+              <h3>研究データ基盤を、使える形に整える</h3>
+              <p>表記ゆれや自由記述を含む記録を、分析・集計に耐える構造へ変換する仕組みを担当しました。ルールで確実に処理できる部分と、判断が要る部分を切り分け、後者にLLMを充てる構成にしています。</p>
+              <ul class="facts">
+                <li>入力の揺れを吸収する正規化処理と、変換結果の検証工程をセットで設計</li>
+                <li>LLMの出力をそのまま採用せず、確認しやすい形で人のレビューに回す流れを用意</li>
+                <li>扱う情報の性質上、取り扱い範囲と保管方法を先に定義してから実装に着手</li>
+              </ul>
+              <div class="stack">
+                <span class="tag">データ構造化</span>
+                <span class="tag">LLM活用</span>
+                <span class="tag">品質検証</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="work">
+            <div class="work-meta">
+              <p class="work-field">Facility Industry</p>
+              <p class="work-role">業務委託 / 要件定義 / 設計</p>
+            </div>
+            <div class="work-body">
+              <h3>製造業の案件で、要件定義から設計まで</h3>
+              <p>業務委託として、現場の運用を聞き取りながら要件を固め、設計に落とすところまでを担当しました。用語も前提も社内と異なる領域だったため、認識合わせの図を早い段階で出し、認識のずれを実装前に潰しています。</p>
+              <ul class="facts">
+                <li>現場ヒアリングをもとに、やりたいことと決まっていないことを分けて整理</li>
+                <li>業務フローと想定データの流れを図で共有し、仕様の合意を先行させる進め方</li>
+                <li>非エンジニアの担当者が読んで判断できる粒度でドキュメントを作成</li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section id="process">
+        <div class="sec-head">
+          <p class="eyebrow">03 — How I Work</p>
+          <h2>進め方</h2>
+        </div>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-no">01</span>
+            <div>
+              <h3>現状を数字で置く</h3>
+              <p>体感ではなく、工程ごとの件数と時間を並べます。ここで「どこが重いか」が全員に見えると、以降の判断が速くなります。</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">02</span>
+            <div>
+              <h3>図にして、認識を揃える</h3>
+              <p>データの流れと処理の分岐を1枚にまとめ、技術者以外にも読める状態で共有します。手戻りの大半は、この段階で防げます。</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">03</span>
+            <div>
+              <h3>小さく作って、確かめる</h3>
+              <p>いきなり全体を組まず、効果が大きい工程から動くものを出して検証します。想定と違えば、その場で設計に戻します。</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step-no">04</span>
+            <div>
+              <h3>人の確認を残して、運用に載せる</h3>
+              <p>自動化した処理にも、結果を確認できる出口を用意します。担当者が中身を追える状態にして初めて、仕組みは引き継がれます。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="contact">
+        <div class="sec-head">
+          <p class="eyebrow">04 — Contact</p>
+          <h2>ご相談ください</h2>
+        </div>
+        <div class="contact">
+          <p>データの整備、業務の自動化、LLMを使った処理の設計、要件定義の伴走まで対応できます。まだ要件が固まっていない段階でのご相談も歓迎です。現状の課題を伺えれば、進め方の案をお出しします。</p>
+          <dl class="rows">
+            <div class="row">
+              <dt>Email</dt>
+              <dd><span class="ph">（連絡先メールアドレスをご記入ください）</span></dd>
+            </div>
+            <div class="row">
+              <dt>対応形態</dt>
+              <dd>業務委託 / 正社員 いずれもご相談可能</dd>
+            </div>
+            <div class="row">
+              <dt>得意領域</dt>
+              <dd>データ構造化・パイプライン構築・LLM活用・要件定義・業務設計</dd>
+            </div>
+            <div class="row">
+              <dt>ご相談例</dt>
+              <dd>手作業が多い業務の工数を減らしたい／バラバラのデータを分析できる形にしたい／LLMをどこまで業務に使えるか判断したい</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <footer>
+        <span>Portfolio — AI / Data Pipeline Engineering</span>
+        <span>掲載の数値は実案件の実績値</span>
+      </footer>
+    </main>
+  </div>
+</div>
+</body>
+</html>
