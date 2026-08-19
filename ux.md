@@ -25,7 +25,10 @@ WebAIMの頻出6カテゴリに対応する。
 8. **`prefers-reduced-motion` に対応する** — アニメーションを入れるなら必ずセットで無効化経路を用意。
    └ 前庭障害のあるユーザーに実害が出る。「動きを入れない」だけでは対応にならない。
 9. **ランドマークを置く** — `<main>` は必須。`<header>` `<nav>` `<footer>` を適切に。
-10. **タップ領域 44×44px 以上**（WCAG 2.2 の Target Size）。
+10. **タップ領域** — **24×24px 以上が必須**（WCAG 2.2 SC 2.5.8 Target Size (Minimum), AA）。
+    **44×44px 以上が推奨**（SC 2.5.5 Enhanced は AAA。Apple HIG も 44pt）。
+    └ 当初 "44×44 = WCAG 2.2" と書いていたが誤り。44×44 は AAA 基準。
+    └ 文章中のインラインリンクは適用除外。`contrast.py` が両しきい値で判定する。
 11. **`<meta name="viewport">`** と、実機幅で破綻しないレイアウト。
     └ `contrast.py` が 1280px / 380px の2幅で横溢れを検査する。
       grid の `1fr` は `minmax(0, 1fr)` にしないと、中の固定幅要素（iframe・表など）が

@@ -1,0 +1,53 @@
+name: verify
+
+# 「測ってから言う」を掲げている以上、自分の成果物も自動で測る。
+# 実際に、3列レイアウトが画面外に出たページを公開してしまった前科がある。
+#
+# 注意：references/samples/ の A-*（対照群）と B-*（見た目リストのみ）は
+# 意図的に違反を含む「証拠」であり、修正対象ではない。基準を課すのは成果物だけ。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+        with:
+          chrome-version: stable
+
+      - name: 成果物の静的チェック
+        run: |
+          python3 references/measure.py \
+            index.html \
+            references/samples/B2-a-tea.html \
+            references/samples/B2-c-portfolio.html
+
+      - name: 成果物の実レンダリング検査（コントラスト明/暗・横溢れ・タップ領域）
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          python3 references/contrast.py \
+            index.html \
+            references/samples/B2-a-tea.html \
+            references/samples/B2-c-portfolio.html
+
+      - name: 対照サンプルの現状を記録（違反があるのが正常。失敗させない）
+        if: always()
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: |
+          python3 references/measure.py references/samples/A-*.html references/samples/B-*.html || true
+          python3 references/contrast.py references/samples/A-a-tea.html references/samples/A-c-portfolio.html || true
+          python3 references/contrast.py references/samples/B-a-tea.html references/samples/B-c-portfolio.html || true

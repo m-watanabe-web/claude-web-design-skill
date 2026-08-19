@@ -72,11 +72,18 @@ Claude Code のユーザースキルとして `~/.claude/skills/web-design/` に
 
 ```bash
 python3 references/measure.py  <file.html>   # 構造・セマンティクス・見た目（静的）
-python3 references/contrast.py <file.html>   # コントラストと横溢れ（実レンダリング）
+python3 references/contrast.py <file.html>   # 実レンダリング検査
 ```
 
-`measure.py` のUX項目に `X` が残っていたら未完成。`contrast.py` は違反0件・横溢れなしにする。
-**静的解析だけでは足りない**（コントラストもレイアウト崩れも検出できない）。
+`contrast.py` が測るのは、静的解析では追えない4点。
+
+- コントラスト比を **明モードとダークモードの両方**で（`prefers-color-scheme` のブロックを流し込んで再現）
+- 横溢れ（1280px / 380px）
+- タップ領域（24×24 = WCAG 2.2 AA / 44×44 = AAA。文章中のインラインリンクは除外）
+
+どちらも違反があれば終了コード 1 を返す。`.github/workflows/verify.yml` が push ごとに実行する。
+`references/samples/` の `A-*`（対照群）と `B-*`（見た目リストのみ）は**意図的に違反を含む証拠**なので、
+基準を課す対象から外してある。
 
 ## 方法論
 

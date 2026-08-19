@@ -133,5 +133,9 @@ if __name__ == '__main__':
         print('■ UX（ux.md）  o=満たす X=違反 -=該当なし'); show(rows, UX); print()
     if mode != '--ux':
         print('■ 見た目（forbid.md）'); show(rows, LOOK); print()
-    print("※ コントラストはこのスクリプトでは判定しない（入れ子の背景を追えず誤検出・見逃しの両方が出た）。")
-    print("   必ず実レンダリングで測ること: python3 contrast.py <file.html>")
+    print("※ コントラスト・レイアウト・タップ領域はこのスクリプトでは判定しない。")
+    print("   実レンダリングで測ること: python3 contrast.py <file.html>")
+    ng = sum(1 for r in rows for k in UX[1:] if str(r[k]) == 'X')
+    if ng:
+        print(f"\n違反 {ng} 件（UX項目に X）")
+    sys.exit(1 if ng else 0)
