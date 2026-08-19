@@ -136,16 +136,48 @@ footer a{color:var(--ink)}
 </tbody></table></div>
 </section>
 
-<section aria-labelledby="s3">
-<h2 id="s3">読み取れること</h2>
-<p style="max-width:66ch;color:var(--dim)"><strong style="color:var(--ink)">紫グラデーションと絵文字は、
-両題材の対照群で0件でした。</strong>「AIっぽさ」の代表例として最も広く挙げられる2項目が、
-禁止しない条件でも出現しません。色の癖は既に解消しており、残っているのは構造の癖です。</p>
-<p style="max-width:66ch;color:var(--dim);margin-top:1.4em"><strong style="color:var(--ink)">見た目だけを
-直すとUXが壊れます。</strong> 題材2では、何も指示しない対照群がUX全項目をクリアしていた一方、
-見た目の禁止リストを適用した条件でフォーカス表示と <code>&lt;main&gt;</code> が失われ、
-コントラスト違反が4件発生しました。「短くしろ」「装飾を削れ」という制約が、
-アクセシビリティの実装ごと削ったためです。</p>
+<section aria-labelledby="v" style="border-top:2px solid var(--mark)">
+<h2 id="v">結論</h2>
+<div style="max-width:70ch">
+<h3 style="font-size:23px">測定できる範囲では B2（UX＋見た目）が最良。ただし条件付き。</h3>
+
+<table style="margin-top:1.8em"><caption>3条件の総合判定</caption>
+<thead><tr><th>条件</th><th>UX</th><th>見た目</th><th>作り込み</th><th>判定</th></tr></thead>
+<tbody>
+<tr><th>A 対照群</th><td>題材により全クリア〜4項目違反</td><td class="bad">弱い</td><td>本文8.5倍・SVG9点</td><td>題材次第</td></tr>
+<tr><th>B 見た目のみ</th><td class="bad">両題材で4項目違反</td><td>良い</td><td class="bad">最小</td><td class="bad">非推奨</td></tr>
+<tr><th>B2 両方</th><td>両題材で全クリア</td><td>良い</td><td class="bad">最小</td><td>推奨</td></tr>
+</tbody></table>
+
+<h3 style="margin-top:2.4em;font-size:19px">1. 見た目の禁止リストだけを使うのは、使わないより悪い</h3>
+<p style="color:var(--dim);margin-top:.6em">最も明確な結論です。題材2では、何も指示しない対照群がUX全項目をクリアしていたのに対し、
+見た目リストのみの条件はコントラスト違反4件・フォーカス表示なし・<code>&lt;main&gt;</code> なしでした。
+<strong style="color:var(--ink)">B は A の下位互換</strong>であり、単独で使う理由がありません。</p>
+
+<h3 style="margin-top:2.4em;font-size:19px">2. ただし「B2が良いデザインだ」とは測っていない</h3>
+<p style="color:var(--dim);margin-top:.6em">測ったのは<strong style="color:var(--ink)">アクセシビリティと、AI感の構造的指標</strong>だけです。
+魅力があるか、伝わるか、記憶に残るかは測定していません。</p>
+<p style="color:var(--dim);margin-top:1em">むしろ制約は<strong style="color:var(--ink)">作り込みも抑制しました</strong>。
+題材1の対照群は本文3,664字・SVGイラスト9点（風景・人物）を自発的に作りましたが、
+B2は432字・SVG1点です。「44KB→6KB」を当初は冗長さの削減と解釈しましたが、
+<strong style="color:var(--ink)">差分の中身はイラストと本文でした</strong>。
+禁止リストは、余計な装飾と一緒に野心も削ります。</p>
+
+<h3 style="margin-top:2.4em;font-size:19px">3. 実務での使い分け</h3>
+<div class="scroll"><table style="margin-top:.8em">
+<thead><tr><th>状況</th><th>推奨</th></tr></thead>
+<tbody>
+<tr><th>公開する制作物・クライアント案件</th><td>B2（UX要件は必須。事故を防ぐ）</td></tr>
+<tr><th>初期の発想出し・方向性の探索</th><td>A に近い状態で発散させ、収束後に B2 の制約を掛ける</td></tr>
+<tr><th>見た目リストのみ</th><td>使わない</td></tr>
+</tbody></table></div>
+<p style="color:var(--dim);margin-top:1.2em">つまり<strong style="color:var(--ink)">制約は最初からではなく、
+発散のあとに掛ける</strong>のが妥当です。本スキルの手順で発散（10案）を先に置いているのはこのためです。</p>
+
+<p style="color:var(--dim);margin-top:2em;font-size:14px">各条件 n=1、単一モデル、題材2種。
+小さい差（色相数など）は誤差の範囲です。大きい差（コントラスト違反、フォーカス表示の有無）のみ
+判断材料としてください。</p>
+</div>
 </section>
 </main>
 
