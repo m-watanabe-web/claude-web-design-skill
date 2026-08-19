@@ -62,6 +62,7 @@ UXが悪化した。**
 ```
 SKILL.md                    手順（Step 0〜6）
 ux.md                       UX要件。WCAG 2.2 + WebAIM頻出6カテゴリ。先に読む
+interaction.md              メニュー配置・ボタン・ラベル。※このファイルのみ対照実験を通していない
 forbid.md                   見た目の禁止リスト。各項目に検証ステータス付き
 design-spec.template.yaml   案件ごとの仕様テンプレ
 references/
