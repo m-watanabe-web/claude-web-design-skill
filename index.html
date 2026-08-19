@@ -1,0 +1,156 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>検証サンプル比較 — web-design skill</title>
+<meta name="description" content="AI生成デザインの通説を対照実験で検証した結果。3条件の出力を並べて比較できます。">
+<style>
+:root{--bg:#faf9f6;--ink:#1c1d1a;--mark:#7a4a17;
+--rule:color-mix(in srgb,var(--ink) 22%,transparent);
+--dim:color-mix(in srgb,var(--ink) 74%,transparent)}
+@media(prefers-color-scheme:dark){:root{--bg:#141513;--ink:#eceae3;--mark:#d9a765;
+--rule:color-mix(in srgb,var(--ink) 24%,transparent);
+--dim:color-mix(in srgb,var(--ink) 78%,transparent)}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.8;
+font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--mark);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+header{padding:72px 0 40px}
+h1{font-size:clamp(28px,4.5vw,44px);line-height:1.35;font-weight:700;letter-spacing:.01em}
+.kicker{font-size:13px;letter-spacing:.3em;color:var(--mark);font-weight:600}
+header p{margin-top:1.4em;color:var(--dim);max-width:62ch}
+h2{font-size:15px;letter-spacing:.28em;color:var(--mark);font-weight:600;margin-bottom:1.8em}
+h3{font-size:19px;font-weight:600;letter-spacing:.02em}
+section{padding:56px 0;border-top:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+caption{text-align:left;color:var(--dim);font-size:14px;margin-bottom:1em}
+th,td{border-bottom:1px solid var(--rule);padding:11px 12px;text-align:left;
+font-variant-numeric:tabular-nums}
+thead th{border-bottom:2px solid var(--rule);font-size:13px;letter-spacing:.08em}
+td.bad{color:var(--mark);font-weight:700}
+.scroll{overflow-x:auto}
+/* 比較列：forbid.md の均一グリッド禁止に対する明示的な例外。
+   列そのものが情報（3条件の対比）であり、装飾ではないため。
+   浮いたカードにせず、罫線の欄組みとして構成している。 */
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule)}
+.col{border-right:1px solid var(--rule);padding:24px 20px}
+.col:last-child{border-right:0}
+.col.win{background:color-mix(in srgb,var(--mark) 8%,transparent)}
+.tag{font-size:12px;letter-spacing:.2em;color:var(--mark);font-weight:700}
+.col p{font-size:14px;color:var(--dim);margin-top:.5em;min-height:4.6em}
+.shot{position:relative;overflow:hidden;border:1px solid var(--rule);
+height:300px;margin-top:14px;background:var(--bg)}
+.shot iframe{width:1280px;height:940px;border:0;transform:scale(.293);
+transform-origin:0 0;pointer-events:none}
+.col a{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;
+color:var(--ink);font-size:14px;border-bottom:1px solid var(--mark);
+text-decoration:none;padding:0 2px}
+.col a:hover{color:var(--mark)}
+footer{padding:56px 0;border-top:1px solid var(--rule);color:var(--dim);font-size:14px}
+footer a{color:var(--ink)}
+@media(max-width:860px){.cols{grid-template-columns:1fr}
+.col{border-right:0;border-bottom:1px solid var(--rule)}.col p{min-height:0}}
+</style></head><body>
+<div class="wrap">
+
+<header>
+<p class="kicker">VERIFICATION SAMPLES</p>
+<h1>「AIっぽさ」の通説を、<br>対照実験にかけた結果</h1>
+<p>同一のブリーフから3条件で生成したページを並べています。左が何も指示しない対照群、
+中央が見た目の禁止リストのみ、右がUX要件と見た目の両方を適用したもの。
+数値はすべて機械測定によるものです。</p>
+</header>
+
+<main>
+<section aria-labelledby="s1">
+<h2 id="s1">題材1 — 日本茶ブランドLP</h2>
+<div class="cols">
+<div class="col"><span class="tag">A — 対照群</span><h3>指示なし</h3>
+<p>ブリーフのみを白紙のエージェントに渡した出力。</p>
+<div class="shot"><iframe src="references/samples/A-a-tea.html" title="対照群：日本茶ブランドLP" loading="lazy"></iframe></div>
+<a href="references/samples/A-a-tea.html">全体を開く</a></div>
+
+<div class="col"><span class="tag">B — 見た目のみ</span><h3>禁止リスト適用</h3>
+<p>見た目の制約は満たすが、フォーカス表示と reduced-motion が失われた。</p>
+<div class="shot"><iframe src="references/samples/B-a-tea.html" title="見た目リストのみ：日本茶ブランドLP" loading="lazy"></iframe></div>
+<a href="references/samples/B-a-tea.html">全体を開く</a></div>
+
+<div class="col win"><span class="tag">B2 — UX＋見た目</span><h3>両方適用</h3>
+<p>UX全項目クリア。コントラスト違反0件（最悪 6.76:1）。</p>
+<div class="shot"><iframe src="references/samples/B2-a-tea.html" title="UXと見た目の両方を適用：日本茶ブランドLP" loading="lazy"></iframe></div>
+<a href="references/samples/B2-a-tea.html">全体を開く</a></div>
+</div>
+
+<div class="scroll" style="margin-top:36px">
+<table><caption>題材1の測定値</caption>
+<thead><tr><th>指標</th><th>A 対照群</th><th>B 見た目のみ</th><th>B2 両方</th></tr></thead>
+<tbody>
+<tr><th>コントラスト違反</th><td class="bad">64</td><td class="bad">15</td><td>0</td></tr>
+<tr><th>角丸</th><td class="bad">6</td><td>0</td><td>0</td></tr>
+<tr><th>均一カード羅列</th><td class="bad">3</td><td>0</td><td>0</td></tr>
+<tr><th>色相数</th><td>5</td><td>3</td><td>3</td></tr>
+<tr><th>紫系の色</th><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>絵文字</th><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>:focus</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td></tr>
+<tr><th>&lt;main&gt;</th><td class="bad">なし</td><td class="bad">なし</td><td>あり</td></tr>
+<tr><th>ファイルサイズ</th><td>44KB</td><td>6KB</td><td>6KB</td></tr>
+</tbody></table></div>
+</section>
+
+<section aria-labelledby="s2">
+<h2 id="s2">題材2 — ポートフォリオLP</h2>
+<div class="cols">
+<div class="col"><span class="tag">A — 対照群</span><h3>指示なし</h3>
+<p>UXは全項目クリア。負けていたのは見た目だけだった。</p>
+<div class="shot"><iframe src="references/samples/A-c-portfolio.html" title="対照群：ポートフォリオLP" loading="lazy"></iframe></div>
+<a href="references/samples/A-c-portfolio.html">全体を開く</a></div>
+
+<div class="col"><span class="tag">B — 見た目のみ</span><h3>禁止リスト適用</h3>
+<p>見た目は整ったが、コントラスト違反4件と空リンクが発生。</p>
+<div class="shot"><iframe src="references/samples/B-c-portfolio.html" title="見た目リストのみ：ポートフォリオLP" loading="lazy"></iframe></div>
+<a href="references/samples/B-c-portfolio.html">全体を開く</a></div>
+
+<div class="col win"><span class="tag">B2 — UX＋見た目</span><h3>両方適用</h3>
+<p>UX全項目クリア。コントラスト違反0件（最悪 6.15:1）。</p>
+<div class="shot"><iframe src="references/samples/B2-c-portfolio.html" title="UXと見た目の両方を適用：ポートフォリオLP" loading="lazy"></iframe></div>
+<a href="references/samples/B2-c-portfolio.html">全体を開く</a></div>
+</div>
+
+<div class="scroll" style="margin-top:36px">
+<table><caption>題材2の測定値</caption>
+<thead><tr><th>指標</th><th>A 対照群</th><th>B 見た目のみ</th><th>B2 両方</th></tr></thead>
+<tbody>
+<tr><th>コントラスト違反</th><td>0</td><td class="bad">4</td><td>0</td></tr>
+<tr><th>角丸</th><td class="bad">6</td><td>0</td><td>0</td></tr>
+<tr><th>均一カード羅列</th><td class="bad">2</td><td>0</td><td>0</td></tr>
+<tr><th>色相数</th><td>2</td><td>2</td><td>2</td></tr>
+<tr><th>紫系の色</th><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>絵文字</th><td>0</td><td>0</td><td>0</td></tr>
+<tr><th>:focus</th><td>あり</td><td class="bad">なし</td><td>あり</td></tr>
+<tr><th>&lt;main&gt;</th><td>あり</td><td class="bad">なし</td><td>あり</td></tr>
+<tr><th>アニメーション</th><td>3</td><td>0</td><td>0</td></tr>
+<tr><th>ファイルサイズ</th><td>21KB</td><td>5KB</td><td>6KB</td></tr>
+</tbody></table></div>
+</section>
+
+<section aria-labelledby="s3">
+<h2 id="s3">読み取れること</h2>
+<p style="max-width:66ch;color:var(--dim)"><strong style="color:var(--ink)">紫グラデーションと絵文字は、
+両題材の対照群で0件でした。</strong>「AIっぽさ」の代表例として最も広く挙げられる2項目が、
+禁止しない条件でも出現しません。色の癖は既に解消しており、残っているのは構造の癖です。</p>
+<p style="max-width:66ch;color:var(--dim);margin-top:1.4em"><strong style="color:var(--ink)">見た目だけを
+直すとUXが壊れます。</strong> 題材2では、何も指示しない対照群がUX全項目をクリアしていた一方、
+見た目の禁止リストを適用した条件でフォーカス表示と <code>&lt;main&gt;</code> が失われ、
+コントラスト違反が4件発生しました。「短くしろ」「装飾を削れ」という制約が、
+アクセシビリティの実装ごと削ったためです。</p>
+</section>
+</main>
+
+<footer>
+測定方法・限界・再現手順は
+<a href="references/verification-2026-08.md">検証ログ</a> と
+<a href="https://github.com/m-watanabe-web/claude-web-design-skill">リポジトリ</a> に記載。
+各条件 n=1、単一モデル、題材2種という限られた条件での結果です。<br>
+サンプル内の記載はすべて架空のデータで、実在の人物・企業・案件とは関係ありません。
+</footer>
+</div></body></html>
